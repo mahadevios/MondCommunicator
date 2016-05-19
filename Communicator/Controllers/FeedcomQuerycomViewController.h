@@ -1,0 +1,29 @@
+//
+//  FeedbackDetailViewController.h
+//  Communicator
+//
+//  Created by mac on 29/03/16.
+//  Copyright © 2016 Xanadutec. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import "HomeViewController.h"
+//#import "TableViewSearchController.h"
+@interface FeedcomQuerycomViewController : UIViewController<UISearchBarDelegate, UISearchResultsUpdating>
+{
+    FeedcomQuerycomViewController *searchResults;
+    UIBarButtonItem* menuBarButton;
+    NSMutableArray* arrayOfSeperatedSOArray;
+    NSMutableArray* feedHeaderArray;
+
+
+}
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
+@property (strong, nonatomic)NSMutableArray *feedTypeSONoArray;
+
+@property (strong, nonatomic)NSMutableArray *feedTypeSONoCopyForPredicate;
+
+@property (strong, nonatomic) NSArray *results;
+
+@end
