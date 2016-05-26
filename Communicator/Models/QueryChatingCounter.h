@@ -14,7 +14,7 @@
 @property(nonatomic)int count;
 @property(nonatomic)NSString* soNumber;
 @property(nonatomic)int feedbacktype;
-@property(nonatomic)int userFrom;
-@property(nonatomic)int userTo;
+@property(nonatomic,strong)NSString* userFrom;
+@property(nonatomic,strong)NSString* userTo;
 
 @end

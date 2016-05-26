@@ -16,5 +16,7 @@
 @synthesize soNumber;
 @synthesize userTo;
 @synthesize userFrom;
-
+@synthesize emailSubject;
+@synthesize dateOfFeed;
+@synthesize detailMessage;
 @end

@@ -10,6 +10,6 @@
 
 @implementation FeedOrQueryMessageHeader
 
-@synthesize soNumber, feedbackType, feedText;
+@synthesize soNumber, feedbackType, feedText,feedDate;
 
 @end

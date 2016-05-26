@@ -7,23 +7,44 @@
 //
 
 #import "MainTabBarViewController.h"
-
+#import "HomeViewController.h"
 @interface MainTabBarViewController ()
 
 @end
 
 @implementation MainTabBarViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
+     [self setDelegate:self];
+
     // Do any additional setup after loading the view.
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+
+    [self.navigationItem setHidesBackButton:YES];
+    
+
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
+{
+    NSLog(@"%@",viewController);
+    if (tabBarController.selectedIndex==0) {
+        HomeViewController* vc=[[HomeViewController alloc]init];
+//        [vc setSelectedButton:0];
+    }
+   // NSLog(@"%i",tabBarController.selectedIndex);
+    NSLog(@"hello");
+    
+}
 /*
 #pragma mark - Navigation
 

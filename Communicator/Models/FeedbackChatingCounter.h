@@ -14,7 +14,12 @@
 @property(nonatomic)long count;
 @property(nonatomic,strong)NSString* soNumber;
 @property(nonatomic)int feedbackType;
-@property(nonatomic)int userFrom;
-@property(nonatomic)int userTo;
+@property(nonatomic,strong)NSString* userFrom;
+@property(nonatomic,strong)NSString* userTo;
+@property(nonatomic,strong)NSString* emailSubject;
+@property(nonatomic,strong)NSString* dateOfFeed;
+@property(nonatomic,strong)NSString* detailMessage;
+
+
 
 @end

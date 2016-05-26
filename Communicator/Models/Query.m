@@ -20,5 +20,5 @@
 @synthesize userQuery;
 @synthesize feedbackType;
 @synthesize dateOfQuery;
-
+@synthesize emailSubject;
 @end

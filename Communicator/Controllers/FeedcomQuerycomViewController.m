@@ -59,6 +59,10 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+//    self.tabBarController.navigationItem.hidesBackButton=NO;
+    //[self.navigationItem setHidesBackButton:NO];
+    self.navigationItem.title = @"FeedCom";
+
     arrayOfSeperatedSOArray=[[NSMutableArray alloc]init];
     AppPreferences* app=[AppPreferences sharedAppPreferences];
     feedTypeSONoArray=[[NSMutableArray alloc]init];
@@ -69,7 +73,8 @@
         FeedOrQueryMessageHeader *headerObj=[app.feedQueryMessageHeaderArray objectAtIndex:i];
         NSString* soNumber= headerObj.soNumber;
         NSString* feedText=headerObj.feedText;
-        NSLog(@"%@,,,,%@",soNumber,feedText);
+        NSString* feeddate=headerObj.feedDate;
+        NSLog(@"%@,,,,%@,,,,,,%@",soNumber,feedText,feeddate);
          NSArray* separatedSO=[soNumber componentsSeparatedByString:@"#@"];
         
         [feedTypeSONoArray addObject:headerObj];
@@ -83,8 +88,8 @@
 
 -(void)createBarButtonItem
 {
-    menuBarButton=    [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"SliderMenu"] style:NULL target:NULL action:NULL];
-    self.navigationItem.leftBarButtonItem = menuBarButton;
+    //menuBarButton=    [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"SliderMenu"] style:NULL target:NULL action:NULL];
+   // self.navigationItem.leftBarButtonItem = menuBarButton;
 }
 
 
@@ -155,25 +160,49 @@
     
 
     UILabel* soNoLabel=(UILabel*)[cell viewWithTag:12];
-    
-    soNoLabel.text=[separatedSO objectAtIndex:0];
-    if (separatedSO.count>1) {
-        UILabel* avayaIdLabel=(UILabel*)[cell viewWithTag:13];
-        avayaIdLabel.text=[separatedSO objectAtIndex:1];
-    }
+//    soNoLabel.text=[NSString stringWithFormat:@"SO No.%@ \nAvaya Id:%@ \nDocument Id:%@",[separatedSO objectAtIndex:0],@"",@""];
+//    //soNoLabel.text=[separatedSO objectAtIndex:0];
+//    if (separatedSO.count>1) {
+//        soNoLabel.text=[NSString stringWithFormat:@"SO No.%@ \nAvaya Id:%@ \nDocument ID:%@ ",[separatedSO objectAtIndex:0],[separatedSO objectAtIndex:1],@""];
+//
+//        //avayaIdLabel.text=[separatedSO objectAtIndex:1];
+//    }
 
-    if (separatedSO.count>1) {
-        UILabel* documentIdLabel=(UILabel*)[cell viewWithTag:14];
-        documentIdLabel.text=[separatedSO objectAtIndex:2];
-    }
+   // if (separatedSO.count>2) {
+        soNoLabel.text=[NSString stringWithFormat:@"SO No.%@ \nAvaya Id:%@ \nDocument Id:%@",[separatedSO objectAtIndex:0],[separatedSO objectAtIndex:1],[separatedSO objectAtIndex:2]];
+
+       // documentIdLabel.text=[separatedSO objectAtIndex:2];
+   // }
 
     
     UILabel* feedbackLabel=(UILabel*)[cell viewWithTag:15];
     feedbackLabel.text=headerObj1.feedText;
-
+    NSString* dateString= headerObj1.feedDate;
+    double da=[dateString doubleValue];
+    NSLog(@"%f",da);
+    NSString *dd = [NSString stringWithFormat:@"%@",[NSDate dateWithTimeIntervalSince1970:da/1000.0]];
+    NSArray *components = [dd componentsSeparatedByString:@" "];
+    NSString *date = components[0];
+    NSString *time = components[1];
+    NSLog(@"%@,,,,%@",date,time);
     
-    return cell;
+    UILabel* dateAndTimeLabel=(UILabel*)[cell viewWithTag:13];
+    NSString* dateAndTimeLabelString=[NSString stringWithFormat:@"%@\n%@",date,time];
+    dateAndTimeLabel.text=dateAndTimeLabelString;
+    
+    
+
+    //soNoLabel.text=[NSString stringWithFormat:@"SO No.%@ \n Avaya Id:%@ \n Document Id:%@ ",[separatedSO objectAtIndex:0]];
+        return cell;
+    
 }
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 90;
+    
+}
+
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -181,23 +210,26 @@
     UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
 
     //UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-    UILabel* soNoLabel=(UILabel*)[cell viewWithTag:12];
-    NSString* str1=[soNoLabel text];
-    
-    UILabel* avayaIdLabel=(UILabel*)[cell viewWithTag:13];
-    NSString* str2=[avayaIdLabel text];
-    
-    UILabel* documentIdLabel=(UILabel*)[cell viewWithTag:14];
-    NSString* str3=[documentIdLabel text];
-    
-    NSString* combineSONumber=[[[[str1 stringByAppendingString:@"#@"] stringByAppendingString:str2] stringByAppendingString:@"#@"]stringByAppendingString:str3];
-    NSLog(@"%@",combineSONumber);
+//    UILabel* soNoLabel=(UILabel*)[cell viewWithTag:12];
+//    NSString* str1=[soNoLabel text];
+//    
+//    UILabel* avayaIdLabel=(UILabel*)[cell viewWithTag:13];
+//    NSString* str2=[avayaIdLabel text];
+//    
+//    UILabel* documentIdLabel=(UILabel*)[cell viewWithTag:14];
+//    NSString* str3=[documentIdLabel text];
+//    
+//    NSString* combineSONumber=[[[[str1 stringByAppendingString:@"#@"] stringByAppendingString:str2] stringByAppendingString:@"#@"]stringByAppendingString:str3];
+//    NSLog(@"%@",combineSONumber);
     
     FeedOrQueryMessageHeader *headerObj1=[feedTypeSONoArray objectAtIndex:indexPath.row];
     int feedType=headerObj1.feedbackType;
+    NSString* SONumber=headerObj1.soNumber;
     
-    [db getDetailMessagesofFeedbackOrQuery:feedType :combineSONumber];
-    NSLog(@"%d",feedType);
+    [db getDetailMessagesofFeedbackOrQuery:feedType :SONumber];
+    UIViewController * vc = [self.storyboard instantiateViewControllerWithIdentifier:@"DetailChatingViewController"];
+    
+    [self.navigationController pushViewController:vc animated:YES];
 
 }
 
@@ -218,5 +250,13 @@
     
     self.results = [(NSArray *)object valueForKey:@"results"];
     [self.tableView reloadData];
+}
+- (IBAction)buttonClicked:(id)sender
+{
+    UIViewController * vc = [self.storyboard instantiateViewControllerWithIdentifier:@"CreateNewFeedbackNavigationController"];
+    
+    //[self.navigationController pushViewController:vc animated:YES];
+    [self.navigationController presentViewController:vc animated:YES completion:nil];
+    
 }
 @end

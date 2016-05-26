@@ -16,8 +16,10 @@
 
 {
     NSMutableArray* getFeedbackAndQueryTypesArray;
+    NSMutableArray* labelArray;
     UIBarButtonItem* menuBarButton;
-    
+       UILabel* label1;
+    CGFloat width;
     int selectedFeedbackType;
 }
 
@@ -34,6 +36,10 @@
 @property (weak, nonatomic) IBOutlet UISegmentedControl *feedAndQueryComSegment;
 
 @property (strong, nonatomic) NSIndexPath *data;
+@property (strong, nonatomic)NSMutableArray *demoCountArray;
+@property (strong, nonatomic) UILabel* counterGraphLabel;
+
+
 
 @property (weak, nonatomic) IBOutlet UIButton *feedComButton;
 
@@ -41,6 +47,8 @@
 
 - (IBAction)buttonClicked:(id)sender;
 -(void)setSelectedButton:(id)sender;
+@property (weak, nonatomic) IBOutlet UIView *feedcomButtonUndelineView;
 
+@property (weak, nonatomic) IBOutlet UIView *querycomButtonUnderlineView;
 
 @end

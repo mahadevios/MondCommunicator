@@ -33,7 +33,8 @@ NSMutableArray* webFeedTypeArray;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    NSString* demo=@"hello";
+    NSLog(@"This is hello text :: %@   This is second text :: %@",demo, @"second hello");
     [rememberMeButton setSelected:NO];
     //[[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"rememberMe"];
     
@@ -56,11 +57,12 @@ NSMutableArray* webFeedTypeArray;
 {
   //  [[self navigationController] setNavigationBarHidden:YES animated:NO];
     //buttonColor.backgroundColor=[UIColor communicatorColor];
+
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"LoginViewBackgroundImage"]];
     self.navigationController.navigationBar.barTintColor = [UIColor communicatorColor];
     [self.navigationController.navigationBar setBarStyle:UIStatusBarStyleLightContent];// to set carrier,time and battery color in white color
 //    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
-    NSDictionary *size = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"Arial" size:23.0],NSFontAttributeName, nil];
+    NSDictionary *size = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"Source Sans Pro" size:20.0],NSFontAttributeName, nil];
     
     self.navigationController.navigationBar.titleTextAttributes = size;
     

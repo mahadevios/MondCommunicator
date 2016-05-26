@@ -58,4 +58,9 @@
 }
 */
 
+- (IBAction)dismissViewController:(id)sender
+{
+    [self dismissViewControllerAnimated:self completion:nil];
+    
+}
 @end

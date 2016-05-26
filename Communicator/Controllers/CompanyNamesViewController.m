@@ -26,6 +26,13 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+   self.navigationItem.hidesBackButton=YES;
+    self.tabBarController.navigationItem.title = @"Company";
+
+
+}
 /*
 #pragma mark - Navigation
 

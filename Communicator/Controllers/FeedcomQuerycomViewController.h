@@ -25,5 +25,6 @@
 @property (strong, nonatomic)NSMutableArray *feedTypeSONoCopyForPredicate;
 
 @property (strong, nonatomic) NSArray *results;
+- (IBAction)buttonClicked:(id)sender;
 
 @end

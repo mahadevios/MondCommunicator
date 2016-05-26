@@ -13,6 +13,8 @@
 #import "feedQueryCounter.h"
 #import "FeedOrQueryMessageHeader.h"
 #import "UIColor+CommunicatorColor.h"
+
+
 @interface HomeViewController ()
 @property (strong, nonatomic) UISearchController *searchController;
 @property (nonatomic, strong) NSArray *search;
@@ -30,6 +32,10 @@
 @synthesize feedAndQueryComSegment;
 @synthesize feedComButton;
 @synthesize queryComButton;
+@synthesize demoCountArray;
+@synthesize counterGraphLabel;
+@synthesize feedcomButtonUndelineView;
+@synthesize querycomButtonUnderlineView;
 
 - (void)viewDidLoad
 {
@@ -42,8 +48,8 @@
     [self feedbackAndQuerySearch];
     
     Database *db=[Database shareddatabase];
-        
-//    
+        labelArray=[[NSMutableArray alloc]init];
+//
 //    if ([[NSUserDefaults standardUserDefaults]boolForKey:@"logout"])
 //    {
 //        [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"logout"];
@@ -52,7 +58,12 @@
    }
 -(void)viewWillAppear:(BOOL)animated
 {
-    
+   //labelArray=[[NSMutableArray alloc]init];
+
+    //[self setTitle:@"A"];
+    self.tabBarController.navigationItem.title = @"Dashboard";
+    [self.navigationItem setHidesBackButton:NO];
+//self.navigationController.navigationController.navigationItem.title = @"Dashboard";
 }
 
 -(void)setSelectedSegment
@@ -64,13 +75,9 @@
 
 -(void)createBarButtonItems
 {
-
-//    menuBarButton=    [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"SliderMenu"] style:NULL target:NULL action:NULL];
-//    
-//    self.navigationItem.leftBarButtonItem = menuBarButton;
     
-    UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(flipview:)];
-    self.navigationItem.rightBarButtonItem = btn;
+//    UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(flipview:)];
+//    self.navigationItem.rightBarButtonItem = btn;
 }
 
 -(void)flipview:id
@@ -170,18 +177,24 @@
 {
     return feedTypeArray.count;
 }
-
-
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Remove the row from data model
+    [labelArray removeObjectAtIndex:indexPath.row];
+    
+    // Request table view to reload
+    [tableView reloadData];
+}
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
     AppPreferences *apppreferences=[AppPreferences sharedAppPreferences];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-    
-    UILabel* serialNoLabel=(UILabel*)[cell viewWithTag:11];
-    serialNoLabel.text=[NSString stringWithFormat:@"%ld", (long)indexPath.row+1];
+
+   
     UILabel* feedbackAndQueryTypeLabel=(UILabel*)[cell viewWithTag:12];
     feedbackAndQueryTypeLabel.text=[feedTypeArray objectAtIndex:indexPath.row];
+    
     
     UILabel* countLabel=(UILabel*)[cell viewWithTag:13];
     
@@ -198,19 +211,30 @@
     else
     {
         counter = feedCounterObj.queryCounter;
+        
     }
-    
-   // long feedbackOrQueryType=feedCounterObj.feedbackTypeId;
-    
-    NSString *counts=[NSString stringWithFormat:@"%ld",counter];
-    
-    countLabel.text=[NSString stringWithFormat:@"%@",counts];
-    
-    NSLog(@"%@",countLabel.text);
-    
+  float cellHeight=  [self tableView:tableView heightForRowAtIndexPath:indexPath];
+
+    counterGraphLabel = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.origin.x+([UIScreen mainScreen].bounds.size.width/2)+1,5,20*(counter),cellHeight-10)];
+
+    [counterGraphLabel setText:[NSString stringWithFormat:@"%ld",counter]];
+    [counterGraphLabel setTextAlignment:UITextAlignmentRight];
+    [counterGraphLabel setFont: [UIFont fontWithName:@"Arial" size:13.0f]];
+    [counterGraphLabel setBackgroundColor:[UIColor communicatorColor]];
+    [counterGraphLabel setTextColor:[UIColor whiteColor]];
+    [cell addSubview:counterGraphLabel];
+    [labelArray addObject:counterGraphLabel];
     return cell;
+
+    
 }
 
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 38;
+
+}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"%ld",(long)indexPath.row);
@@ -224,46 +248,11 @@
     
     //NSLog(@"%lu",(unsigned long)app.feedQueryMessageHeaderArray.count);
     
-    [self.navigationController pushViewController:vc animated:YES];
+    [self.navigationController.navigationController pushViewController:vc animated:YES];
     //self.selectedIndexPath=indexPath;
 }
 
 
-- (IBAction)changeType:(id)sender
-{
-    
-//    long i=[sender selectedSegmentIndex];     
-//    if(i==0)
-//    {
-//        NSUserDefaults* defaults=[NSUserDefaults standardUserDefaults];
-//        [defaults setValue:@"0" forKey:@"flag"];
-//        
-//        chatTypeLabel.text = @"Feedback Type";
-//        selectedFeedbackType = 0;
-//        [self.tableView reloadData];
-//    }
-//    if (i==1)
-//    {
-//        
-//        NSUserDefaults* defaults=[NSUserDefaults standardUserDefaults];
-//        [defaults setValue:@"1" forKey:@"flag"];
-//
-//        selectedFeedbackType = 1;
-//        chatTypeLabel.text = @"Query Type";
-//        [self.tableView reloadData];
-//    }
-}
-
-
-//- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
-//{
-//    feedTypeArray = [(NSArray *)object valueForKey:@"feedTypeArray"];
-//    
-//    [self.tableView reloadData];
-//    //
-//    //    id a=[object valueForKey:@"selectedIndexPath"];
-//    //    NSLog(@"%@",a);
-//}
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
@@ -278,22 +267,33 @@
 
 -(void)viewDidDisappear:(BOOL)animated
 {
-    NSUserDefaults* defaults=[NSUserDefaults standardUserDefaults];
-   [defaults setObject:@"0" forKey:@"flag"];
-   [defaults synchronize];
-    selectedFeedbackType = 0;
+   // NSUserDefaults* defaults=[NSUserDefaults standardUserDefaults];
+  // [defaults setObject:@"0" forKey:@"flag"];
+   //[defaults synchronize];
+   // selectedFeedbackType = 0;
+    [self.tableView reloadData];
 }
-
-
 
 - (IBAction)buttonClicked:(id)sender
 {
-    [self setSelectedButton:sender];
+       [self setSelectedButton:sender];
 }
+
 -(void)setSelectedButton:(id)sender
 {
+
     if (sender==feedComButton)
     {
+
+        for (int i=0; i<labelArray.count; i++)
+        {
+            UILabel* lab=  (UILabel*)[labelArray objectAtIndex:i];
+            [lab removeFromSuperview];
+           
+        }
+        querycomButtonUnderlineView.hidden=YES;
+        feedcomButtonUndelineView.hidden=NO;
+
         [queryComButton setSelected:NO];
         [sender setSelected: YES];
         [sender setTitleColor:[UIColor colorWithRed:10/255.0 green:32/255.0 blue:47/255.0 alpha:1] forState:UIControlStateSelected];
@@ -306,9 +306,19 @@
     
     if (sender==queryComButton)
     {
+
+        for (int i=0; i<labelArray.count; i++)
+        {
+            UILabel* lab=  (UILabel*)[labelArray objectAtIndex:i];
+            [lab removeFromSuperview];
+            
+        }
+        feedcomButtonUndelineView.hidden=YES;
+        querycomButtonUnderlineView.hidden=NO;
+
         [feedComButton setSelected:NO];
         [sender setSelected: YES];
-        [sender setTitleColor:[UIColor colorWithRed:10/255.0 green:32/255.0 blue:47/255.0 alpha:1] forState:UIControlStateSelected];
+        [sender setTitleColor:[UIColor colorWithRed:9/255.0 green:45/255.0 blue:61/255.0 alpha:1] forState:UIControlStateSelected];
         
         NSUserDefaults* defaults=[NSUserDefaults standardUserDefaults];
         [defaults setValue:@"1" forKey:@"flag"];
@@ -318,4 +328,17 @@
     }
 
 }
+
+
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    for (int i=0; i<labelArray.count; i++)
+    {
+        UILabel* lab=  (UILabel*)[labelArray objectAtIndex:i];
+        [lab removeFromSuperview];
+        [self.tableView reloadData];
+    }
+}
+
+
 @end

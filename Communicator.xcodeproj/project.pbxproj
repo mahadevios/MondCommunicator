@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		840374961CEDCA5700462602 /* CreateNewFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 840374951CEDCA5700462602 /* CreateNewFeedbackViewController.m */; };
 		840374991CEDFB8700462602 /* CreateNewMOMViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 840374981CEDFB8700462602 /* CreateNewMOMViewController.m */; };
+		8411D4D71CF637D800EAACB6 /* DetailChatingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8411D4D61CF637D800EAACB6 /* DetailChatingViewController.m */; };
 		84196B871CD6269800F46A42 /* UserPermission.m in Sources */ = {isa = PBXBuildFile; fileRef = 84196B861CD6269800F46A42 /* UserPermission.m */; };
 		84196B8A1CD6273600F46A42 /* userRoll.m in Sources */ = {isa = PBXBuildFile; fileRef = 84196B891CD6273600F46A42 /* userRoll.m */; };
 		84196B8D1CD62A2A00F46A42 /* Status.m in Sources */ = {isa = PBXBuildFile; fileRef = 84196B8C1CD62A2A00F46A42 /* Status.m */; };
@@ -33,6 +34,7 @@
 		841F6D3F1C9D4BEC0082F7BE /* CommunicatorUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 841F6D3E1C9D4BEC0082F7BE /* CommunicatorUITests.m */; };
 		842784E61CBB7E6C0072893C /* Settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 842784E51CBB7E6C0072893C /* Settings.plist */; };
 		842B365C1CAA5282003D83D9 /* FeedcomQuerycomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 842B365B1CAA5282003D83D9 /* FeedcomQuerycomViewController.m */; };
+		842BF6581CF467CE00613E29 /* ReportAndDocsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 842BF6571CF467CE00613E29 /* ReportAndDocsViewController.m */; };
 		8432AD901CE467550011EF29 /* CompanyNamesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8432AD8F1CE467550011EF29 /* CompanyNamesViewController.m */; };
 		844177301CA56D7900C850B0 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8441772F1CA56D7900C850B0 /* libsqlite3.tbd */; };
 		844177331CA5749E00C850B0 /* Communicator_DB.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 844177321CA5749E00C850B0 /* Communicator_DB.sqlite */; };
@@ -98,6 +100,8 @@
 		840374951CEDCA5700462602 /* CreateNewFeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateNewFeedbackViewController.m; sourceTree = "<group>"; };
 		840374971CEDFB8700462602 /* CreateNewMOMViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateNewMOMViewController.h; sourceTree = "<group>"; };
 		840374981CEDFB8700462602 /* CreateNewMOMViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateNewMOMViewController.m; sourceTree = "<group>"; };
+		8411D4D51CF637D800EAACB6 /* DetailChatingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailChatingViewController.h; sourceTree = "<group>"; };
+		8411D4D61CF637D800EAACB6 /* DetailChatingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailChatingViewController.m; sourceTree = "<group>"; };
 		84196B851CD6269800F46A42 /* UserPermission.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserPermission.h; sourceTree = "<group>"; };
 		84196B861CD6269800F46A42 /* UserPermission.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserPermission.m; sourceTree = "<group>"; };
 		84196B881CD6273600F46A42 /* userRoll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = userRoll.h; sourceTree = "<group>"; };
@@ -146,6 +150,8 @@
 		842784E51CBB7E6C0072893C /* Settings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Settings.plist; sourceTree = "<group>"; };
 		842B365A1CAA5282003D83D9 /* FeedcomQuerycomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedcomQuerycomViewController.h; sourceTree = "<group>"; };
 		842B365B1CAA5282003D83D9 /* FeedcomQuerycomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedcomQuerycomViewController.m; sourceTree = "<group>"; };
+		842BF6561CF467CE00613E29 /* ReportAndDocsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportAndDocsViewController.h; sourceTree = "<group>"; };
+		842BF6571CF467CE00613E29 /* ReportAndDocsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportAndDocsViewController.m; sourceTree = "<group>"; };
 		8432AD8E1CE467550011EF29 /* CompanyNamesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompanyNamesViewController.h; sourceTree = "<group>"; };
 		8432AD8F1CE467550011EF29 /* CompanyNamesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompanyNamesViewController.m; sourceTree = "<group>"; };
 		8441772F1CA56D7900C850B0 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
@@ -443,9 +449,9 @@
 				8446231B1CB3A0BD007CC831 /* SWMenuViewController.h */,
 				8446231C1CB3A0BD007CC831 /* SWMenuViewController.m */,
 				841F6D1F1C9D4BEC0082F7BE /* LoginViewController.h */,
+				841F6D201C9D4BEC0082F7BE /* LoginViewController.m */,
 				840374971CEDFB8700462602 /* CreateNewMOMViewController.h */,
 				840374981CEDFB8700462602 /* CreateNewMOMViewController.m */,
-				841F6D201C9D4BEC0082F7BE /* LoginViewController.m */,
 				84F4F5121CE9EFE200AB91E9 /* MainTabBarViewController.h */,
 				84F4F5131CE9EFE200AB91E9 /* MainTabBarViewController.m */,
 				848547E71CA6AA6A00ABEFD0 /* HomeViewController.h */,
@@ -458,6 +464,10 @@
 				840374951CEDCA5700462602 /* CreateNewFeedbackViewController.m */,
 				84B77EF61CAFB2E9008BC402 /* ComposeFeedbackOrQueryViewController.h */,
 				84B77EF71CAFB2E9008BC402 /* ComposeFeedbackOrQueryViewController.m */,
+				8411D4D51CF637D800EAACB6 /* DetailChatingViewController.h */,
+				8411D4D61CF637D800EAACB6 /* DetailChatingViewController.m */,
+				842BF6561CF467CE00613E29 /* ReportAndDocsViewController.h */,
+				842BF6571CF467CE00613E29 /* ReportAndDocsViewController.m */,
 			);
 			name = ViewControllers;
 			path = Controllers;
@@ -688,10 +698,12 @@
 				84196B9F1CD6306A00F46A42 /* dropboxReport.m in Sources */,
 				84F4F5141CE9EFE200AB91E9 /* MainTabBarViewController.m in Sources */,
 				842B365C1CAA5282003D83D9 /* FeedcomQuerycomViewController.m in Sources */,
+				842BF6581CF467CE00613E29 /* ReportAndDocsViewController.m in Sources */,
 				844D064E1CCCDE2600B17A1F /* SBJson4Writer.m in Sources */,
 				844C89651CB0F9AB00AA0B52 /* NSStream+SKPSMTPExtensions.m in Sources */,
 				844D064B1CCCDE2600B17A1F /* SBJson4StreamTokeniser.m in Sources */,
 				84F141591C9EB07B0022FA4F /* Feedback.m in Sources */,
+				8411D4D71CF637D800EAACB6 /* DetailChatingViewController.m in Sources */,
 				84196BA81CD631C300F46A42 /* Products.m in Sources */,
 				844D06311CCCD39100B17A1F /* AppPreferences.m in Sources */,
 				844D064A1CCCDE2600B17A1F /* SBJson4StreamParserState.m in Sources */,

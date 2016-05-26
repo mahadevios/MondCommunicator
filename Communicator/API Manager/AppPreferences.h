@@ -27,7 +27,7 @@
 @property (nonatomic,strong)NSMutableArray* feedQueryMessageHeaderArray;
 @property (nonatomic,strong)NSMutableArray* feedOrQueryDetailMessageArray;
 @property (nonatomic,strong)NSMutableArray* permittedCompaniesForUserArray;
-
+@property (nonatomic,strong)NSMutableArray* FeedbackOrQueryDetailChatingObjectsArray;
 
 +(AppPreferences *) sharedAppPreferences;
 

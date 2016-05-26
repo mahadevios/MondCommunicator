@@ -16,5 +16,6 @@
 @property (weak, nonatomic) IBOutlet UITextView *SubjectTextView;
 @property (weak, nonatomic) IBOutlet UITextField *OperatorTextField;
 @property (weak, nonatomic) IBOutlet UITextView *DescriptionTextView;
+- (IBAction)dismissViewController:(id)sender;
 
 @end

@@ -17,7 +17,9 @@
 #import "FeedbackType.h"
 #import "Query.h"
 #import "FeedOrQueryMessageHeader.h"
-
+#import "FeedbackChatingCounter.h"
+#import "QueryChatingCounter.h"
+#import "AppPreferences.h"
 static Database *db;
 @implementation Database
 @synthesize getFeedbackAndQueryMessages;
@@ -148,7 +150,9 @@ int i=3;
 
     feedback.attachment=[d1 valueForKey:@"attachment"];
     
-    feedback.emailSubject=[d1 valueForKey:@"EmailSubject"];
+    feedback.emailSubject=[d1 valueForKey:@"emailSubject"];
+       
+       NSLog(@"%@",feedback.emailSubject);
        
  //-------------------------user table data insertion values------------------------------------------
      
@@ -248,7 +252,7 @@ int i=3;
     sqlite3* feedbackAndQueryTypesDB;
     /// NSString* q2=[NSString stringWithFormat:@"Drop table userpermission"];
     //  NSString* q3=[NSString stringWithFormat:@"INSERT INTO operator values(\"%d\",\"%@\",\"%@\",\"%@\",\"%@\")",NULL,fdate,feedbackText,soNumber,attachment];
-     NSString* q4=[NSString stringWithFormat:@"Delete from user where ID<55"];
+     NSString* q4=[NSString stringWithFormat:@"Delete from feedback where Feedback_id<61"];
     //  NSString* q5=[NSString stringWithFormat:@"ALTER TABLE query1 RENAME TO query"];
     //  NSString* q7=[NSString stringWithFormat:@"CREATE TABLE userpermission (ID INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , CompanyId INTEGER, USER_ID INTEGER,FOREIGN KEY (CompanyId) REFERENCES company(CompanyId) ,FOREIGN KEY (USER_ID) REFERENCES user(ID))"];
 
@@ -616,7 +620,7 @@ int i=3;
         
        //query.attachment=[queryDetailDictionary valueForKey:@"attachment"];
         
-       // query.emailSubject=[queryDetailDictionary valueForKey:@"subject"];
+      query.emailSubject=[queryDetailDictionary valueForKey:@"subject"];
         
         //-------------------------user table data insertion values------------------------------------------
         
@@ -721,7 +725,7 @@ int i=3;
         /* Data insertion: feedback table */
         
         
-        NSString *query1=[NSString stringWithFormat:@"INSERT INTO query values(\"%d\",\"%@\",\"%@\",\"%d\",\"%d\",\"%d\",\"%d\",\"%d\",\"%d\",\"%@\")",query.queryId,query.queryText,query.soNumber,query.queryCounter,query.feedbackType,query.statusId,query.userFrom,query.userTo,query.userQuery,query.dateOfQuery];
+        NSString *query1=[NSString stringWithFormat:@"INSERT INTO query values(\"%d\",\"%@\",\"%@\",\"%d\",\"%d\",\"%d\",\"%d\",\"%d\",\"%d\",\"%@\",\"%@\")",query.queryId,query.queryText,query.soNumber,query.queryCounter,query.feedbackType,query.statusId,query.userFrom,query.userTo,query.userQuery,query.dateOfQuery,query.emailSubject];
         
         const char * queryi1=[query1 UTF8String];
         if (sqlite3_open([dbPath UTF8String], &feedbackAndQueryTypesDB)==SQLITE_OK)
@@ -1635,7 +1639,8 @@ NSString* q2=@"Select CompanyId from userpermission where USER_ID=2";
     NSString *dbPath=[db getDatabasePath];
     sqlite3_stmt *statement;
     sqlite3_stmt *statement1 = NULL;
-    
+    sqlite3_stmt *statement2=NULL;
+    FeedOrQueryMessageHeader* headerObj;
     sqlite3* feedbackAndQueryTypesDB;
     NSMutableArray* getFeedbackAndQueryMessages=[[NSMutableArray alloc]init];
     
@@ -1667,17 +1672,19 @@ NSString* q2=@"Select CompanyId from userpermission where USER_ID=2";
             while (sqlite3_step(statement) == SQLITE_ROW)
             {
                 
-                const char * empId = (const char*)sqlite3_column_text(statement, 0);
-                NSString *str=[NSString stringWithFormat:@"%s",empId];
-                const char * empId1 = (const char*)sqlite3_column_text(statement, 1);
-                NSString *str1=[NSString stringWithFormat:@"%s",empId1];
-                NSLog(@"%s",empId);
-                NSLog(@"%s",empId1);
+               // const char * empId = (const char*)sqlite3_column_text(statement, 0);
+                const char * SO_Number = (const char*)sqlite3_column_text(statement, 0);
+                NSString *SO_NumberString=[NSString stringWithFormat:@"%s",SO_Number];
                 
-                getFeedbackAndQueryMessages=[NSMutableArray arrayWithObject:str];
+                const char * feedBackType = (const char*)sqlite3_column_text(statement, 1);
+                NSString *feedBackTypeString=[NSString stringWithFormat:@"%s",feedBackType];
+                NSLog(@"%s",SO_Number);
+                NSLog(@"%s",feedBackType);
                 
-                NSString* query2=[NSString stringWithFormat:@"Select Feedback_text from feedback where SO_Number='%s' AND feedbackCounter=(Select MIN(feedbackCounter) from feedback where SO_Number='%s' AND feedBackType=(Select feedBackType from feedback where SO_Number='%s'))",empId,empId,empId];
-                NSString* query3=[NSString stringWithFormat:@"Select Query_text from query where SO_Number='%s' AND QueryCounter=(Select MIN(QueryCounter) from query where SO_Number='%s' AND feedBackType=(Select feedBackType from query where SO_Number='%s'))",empId,empId,empId];
+                getFeedbackAndQueryMessages=[NSMutableArray arrayWithObject:SO_NumberString];
+                
+                NSString* query2=[NSString stringWithFormat:@"Select Feedback_text from feedback where SO_Number='%s' AND feedbackCounter=(Select MIN(feedbackCounter) from feedback where SO_Number='%s' AND feedBackType=(Select feedBackType from feedback where SO_Number='%s'))",SO_Number,SO_Number,SO_Number];
+                NSString* query3=[NSString stringWithFormat:@"Select Query_text from query where SO_Number='%s' AND QueryCounter=(Select MIN(QueryCounter) from query where SO_Number='%s' AND feedBackType=(Select feedBackType from query where SO_Number='%s'))",SO_Number,SO_Number,SO_Number];
                 NSString* query4;
                 if ([flag isEqual:@"0"])
                 {
@@ -1694,14 +1701,14 @@ NSString* q2=@"Select CompanyId from userpermission where USER_ID=2";
                     {
                         while (sqlite3_step(statement1) == SQLITE_ROW)
                         {
-                            FeedOrQueryMessageHeader* headerObj=[[FeedOrQueryMessageHeader alloc]init];
+                           headerObj=[[FeedOrQueryMessageHeader alloc]init];
                             const char * feedTextMsg = (const char*)sqlite3_column_text(statement1, 0);
                             NSString *str2=[NSString stringWithFormat:@"%s",feedTextMsg];
-                            headerObj.soNumber=str;
+                            headerObj.soNumber=SO_NumberString;
                             headerObj.feedText=str2;
-                            headerObj.feedbackType=[str1 intValue];
-                            [app.feedQueryMessageHeaderArray addObject:headerObj];
-                            NSLog(@"%@",str);
+                            headerObj.feedbackType=[feedBackTypeString intValue];
+                            //[app.feedQueryMessageHeaderArray addObject:headerObj];
+                            NSLog(@"%@",SO_NumberString);
                             
                         }
                     }
@@ -1722,6 +1729,88 @@ NSString* q2=@"Select CompanyId from userpermission where USER_ID=2";
                 }
                 else
                     NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                
+                
+                //------------------------------
+                
+                
+                
+//                const char * SO_Number = (const char*)sqlite3_column_text(statement, 0);
+//                NSString *SO_NumberString=[NSString stringWithFormat:@"%s",SO_Number];
+//                
+//                const char * feedBackType = (const char*)sqlite3_column_text(statement, 1);
+//                NSString *feedBackTypeString=[NSString stringWithFormat:@"%s",feedBackType];
+//                NSLog(@"%s",SO_Number);
+//                NSLog(@"%s",feedBackType);
+//                
+//                getFeedbackAndQueryMessages=[NSMutableArray arrayWithObject:SO_NumberString];
+//                
+                NSString* getDateAndTimeQueryOfFeedcom=[NSString stringWithFormat:@"Select dateoffeed from feedback where SO_Number='%s' AND feedbackCounter=(Select MAX(feedbackCounter) from feedback where SO_Number='%s' AND feedBackType=(Select feedBackType from feedback where SO_Number='%s'))",SO_Number,SO_Number,SO_Number];
+                NSString* getDateAndTimeQueryOfQuerycom=[NSString stringWithFormat:@"Select dateofquery from query where SO_Number='%s' AND QueryCounter=(Select MAX(QueryCounter) from query where SO_Number='%s' AND feedBackType=(Select feedBackType from query where SO_Number='%s'))",SO_Number,SO_Number,SO_Number];
+                NSString* getDateAndTimeOfFeedcomOrQuerycom;
+                if ([flag isEqual:@"0"])
+                {
+                    getDateAndTimeOfFeedcomOrQuerycom=[NSString stringWithFormat:@"%@",getDateAndTimeQueryOfFeedcom];
+                }
+                else
+                    getDateAndTimeOfFeedcomOrQuerycom=[NSString stringWithFormat:@"%@",getDateAndTimeQueryOfQuerycom];
+                
+                
+                if (sqlite3_open([dbPath UTF8String], &feedbackAndQueryTypesDB) == SQLITE_OK)// 1. Open The DataBase.
+                {
+                    
+                    if (sqlite3_prepare_v2(feedbackAndQueryTypesDB, [getDateAndTimeOfFeedcomOrQuerycom UTF8String], -1, &statement2, NULL) == SQLITE_OK)// 2. Prepare the query
+                    {
+                        while (sqlite3_step(statement2) == SQLITE_ROW)
+                        {
+                            const char * feedDate = (const char*)sqlite3_column_text(statement2, 0);
+                            NSString *FeedDateString=[NSString stringWithFormat:@"%s",feedDate];
+                            headerObj.feedDate=FeedDateString;
+                            [app.feedQueryMessageHeaderArray addObject:headerObj];
+                            NSLog(@"%@",headerObj.feedDate);
+                            
+                        }
+                    }
+                    else
+                    {
+                        NSLog(@"Can't preapre query due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                    }
+                }
+                else
+                {
+                    NSLog(@"can't open db due error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                }
+                
+                
+                if (sqlite3_finalize(statement2) == SQLITE_OK)
+                {
+                    NSLog(@"statement is finalized");
+                }
+                else
+                    NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                
+                
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                //-----------------------------
                 
                 
             }
@@ -1763,16 +1852,17 @@ NSString* q2=@"Select CompanyId from userpermission where USER_ID=2";
     AppPreferences *app=[AppPreferences sharedAppPreferences];
     Database *db=[Database shareddatabase];
     NSString *dbPath=[db getDatabasePath];
-    sqlite3_stmt *statement;
+    sqlite3_stmt *statement,*statement2;
     sqlite3* feedbackAndQueryTypesDB;
     NSMutableArray* uniqueUserIdArray=[[NSMutableArray alloc]init];
-    NSString* query1=[NSString stringWithFormat:@"SELECT Feedback_text FROM feedback where feedBackType=%d AND SO_Number='%@'",feedType,SONumber];
-    NSString* query2=[NSString stringWithFormat:@"SELECT Query_text FROM query where feedBackType=%d AND SO_Number='%@'",feedType,SONumber];
+    NSString* query1=[NSString stringWithFormat:@"SELECT Feedback_text,userFrom,userTo,EmailSubject,dateoffeed FROM feedback where feedBackType=%d AND SO_Number='%@'",feedType,SONumber];
+    NSString* query2=[NSString stringWithFormat:@"SELECT Query_text,userFrom,userTo,subject,dateofquery FROM query where feedBackType=%d AND SO_Number='%@'",feedType,SONumber];
     NSString* query3;
     NSUserDefaults* defaults=[NSUserDefaults standardUserDefaults];
 
     NSString* str=[defaults valueForKey:@"flag"] ;
     NSLog(@"%@",str);
+    FeedbackChatingCounter *allMessageObj;
     if ([str isEqualToString:@"0"])
     {
         query3=[NSString stringWithFormat:@"%@",query1];
@@ -1780,6 +1870,7 @@ NSString* q2=@"Select CompanyId from userpermission where USER_ID=2";
     else
         query3=[NSString stringWithFormat:@"%@",query2];
     
+        app.FeedbackOrQueryDetailChatingObjectsArray=[[NSMutableArray alloc]init];
     
     if (sqlite3_open([dbPath UTF8String], &feedbackAndQueryTypesDB) == SQLITE_OK)// 1. Open The DataBase.
     {
@@ -1787,16 +1878,81 @@ NSString* q2=@"Select CompanyId from userpermission where USER_ID=2";
         {
             while (sqlite3_step(statement) == SQLITE_ROW)
             {
-                const char * message = (const char*)sqlite3_column_text(statement, 0);
-                [app.feedOrQueryDetailMessageArray addObject:[NSString stringWithUTF8String:message]];
-                NSLog(@"%s",message);
+                NSMutableArray* userFromUserToArray=[[NSMutableArray alloc]init];
+                
+                    allMessageObj=[[FeedbackChatingCounter alloc]init];
+                
+                NSString* messageString = [NSString stringWithUTF8String:(const char*)sqlite3_column_text(statement, 0)];
+                NSString* userFromString = [NSString stringWithUTF8String:(const char*)sqlite3_column_text(statement, 1)];
+                NSString* userToString = [NSString stringWithUTF8String:(const char*)sqlite3_column_text(statement, 2)];
+                NSString* emailSubject = [NSString stringWithUTF8String:(const char*)sqlite3_column_text(statement, 3)];
+                NSString* dateOfFeed = [NSString stringWithUTF8String:(const char*)sqlite3_column_text(statement, 4)];
+
+
+                
+                [userFromUserToArray addObject:userFromString];
+                [userFromUserToArray addObject:userToString];
+                NSString* userFrom,*userTo;
+
+                for (int i=0; i<userFromUserToArray.count; i++)
+                {
+                    NSString* str=[NSString stringWithFormat:@"%@",[userFromUserToArray objectAtIndex:i]];
+               
+                    NSString* UserfromToQuery=[NSString stringWithFormat:@"SELECT USER_NAME FROM user where ID='%@'",str];
+                
+
+                    if (sqlite3_prepare_v2(feedbackAndQueryTypesDB, [UserfromToQuery UTF8String], -1, &statement2, NULL) == SQLITE_OK)// 2. Prepare the query
+                    {
+                      while (sqlite3_step(statement2) == SQLITE_ROW)
+                      {
+                        
+                           if(i==0)
+                           {
+                             userFrom = [NSString stringWithUTF8String:(const char*)sqlite3_column_text(statement2, 0)];
+                           }
+                          
+                           else
+                           {
+                            userTo = [NSString stringWithUTF8String:(const char*)sqlite3_column_text(statement2, 0)];
+                           }
+                          
+                      }
+                        
+                    
+                    }
+                    else
+                    {
+                      NSLog(@"Can't preapre query due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                    }
+                   
+                 }
+                
+               
+                    allMessageObj.soNumber=SONumber;
+                    allMessageObj.userFrom=userFrom;
+                    allMessageObj.userTo=userTo;
+                    allMessageObj.emailSubject=emailSubject;
+                    allMessageObj.dateOfFeed=dateOfFeed;
+                allMessageObj.detailMessage=messageString;
+                    [app.FeedbackOrQueryDetailChatingObjectsArray addObject:allMessageObj];
+                
+                NSLog(@"%@",messageString);
+                NSLog(@"%@",userFrom);
+                NSLog(@"%@",userTo);
+                NSLog(@"%@",emailSubject);
+                NSLog(@"%ld",app.FeedbackOrQueryDetailChatingObjectsArray.count);
+
                 
             }
+            
+
         }
         else
         {
             NSLog(@"Can't preapre query due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
         }
+        
+        
     }
     else
     {
