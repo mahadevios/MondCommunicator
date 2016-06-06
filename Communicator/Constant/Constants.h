@@ -20,12 +20,16 @@
 
 // API List
 #define  USER_LOGIN_API                @"getListOfFeedcomAndQueryComForCommunication"
+#define  NEW_USER_LOGIN_API            @"login"
+#define  FIND_COUNT_API                @"getcommunicationCounterForFeedComQueryCom"
+
 
 //getListOfFeedcomForCommunication
 
 //NSNOTIFICATION
 
 #define NOTIFICATION_VALIDATE_USER    @"notificationForValidationOfUser"
+#define NOTIFICATION_VALIDATE_COUNTER    @"notificationForValidationOfCounter"
 
 
 #endif /* Constants_h */

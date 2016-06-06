@@ -8,7 +8,10 @@
 
 #import "AppDelegate.h"
 #import "LoginViewController.h"
-
+#import "MainTabBarViewController.h"
+#import "Database.h"
+#import "UIColor+CommunicatorColor.h"
+#import "CompanyNamesViewController.h"
 @interface AppDelegate ()
 
 @end
@@ -20,21 +23,73 @@ UINavigationController *navigationController;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     
-    [[AppPreferences sharedAppPreferences] init];
+    AppPreferences* app=[AppPreferences sharedAppPreferences];
     
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
   
     [ defaults setObject:@"0" forKey:@"flag"];
     //[[UINavigationBar appearance] setTranslucent:NO];
 
-    
+    //NSLog(@"%d",[[NSUserDefaults standardUserDefaults]boolForKey:@"rememberMe"]);
+
 //    NSLog([NSUserDefaults boolForKey:@"rememberMe"]?@"YES":@"NO");
    // NSLog(@"%d",[[NSUserDefaults standardUserDefaults]boolForKey:@"logout"]);
-    if ([defaults boolForKey:@"rememberMe"] )
+    if (!([defaults valueForKey:@"userObject"] ==NULL))
     {
-        navigationController = (UINavigationController *)self.window.rootViewController;
-        mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
         
+
+        
+        Database* db=[Database shareddatabase];
+       // [db getUserUsername:username andPassword:pass];
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSData *data = [defaults objectForKey:@"userObject"];
+        User* userObj = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+
+        NSString* companyName= [NSString stringWithFormat:@"%d",userObj.comanyId];
+        NSLog(@"%d",userObj.comanyId);
+        NSLog(@"%@",userObj.username);
+        NSString* company= [db getCompanyIdFromCompanyName:companyName];//for local use to find companyname from company id
+        app.companynameOrIdArray= [db findPermittedCompaniesForUsername:userObj.username Password:userObj.password];
+       
+        [db getFeedbackAndQueryCounterForCompany:company];
+        
+        if (app.companynameOrIdArray.count==1)
+        {
+            
+        mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+              MainTabBarViewController *controller = (MainTabBarViewController*)[mainStoryboard instantiateViewControllerWithIdentifier: @"MainTabBarViewController"];
+       
+                navigationController = (UINavigationController *)self.window.rootViewController;
+        navigationController.navigationBar.barTintColor = [UIColor communicatorColor];
+
+        [navigationController.navigationBar setBarStyle:UIStatusBarStyleLightContent];// to set carrier,time and battery color in white color
+        
+        NSDictionary *size = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"Source Sans Pro" size:20.0],NSFontAttributeName, nil];
+        
+        navigationController.navigationBar.titleTextAttributes = size;
+              [navigationController pushViewController:controller animated:NO];
+            
+            
+        }
+        else
+        {
+          
+            mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+            CompanyNamesViewController *controller = (CompanyNamesViewController*)[mainStoryboard instantiateViewControllerWithIdentifier: @"CompanyNamesViewController"];
+            
+            navigationController = (UINavigationController *)self.window.rootViewController;
+            navigationController.navigationBar.barTintColor = [UIColor communicatorColor];
+            
+            [navigationController.navigationBar setBarStyle:UIStatusBarStyleLightContent];// to set carrier,time and battery color in white color
+            
+            NSDictionary *size = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"Source Sans Pro" size:20.0],NSFontAttributeName, nil];
+            
+            navigationController.navigationBar.titleTextAttributes = size;
+            [navigationController pushViewController:controller animated:NO];
+            
+
+        
+        }
         
     }
     [self checkAndCopyDatabase];

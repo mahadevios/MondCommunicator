@@ -13,7 +13,8 @@
 #import "feedQueryCounter.h"
 #import "FeedOrQueryMessageHeader.h"
 #import "UIColor+CommunicatorColor.h"
-
+#import "FeedcomQuerycomViewController.h"
+#import "CounterGraph.h"
 
 @interface HomeViewController ()
 @property (strong, nonatomic) UISearchController *searchController;
@@ -36,7 +37,7 @@
 @synthesize counterGraphLabel;
 @synthesize feedcomButtonUndelineView;
 @synthesize querycomButtonUnderlineView;
-
+@synthesize referenceViewForCounterGraph;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -60,11 +61,15 @@
 {
    //labelArray=[[NSMutableArray alloc]init];
 
-    //[self setTitle:@"A"];
+    AppPreferences* app=[AppPreferences sharedAppPreferences];
+self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"SignOut"] style:UIBarButtonItemStylePlain target:self action:@selector(popViewController1)] ;
     self.tabBarController.navigationItem.title = @"Dashboard";
     [self.navigationItem setHidesBackButton:NO];
-//self.navigationController.navigationController.navigationItem.title = @"Dashboard";
-}
+    self.navigationController.navigationBar.barTintColor = [UIColor communicatorColor];
+    self.tabBarController.navigationItem.leftBarButtonItem.tintColor=[UIColor whiteColor];
+
+
+  }
 
 -(void)setSelectedSegment
 {
@@ -72,6 +77,16 @@
     [defaults setValue:@"0" forKey:@"flag"];
     
 }
+
+-(void)popViewController1
+{
+    UINavigationController *navController = self.navigationController;
+    UIViewController * vc = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginNaviagationController"];
+    [navController presentViewController:vc animated:YES completion:nil];
+    NSUserDefaults* defaults=[NSUserDefaults standardUserDefaults];
+    [defaults setObject:NULL forKey:@"userObject"];
+}
+
 
 -(void)createBarButtonItems
 {
@@ -104,22 +119,32 @@
 
 #pragma marks-feedbackOrQuerySearch
 
+
 -(void)feedbackAndQuerySearch
 {
+    AppPreferences* app=[AppPreferences sharedAppPreferences];
     feedTypeArray=[[NSMutableArray alloc]init];
     feedTypeCopyForPredicate=[[NSMutableArray alloc]init];
     
-    FeedbackType *ft1=[[FeedbackType alloc]init];
+    FeedQueryCounter *ft2=[[FeedQueryCounter alloc]init];
+  //  Database *database=[Database shareddatabase];
+   // app.getFeedbackAndQueryTypesArray = [database getFeedbackAndQueryTypes];
     
-    Database *database=[Database shareddatabase];
-    getFeedbackAndQueryTypesArray = [database getFeedbackAndQueryTypes];
-    
-    for (int i=0; i<getFeedbackAndQueryTypesArray.count; i++)
+    NSLog(@"%ld",app.feedQueryCounterDictsWithTypeArray.count);
+    for (int i=0; i<app.feedQueryCounterDictsWithTypeArray.count; i++)
     {
-        ft1= [getFeedbackAndQueryTypesArray objectAtIndex:i];
-        NSLog(@"%@",ft1.feedbacktype);
-        [feedTypeArray insertObject:ft1.feedbacktype atIndex:i];
-        [feedTypeCopyForPredicate insertObject:ft1.feedbacktype atIndex:i];
+        
+        ft2= [app.feedQueryCounterDictsWithTypeArray objectAtIndex:i];
+        NSLog(@"%@",ft2.feedbackType);
+        
+        [feedTypeArray insertObject:ft2.feedbackType atIndex:i];
+        
+        [feedTypeCopyForPredicate insertObject:ft2.feedbackType atIndex:i];
+        //        FeedbackType *ft2=[getFeedbackAndQueryTypesArray objectAtIndex:i];
+        //
+        //        [feedTypeArray insertObject:ft2.feedbacktype atIndex:ft2.Id];
+        //       [feedTypeCopyForPredicate insertObject:ft1.feedbacktype atIndex:ft2.Id];
+        
     }
     
     //    searchResults = (HomeViewController *)self.searchController;
@@ -133,25 +158,28 @@
     
     //[self addObserver:searchResults forKeyPath:@"feedTypeArray" options:NSKeyValueObservingOptionNew context:nil];
     //[self addObserver:self forKeyPath:@"selectedIndexPath" options:NSKeyValueObservingOptionNew context:NULL];
-
+    
 }
+
 
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
     NSPredicate *predicate =[NSPredicate predicateWithFormat:@"SELF contains [cd] %@", self.searchController.searchBar.text];
     NSArray *predicateResultArray;
-    
+    AppPreferences* app=[AppPreferences sharedAppPreferences];
+
     
     if ([self.searchController.searchBar.text isEqual:@""])
     {
-        FeedbackType *ft1=[[FeedbackType alloc]init];
+        FeedQueryCounter *ft2=[[FeedQueryCounter alloc]init];
         int i;
         feedTypeArray=[[NSMutableArray alloc]init];
-        for (i=0; i<getFeedbackAndQueryTypesArray.count; i++)
+        for (i=0; i<app.feedQueryCounterDictsWithTypeArray.count; i++)
         {
-            ft1= [getFeedbackAndQueryTypesArray objectAtIndex:i];
-            NSLog(@"%@",ft1.feedbacktype);
-            [feedTypeArray insertObject:ft1.feedbacktype atIndex:i];
+            ft2= [app.feedQueryCounterDictsWithTypeArray objectAtIndex:i];
+            NSLog(@"%@",ft2.feedbackType);
+            [feedTypeArray insertObject:ft2.feedbackType atIndex:i];
+
             [self.tableView reloadData];
         }
     }
@@ -175,34 +203,33 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return feedTypeArray.count;
+    //AppPreferences* app=[AppPreferences sharedAppPreferences];
+   return feedTypeArray.count;
 }
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Remove the row from data model
-    [labelArray removeObjectAtIndex:indexPath.row];
-    
-    // Request table view to reload
-    [tableView reloadData];
-}
+//- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    // Remove the row from data model
+//    [labelArray removeObjectAtIndex:indexPath.row];
+//    
+//    // Request table view to reload
+//    [tableView reloadData];
+//}
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     AppPreferences *apppreferences=[AppPreferences sharedAppPreferences];
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-
    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+   counterGraphLabel=[cell viewWithTag:111];
+    referenceViewForCounterGraph=[cell viewWithTag:112];
+
     UILabel* feedbackAndQueryTypeLabel=(UILabel*)[cell viewWithTag:12];
     feedbackAndQueryTypeLabel.text=[feedTypeArray objectAtIndex:indexPath.row];
     
-    
-    UILabel* countLabel=(UILabel*)[cell viewWithTag:13];
-    
-    FeedQueryCounter* feedCounterObj = [[apppreferences feedQueryCounterArray] objectAtIndex:indexPath.row];
-    
-    long counter;
+    FeedQueryCounter* feedCounterObj = [apppreferences.feedQueryCounterDictsWithTypeArray objectAtIndex:indexPath.row];
+
+   
     NSUserDefaults* defaults=[NSUserDefaults standardUserDefaults];
-    NSLog(@"%@",[defaults valueForKey:@"flag"]);
+    //NSLog(@"%@",[defaults valueForKey:@"flag"]);
     int f=[[defaults valueForKey:@"flag"]intValue];
     if (f == 0)
     {
@@ -213,22 +240,84 @@
         counter = feedCounterObj.queryCounter;
         
     }
+    
+    
+    
+    
+    UILabel* countLabel=(UILabel*)[cell viewWithTag:13];
+    //FeedbackType* ff=[feedTypeArray objectAtIndex:indexPath.row];
+    
+
+   // NSLog(@"%d",feedCounterObj.queryCounter);
+   // NSLog(@"%d",feedCounterObj.feedCounter);
+
+        NSLog(@"%ld",indexPath.row);
+   counterGraphLabel.text=[NSString stringWithFormat:@"%ld",counter];
   float cellHeight=  [self tableView:tableView heightForRowAtIndexPath:indexPath];
 
-    counterGraphLabel = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.origin.x+([UIScreen mainScreen].bounds.size.width/2)+1,5,20*(counter),cellHeight-10)];
+   // [self createGraph:counter];
+   
+//     counterGraphLabel = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.origin.x+([UIScreen mainScreen].bounds.size.width/2)+1,5,20*(counter),cellHeight-10)];
+//    NSLog(@"%ld",counter);
+//    [counterGraphLabel setText:[NSString stringWithFormat:@"%ld",counter]];
+//  //  [counterGraphLabel setTextAlignment:UITextAlignmentRight];
+//    [counterGraphLabel setFont: [UIFont fontWithName:@"Arial" size:13.0f]];
+//    [counterGraphLabel setBackgroundColor:[UIColor communicatorColor]];
+//    [counterGraphLabel setTextColor:[UIColor whiteColor]];
+//    
+//    [labelArray addObject:counterGraphLabel];
+//    [cell addSubview:counterGraphLabel];
+     //counterGraphLabel=nil;
 
-    [counterGraphLabel setText:[NSString stringWithFormat:@"%ld",counter]];
-    [counterGraphLabel setTextAlignment:UITextAlignmentRight];
-    [counterGraphLabel setFont: [UIFont fontWithName:@"Arial" size:13.0f]];
-    [counterGraphLabel setBackgroundColor:[UIColor communicatorColor]];
-    [counterGraphLabel setTextColor:[UIColor whiteColor]];
-    [cell addSubview:counterGraphLabel];
-    [labelArray addObject:counterGraphLabel];
+    CounterGraph* counterGraphObj=[[CounterGraph alloc]init];
+    counterGraphObj.counterGraphlabel=counterGraphLabel;
+    counterGraphObj.referenceForCounterGraphView=referenceViewForCounterGraph;
+    counterGraphObj.count=counter;
+    counterGraphLabel.backgroundColor = [UIColor communicatorColor];
+    [counterGraphLabel setFrame:CGRectMake(counterGraphLabel.frame.origin.x, counterGraphLabel.frame.origin.y, 0.0f, counterGraphLabel.frame.size.height)];
+
+    [self performSelector:@selector(setCounterGraphLabel:) withObject:counterGraphObj afterDelay:0.000001];
     return cell;
-
     
 }
 
+
+
+-(void)setCounterGraphLabel:(CounterGraph*)counterGraphObj
+{
+
+    
+  /*  NSLayoutConstraint *widt =[NSLayoutConstraint
+                                   constraintWithItem:counterGraphObj.counterGraphlabel
+                                   attribute:NSLayoutAttributeWidth
+                                   relatedBy:NSLayoutRelationEqual
+                                   toItem:counterGraphObj.referenceForCounterGraphView
+                                   attribute:NSLayoutAttributeWidth
+                                   multiplier:counterGraphObj.count
+                                   constant:0.f];*/
+   
+    
+
+    [UIView animateWithDuration:0.5
+                          delay:0.001
+                        options: UIViewAnimationCurveEaseOut
+                     animations:^{
+[counterGraphObj.counterGraphlabel setFrame:CGRectMake(counterGraphObj.counterGraphlabel.frame.origin.x, counterGraphObj.counterGraphlabel.frame.origin.y, counterGraphObj.count * 10, counterGraphObj.counterGraphlabel.frame.size.height)];                     }
+                     completion:^(BOOL finished){
+                         NSLog(@"Done!");
+                     }];
+    
+   // [counterGraphObj.counterGraphlabel addConstraint:widt];
+}
+
+
+
+
+-(void)createGraph:(long)count
+{
+counterGraphLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.tableView.frame.origin.x+([UIScreen mainScreen].bounds.size.width/2)+1,5,20*(count),25)];
+
+}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -244,11 +333,11 @@
     Database *db=[Database shareddatabase];
     [db setDatabaseToCompressAndShowTotalQueryOrFeedback:indexPath.row];
     
-    UIViewController * vc = [self.storyboard instantiateViewControllerWithIdentifier:@"FeedcomQuerycomViewController"];
-    
+    FeedcomQuerycomViewController * vc = [self.storyboard instantiateViewControllerWithIdentifier:@"FeedcomQuerycomViewController"];
+    vc.feedbackType=[feedTypeArray objectAtIndex:indexPath.row];
     //NSLog(@"%lu",(unsigned long)app.feedQueryMessageHeaderArray.count);
     
-    [self.navigationController.navigationController pushViewController:vc animated:YES];
+  [self.navigationController pushViewController:vc animated:YES];
     //self.selectedIndexPath=indexPath;
 }
 

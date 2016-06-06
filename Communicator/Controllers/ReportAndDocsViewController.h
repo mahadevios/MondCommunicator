@@ -9,5 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @interface ReportAndDocsViewController : UIViewController
+{
+    NSMutableArray* arrayForBool;
+    NSArray* sectionTitleArray;
+    UIView *sectionView;
 
+}
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 @end

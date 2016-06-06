@@ -9,9 +9,13 @@
 #import "LoginViewController.h"
 #import "MBProgressHUD.h"
 //#import "SWRevealViewController.h"
+#import "HomeViewController.h"
 #import "UIColor+CommunicatorColor.h"
 #import "FeedQueryCounter.h"
 #import "Database.h"
+#import "MainTabBarViewController.h"
+#import "CompanyNamesViewController.h"
+#import "User.h"
 
 @interface LoginViewController ()
 
@@ -81,6 +85,9 @@ NSMutableArray* webFeedTypeArray;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(validateUserResponse:) name:NOTIFICATION_VALIDATE_USER
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(validateCounter:) name:NOTIFICATION_VALIDATE_COUNTER
+                                               object:nil];
 }
 
 - (void) viewWillDisappear:(BOOL)animated
@@ -92,44 +99,59 @@ NSMutableArray* webFeedTypeArray;
 
 - (void)validateUserResponse:(NSNotification *)notification
 {
-//    NSLog(@"%@", notification.object);
-//    NSLog(@"%@", [notification.object objectForKey:@"code"]);
     if ([[notification.object objectForKey:@"code"] isEqualToString:SUCCESS])
     {
         Database *db=[Database shareddatabase];
-    [db insertFeedbackData:notification.object];
-        [db insertQueryData:notification.object];
-
-       // [db updateData:@"vv"];
+        [db insertCompanyRelatedFeedbackTypeAndUsers:notification.object];
+        
+        [[APIManager sharedManager] findCountForUsername:self.usenameTextField.text andPassword:self.passwordTextField.text];
         AppPreferences *app=[AppPreferences sharedAppPreferences];
         
         NSLog(@"%@",self.usenameTextField.text);
-        //app.feedQueryCounterArray = [db findCount:notification.object :self.usenameTextField.text :self.passwordTextField.text];
-      [db findCount:notification.object :self.usenameTextField.text :self.passwordTextField.text];
+        
+        app.getFeedbackAndQueryTypesArray = [db getFeedbackAndQueryTypes];
 
         NSLog(@"%lu",(unsigned long)app.feedQueryCounterArray.count);
         
-        NSLog(@"%lu",(unsigned long)app.permittedCompaniesForUserArray.count);
-//        for (int i=0; i<app.feedQueryCounterArray.count; i++)
-//        {
-//           FeedQueryCounter* fq =  [app.feedQueryCounterArray objectAtIndex:i];
-//            NSLog(@"%ld",fq.feedbackTypeId);
-//            NSLog(@"%ld",fq.feedCounter);
-//        }
-        if (app.permittedCompaniesForUserArray.count>1)
-        {
-            [self pushToCompanyNamesView];
-            
-        }
-        else
-        {
+        
         hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         [hud hideAnimated:YES];
-        [self pushToHomeView];
-        }
     }
 }
 
+
+- (void)validateCounter:(NSNotification *)notification
+{
+    
+    if ([[notification.object objectForKey:@"code"] isEqualToString:SUCCESS])
+    {
+        Database *db=[Database shareddatabase];
+        [db insertFeedQueryCounter:notification.object];
+        NSError* error;
+        AppPreferences* app=[AppPreferences sharedAppPreferences];
+       
+       app.companynameOrIdArray= [db findPermittedCompaniesForUsername:self.usenameTextField.text Password:self.passwordTextField.text];
+        NSLog(@"%ld",app.companynameOrIdArray.count);
+        
+        if (app.companynameOrIdArray.count==1)
+        {
+            NSLog(@"%@",[app.companynameOrIdArray objectAtIndex:0]);
+            Database* db=[Database shareddatabase];
+            NSString* companyName= [NSString stringWithFormat:@"%@",[app.companynameOrIdArray objectAtIndex:0]];
+            [db getFeedbackAndQueryCounterForCompany:companyName];
+
+            [self pushToHomeView];
+        }
+        
+        else
+        {
+            [self pushToCompanyView];
+        
+        }
+       
+       }
+    
+}
 #pragma mark-texField delegate
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -158,6 +180,10 @@ NSMutableArray* webFeedTypeArray;
     if ([rememberMeButton isSelected])
     {
         [rememberMeButton setSelected:NO];
+        
+        
+        
+        
     }
     
     else
@@ -190,260 +216,12 @@ NSMutableArray* webFeedTypeArray;
                 hud.minSize = CGSizeMake(150.f, 100.f);
 
         Database* db=[Database shareddatabase];
-        [db validateUserFromLocalDatabase:self.usenameTextField.text :self.passwordTextField.text];
+       // [db validateUserFromLocalDatabase:self.usenameTextField.text :self.passwordTextField.text];
         
-        [[APIManager sharedManager] validateUser:self.usenameTextField.text andPassword:self.passwordTextField.text];
-        
-/*
-        
-        NSString *urlString = [NSString stringWithFormat: @"http://localhost:8080/coreflex/feedcom/login"];
-        
-        NSURL *url=[NSURL URLWithString:urlString];
-        
-        NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-        NSURLSession *session1 = [NSURLSession sessionWithConfiguration:config];
-        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+       // [[APIManager sharedManager] validateUser:self.usenameTextField.text andPassword:self.passwordTextField.text];
+        [[APIManager sharedManager] validateUser:self.usenameTextField.text Password:self.passwordTextField.text andDeviceId:@"21"];
 
-        [request setHTTPMethod:@"POST"];
-        NSString *jsonString =@"username=ssi&password=ssi";
-        [request setHTTPBody:[jsonString dataUsingEncoding:NSUTF8StringEncoding]];
-        
-        NSURLSessionDataTask *datatask=[session1 dataTaskWithRequest:request completionHandler:^(NSData *  data, NSURLResponse *  response, NSError *  error)
-                                        {
-                                             if (error)
-                                                {
-                                                    
-                                                    NSLog(@"%@",error.localizedDescription);
-                                                
-                                                }
-                                                
-                                                
-                                                else
-                                                {
-                                                
-                                                    NSDictionary* dic=[NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                                                    NSLog(@"in success");
-                                                    // NSDictionary *dic= [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                                                    NSLog(@"%@",dic);
-                                                    
-                                                    if ([[dic valueForKey:@"code"] isEqualToString:@"1000"])
-                                                    {
-                                                        NSLog(@"code=1000");
-                                                        
-                                                        NSString* userString=[dic valueForKey:@"user"];
-                                                         NSData *userData = [userString dataUsingEncoding:NSUTF8StringEncoding];
-                                                        NSDictionary* userDict=[NSJSONSerialization JSONObjectWithData:userData options:0 error:&error];
-                                                        
-                                                        NSLog(@"%@",[userDict valueForKey:@"userId"]);
-                                                        
-                                                        NSString* username=[userDict valueForKey:@"username"];
-                                                        NSString* password=[userDict valueForKey:@"password"];
-                                                        
-                                                        NSURL *feedAndQueryCountUrlString=[NSURL URLWithString:@"http://localhost:8080/coreflex/feedcom/getcommunicationCounterForFeedComQueryCom?username=ssi&&password=ssi"];
-                                                        
-                                                        
-                                                      //  NSURL *feedAndQueryCountUrl=[NSURL URLWithString:feedAndQueryCountUrlString];
-                                                        
-                                                       
-                                                       
-                                                        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:feedAndQueryCountUrlString];
 
-                                                       
-                                                        NSString *usernameString =[NSString stringWithFormat:@"username=%@&password=%@",username,password];
-                                                        [request setHTTPBody:[usernameString dataUsingEncoding:NSUTF8StringEncoding]];
-                                                        
-                                                        NSURLSessionDataTask *datatask=[session1 dataTaskWithRequest:request completionHandler:^(NSData *  data, NSURLResponse *  response, NSError *  error)
-
-                                                                                        {
-                                                                                            if (error)
-                                                                                            {
-                                                                                                
-                                                                                                NSLog(@"%@",error.localizedDescription);
-                                                                                                
-                                                                                            }
-                                                                                            
-                                                                                            else
-                                                                                            {
-                                                                                                NSDictionary* dic1=[NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                                                                                                NSLog(@"in success");
-                                                                                                // NSDictionary *dic= [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                                                                                                NSLog(@"%@",dic1);
-                                                                                              
-                                                                                            }
-                                                                                        
-                                                                                        }];
-                                                        
-                                                        [datatask resume];
-
-                                                        
-                                                    }
-
-                                                
-                                                 }
-                                          }];
-                       [datatask resume];
-        
-        
-        
-      //  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-        NSURLSession *session=[NSURLSession sharedSession];
-        [request setHTTPMethod: @"POST"];
-        
-        
-        
-        NSURLSessionDataTask *datatask1=[session dataTaskWithRequest:request completionHandler:^(NSData * __nullable data, NSURLResponse * __nullable response, NSError * __nullable error)
-                                        {
-                                            
-                                            if (error)
-                                            {
-                                                
-                                               
-                                                NSLog(@"%@",error.localizedDescription);
-                                                
-                                                
-                                                
-                                            }
-                                            else
-                                            {
-                                                NSDictionary *dic=[NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                                                NSLog(@"in success");
-                                               // NSDictionary *dic= [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                                               NSLog(@"%@",dic);
-                                                
-                                                    // code here
-                                               
-//                                                if ([[dic valueForKey:@"name"] isEqual:@"Not Available"])
-//                                                {
-//                                                    dispatch_async(dispatch_get_main_queue(), ^{
-//
-//                                                    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Authentication failed"
-//                                                                                                                             message:@"Please enter valid username and password"
-//                                                                                                                      preferredStyle:UIAlertControllerStyleAlert];
-//                                                    //We add buttons to the alert controller by creating UIAlertActions:
-//                                                    UIAlertAction *actionOk = [UIAlertAction actionWithTitle:@"Ok"
-//                                                                                                       style:UIAlertActionStyleDefault
-//                                                                                                     handler:nil]; //You can use a block here to handle a press on this button
-//                                                    [alertController addAction:actionOk];
-//                                                    [self presentViewController:alertController animated:YES completion:nil];
-//                                                     });
-//
-//                                                }
-//                                                else
-//                                                {
-                                                
-                                                NSURL *url=[NSURL URLWithString:@"http://localhost:8080/coreflex/feedcom/getcommunicationCounterForFeedComQueryCom?username=ssi&&password=ssi"];
-                                                
-                                                NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-                                                NSURLSession *session=[NSURLSession sharedSession];
-                                                [request setHTTPMethod: @"GET"];
-                                                
-                                                
-                                               // MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-                                                
-                                                NSURLSessionDataTask *datatask=[session dataTaskWithRequest:request completionHandler:^(NSData * __nullable data, NSURLResponse * __nullable response, NSError * __nullable error)
-                                                                                {
-                                                                                    
-                                                                                    if (error)
-                                                                                    {
-                                                                                        
-                                                                                        NSLog(@"%@",error.localizedDescription);
-                                                                                      
-                                                                                    }
-                                                                                    else
-                                                                                    {
-                                                                                        NSLog(@"in success");
-                                                                                        
-                                                                                        NSDictionary *feedcomQuerycomCounterDictionary= [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-
-                                                                                        NSString* ar=[feedcomQuerycomCounterDictionary valueForKey:@"feedcomCommunicationCounter"];
-                                                                                        
-                                                                                        //NSLog(@"%@",ar);
-
-                                                                                        NSData *jsonData = [ar dataUsingEncoding:NSUTF8StringEncoding];
-                                                                                        
-
-                                                                                        NSArray* feedcomCounterArray = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
-                                                                                        //NSLog(@"%@",feedcomCounterArray);
-
-                                                                                        //NSLog(@"%@",[feedcomCounterArray objectAtIndex:0]);
-                                                                                        
-                                                                                        
-                                                                                        
-                                                                                        int i=0;
-                                                                                        NSDictionary* dd;
-                                                                                        webFeedCountArray=[[NSMutableArray alloc]init];
-                                                                                        webFeedTypeArray=[[NSMutableArray alloc]init];
-
-                                                                                        for (NSDictionary *dic in feedcomCounterArray)
-
-                                                                                        {
-                                                                                           // NSMutableArray *arr=[NSMutableArray arrayWithObjects:dic, nil];
-                                                                                            //NSLog(@"%@",[dic valueForKey:@"count"]);
-                                                                                           // NSLog(@"%@",[dic valueForKey:@"feedBackTypeTable"]);
-                                                                                           // NSLog(@"%@",dic);
-                                                                                              if([dic isKindOfClass:[NSDictionary class]])//because dictionary has another dixtionary inside it
-                                                                                            {
-                                                                                                    //NSLog(@"%@",[dic valueForKey:@"feedBackTypeTable"]);
-                                                                                                dd=[dic valueForKey:@"feedBackTypeTable"];
-                                                                                              [webFeedTypeArray addObject:[dd valueForKey:@"feedbackType"]] ;
-                                                                                                
-                                                                                            }
-                                                                                            [webFeedCountArray addObject:[dic valueForKey:@"count"]];
-                                                                                            i++;
-                                                                                        }
-                                                                                       
-
-                                                                                        NSLog(@"%lu",(unsigned long)webFeedCountArray.count);
-                                                                                        NSLog(@"%lu",(unsigned long)webFeedTypeArray.count);
-
-                                                                                    }
-                                                                                    
-                                                                                }];
-                                                [datatask resume];
-
-                                                    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
-
-                                                    //MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-                                                      //  MBProgressHUD *hud = [[MBProgressHUD alloc]init];
-                                                        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-
-                                                    hud.label.text = NSLocalizedString(@"Please wait...", @"HUD Loading title");
-                                                  // Will look best, if we set a minimum size.
-                                                   hud.minSize = CGSizeMake(150.f, 100.f);
-                                                   
-                                                   // dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
-                                                        // Do something useful in the background and update the HUD periodically.
-                                                        [self pushToHomeView];
-                                                       dispatch_async(dispatch_get_main_queue(), ^{
-                                                           [hud hideAnimated:YES];
-                                                       });
-                                                    });
-                                                
-                                                // Set some text to show the initial status.
-                                               
-                                            }
-                                           // }
-                                        }];
-        [datatask resume];
-        
-        
-//
-//        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-//        
-//        // Set some text to show the initial status.
-//        hud.label.text = NSLocalizedString(@"Please wait...", @"HUD Loading title");
-//        // Will look best, if we set a minimum size.
-//        hud.minSize = CGSizeMake(150.f, 100.f);
-//        
-//        dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
-//            // Do something useful in the background and update the HUD periodically.
-//            [self pushToHomeView];
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                [hud hideAnimated:YES];
-//            });
-//        });
-    
-  */
     }
 
 }
@@ -451,38 +229,86 @@ NSMutableArray* webFeedTypeArray;
 
 -(void)pushToHomeView
 {
+    AppPreferences* app=[AppPreferences sharedAppPreferences];
+    if ([rememberMeButton isSelected])
+    {
+        //[[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"rememberMe"];
+        Database* db=[Database shareddatabase];
+        User* userObjForDefault=[[User alloc]init];
+        User *userObj= [db getUserUsername:self.usenameTextField.text andPassword:self.passwordTextField.text];
+        
+        userObjForDefault.Id=userObj.Id;
+        userObjForDefault.username=userObj.username;
+        userObjForDefault.password=userObj.password;
+        userObjForDefault.userRole=userObj.userRole;
+        userObjForDefault.comanyId=userObj.comanyId;
+        userObjForDefault.email=userObj.email;
+        userObjForDefault.deviceToken=userObj.deviceToken;
+        userObjForDefault.mobileNo=userObj.mobileNo;
+        userObjForDefault.firstName=userObj.firstName;
+        userObjForDefault.lastName=userObj.lastName;
+        
+        NSUserDefaults* defaults=[NSUserDefaults standardUserDefaults];
+        [defaults setObject:[NSKeyedArchiver archivedDataWithRootObject:userObjForDefault] forKey:@"userObject"];
+
+    NSLog(@"%@",userObj.password);
+    
+  
+
+        
+    }
+    else
+   {
+        [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"rememberMe"];
+   }
+
+   MainTabBarViewController* vc= [self.storyboard instantiateViewControllerWithIdentifier:@"MainTabBarViewController"];
+
+    [self.navigationController pushViewController:vc animated:YES];
+    
+}
+
+
+-(void)pushToCompanyView
+{
     if ([rememberMeButton isSelected])
     {
         [[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"rememberMe"];
+        
+        Database* db=[Database shareddatabase];
+        User* userObjForDefault=[[User alloc]init];
+        User *userObj= [db getUserUsername:self.usenameTextField.text andPassword:self.passwordTextField.text];
+        
+        userObjForDefault.Id=userObj.Id;
+        userObjForDefault.username=userObj.username;
+        userObjForDefault.password=userObj.password;
+        userObjForDefault.userRole=userObj.userRole;
+        userObjForDefault.comanyId=userObj.comanyId;
+        userObjForDefault.email=userObj.email;
+        userObjForDefault.deviceToken=userObj.deviceToken;
+        userObjForDefault.mobileNo=userObj.mobileNo;
+        userObjForDefault.firstName=userObj.firstName;
+        userObjForDefault.lastName=userObj.lastName;
+        
+        NSUserDefaults* defaults=[NSUserDefaults standardUserDefaults];
+        [defaults setObject:[NSKeyedArchiver archivedDataWithRootObject:userObjForDefault] forKey:@"userObject"];
+        
+        NSLog(@"%@",userObj.password);
+
         
     }
     else
     {
         [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"rememberMe"];
     }
-    
-//    SWRevealViewController * vc = (SWRevealViewController*)[self.storyboard instantiateViewControllerWithIdentifier:@"SWRevealViewController"];
-//
-//    [self.navigationController pushViewController:vc animated:YES];
-    
-}
-
--(void)pushToCompanyNamesView
-{
-    if ([rememberMeButton isSelected])
-    {
-        [[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"rememberMe"];
-    }
-    else
-    {
-        [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"rememberMe"];
-    }
-    
-    UIViewController * vc = [self.storyboard instantiateViewControllerWithIdentifier:@"CompanyNamesViewController"];
+    CompanyNamesViewController * vc= [self.storyboard instantiateViewControllerWithIdentifier:@"CompanyNamesViewController"];
     
     [self.navigationController pushViewController:vc animated:YES];
-    
+
+
+
 }
+
 
 
 

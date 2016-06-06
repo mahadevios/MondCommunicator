@@ -29,6 +29,15 @@
 @property (nonatomic,strong)NSMutableArray* permittedCompaniesForUserArray;
 @property (nonatomic,strong)NSMutableArray* FeedbackOrQueryDetailChatingObjectsArray;
 
+
+@property (nonatomic,strong)NSMutableArray* getFeedbackAndQueryTypesArray;
+@property (nonatomic,strong)NSMutableArray* companynameOrIdArray;
+@property (nonatomic,strong)NSMutableDictionary* feedTypeWithFeedCounterDict;
+@property (nonatomic,strong)NSMutableDictionary* feedTypeWithQueryCounterDict;
+@property (nonatomic,strong)NSMutableArray* feedQueryCounterDictsWithTypeArray;
+
+
+
 +(AppPreferences *) sharedAppPreferences;
 
 -(void) showAlertViewWithTitle:(NSString *) title withMessage:(NSString *) message withCancelText:(NSString *) cancelText withOkText:(NSString *) okText withAlertTag:(int) tag;

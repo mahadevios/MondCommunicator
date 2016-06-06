@@ -10,8 +10,8 @@
 
 @interface FeedQueryCounter : NSObject
 
-@property(nonatomic)long feedbackTypeId;
-@property(nonatomic)long feedCounter;
-@property(nonatomic)long queryCounter;
+@property(nonatomic,strong)NSString* feedbackType;
+@property(nonatomic)int feedCounter;
+@property(nonatomic)int queryCounter;
 
 @end

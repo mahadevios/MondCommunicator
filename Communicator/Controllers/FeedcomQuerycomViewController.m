@@ -53,16 +53,31 @@
     
     self.definesPresentationContext = YES;
 
-    [self addObserver:searchResults forKeyPath:@"results" options:NSKeyValueObservingOptionNew context:nil];
+   // [self addObserver:searchResults forKeyPath:@"results" options:NSKeyValueObservingOptionNew context:nil];
 
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    
+   NSArray* arr= self.navigationController.viewControllers;
+    for (int i=0; i<arr.count; i++)
+    {
+        NSLog(@"%@",[arr objectAtIndex:i]);
+        
+    }
 //    self.tabBarController.navigationItem.hidesBackButton=NO;
-    //[self.navigationItem setHidesBackButton:NO];
-    self.navigationItem.title = @"FeedCom";
+    self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"BackArrow"] style:UIBarButtonItemStylePlain target:self action:@selector(popViewController)] ;
+    
+    
+    self.tabBarController.navigationItem.leftBarButtonItem.tintColor=[UIColor whiteColor];
 
+   //self.navigationController.navigationItem.backBarButtonItem.image = [UIImage imageNamed:@"BackArrow"];
+    self.tabBarController.navigationItem.title = @"FeedCom";
+  //  self.tabBarController.navigationItem.backBarButtonItem=[UIImage imageNamed:@""];
+   //UIBarButtonItem *newBackButton =[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"BackArrow"] style:UIBarButtonItemStylePlain target:NULL action:NULL];
+   // [self.tabBarController.navigationItem setBackBarButtonItem:newBackButton];
+    //self.navigationItem.leftBarButtonItem.image=[UIImage imageNamed:@"BackArrow"];
     arrayOfSeperatedSOArray=[[NSMutableArray alloc]init];
     AppPreferences* app=[AppPreferences sharedAppPreferences];
     feedTypeSONoArray=[[NSMutableArray alloc]init];
@@ -84,6 +99,13 @@
         
     }
 
+}
+
+-(void)popViewController
+{
+    UINavigationController *navController = self.navigationController;
+
+    [navController popViewControllerAnimated:YES];
 }
 
 -(void)createBarButtonItem
@@ -137,9 +159,10 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    AppPreferences* app=[AppPreferences sharedAppPreferences];
-
-    return feedTypeSONoArray.count;
+//    AppPreferences* app=[AppPreferences sharedAppPreferences];
+//
+//    return feedTypeSONoArray.count;
+    return 3;
 }
 - (nullable NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
@@ -151,48 +174,35 @@
         
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
 
-        FeedOrQueryMessageHeader *headerObj1=[feedTypeSONoArray objectAtIndex:indexPath.row];
-        NSString* soNumber= headerObj1.soNumber;
-        NSString* feedText=headerObj1.feedText;
-        NSLog(@"%@,,,,%@",soNumber,feedText);
-        NSArray* separatedSO=[soNumber componentsSeparatedByString:@"#@"];
-   
-    
-
     UILabel* soNoLabel=(UILabel*)[cell viewWithTag:12];
-//    soNoLabel.text=[NSString stringWithFormat:@"SO No.%@ \nAvaya Id:%@ \nDocument Id:%@",[separatedSO objectAtIndex:0],@"",@""];
-//    //soNoLabel.text=[separatedSO objectAtIndex:0];
-//    if (separatedSO.count>1) {
-//        soNoLabel.text=[NSString stringWithFormat:@"SO No.%@ \nAvaya Id:%@ \nDocument ID:%@ ",[separatedSO objectAtIndex:0],[separatedSO objectAtIndex:1],@""];
+    soNoLabel.text=@"So No";
+//        FeedOrQueryMessageHeader *headerObj1=[feedTypeSONoArray objectAtIndex:indexPath.row];
+//        NSString* soNumber= headerObj1.soNumber;
+//        NSString* feedText=headerObj1.feedText;
+//        NSLog(@"%@,,,,%@",soNumber,feedText);
+//        NSArray* separatedSO=[soNumber componentsSeparatedByString:@"#@"];
+//   
+//    
 //
-//        //avayaIdLabel.text=[separatedSO objectAtIndex:1];
-//    }
-
-   // if (separatedSO.count>2) {
-        soNoLabel.text=[NSString stringWithFormat:@"SO No.%@ \nAvaya Id:%@ \nDocument Id:%@",[separatedSO objectAtIndex:0],[separatedSO objectAtIndex:1],[separatedSO objectAtIndex:2]];
-
-       // documentIdLabel.text=[separatedSO objectAtIndex:2];
-   // }
-
-    
-    UILabel* feedbackLabel=(UILabel*)[cell viewWithTag:15];
-    feedbackLabel.text=headerObj1.feedText;
-    NSString* dateString= headerObj1.feedDate;
-    double da=[dateString doubleValue];
-    NSLog(@"%f",da);
-    NSString *dd = [NSString stringWithFormat:@"%@",[NSDate dateWithTimeIntervalSince1970:da/1000.0]];
-    NSArray *components = [dd componentsSeparatedByString:@" "];
-    NSString *date = components[0];
-    NSString *time = components[1];
-    NSLog(@"%@,,,,%@",date,time);
-    
-    UILabel* dateAndTimeLabel=(UILabel*)[cell viewWithTag:13];
-    NSString* dateAndTimeLabelString=[NSString stringWithFormat:@"%@\n%@",date,time];
-    dateAndTimeLabel.text=dateAndTimeLabelString;
-    
-    
-
-    //soNoLabel.text=[NSString stringWithFormat:@"SO No.%@ \n Avaya Id:%@ \n Document Id:%@ ",[separatedSO objectAtIndex:0]];
+//        UILabel* soNoLabel=(UILabel*)[cell viewWithTag:12];
+//
+//        soNoLabel.text=[NSString stringWithFormat:@"SO No.%@ \nAvaya Id:%@ \nDocument Id:%@",[separatedSO objectAtIndex:0],[separatedSO objectAtIndex:1],[separatedSO objectAtIndex:2]];
+//    
+//        UILabel* feedbackLabel=(UILabel*)[cell viewWithTag:15];
+//        feedbackLabel.text=headerObj1.feedText;
+//        NSString* dateString= headerObj1.feedDate;
+//        double da=[dateString doubleValue];
+//        NSLog(@"%f",da);
+//        NSString *dd = [NSString stringWithFormat:@"%@",[NSDate dateWithTimeIntervalSince1970:da/1000.0]];
+//        NSArray *components = [dd componentsSeparatedByString:@" "];
+//        NSString *date = components[0];
+//        NSString *time = components[1];
+//        NSLog(@"%@,,,,%@",date,time);
+//    
+//        UILabel* dateAndTimeLabel=(UILabel*)[cell viewWithTag:13];
+//        NSString* dateAndTimeLabelString=[NSString stringWithFormat:@"%@\n%@",date,time];
+//        dateAndTimeLabel.text=dateAndTimeLabelString;
+//    
         return cell;
     
 }
@@ -206,38 +216,26 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Database *db=[Database shareddatabase];
-    UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
-
-    //UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-//    UILabel* soNoLabel=(UILabel*)[cell viewWithTag:12];
-//    NSString* str1=[soNoLabel text];
+//    Database *db=[Database shareddatabase];
+//    UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
+//
+//    FeedOrQueryMessageHeader *headerObj1=[feedTypeSONoArray objectAtIndex:indexPath.row];
+//    int feedType=headerObj1.feedbackType;
+//    NSString* SONumber=headerObj1.soNumber;
 //    
-//    UILabel* avayaIdLabel=(UILabel*)[cell viewWithTag:13];
-//    NSString* str2=[avayaIdLabel text];
-//    
-//    UILabel* documentIdLabel=(UILabel*)[cell viewWithTag:14];
-//    NSString* str3=[documentIdLabel text];
-//    
-//    NSString* combineSONumber=[[[[str1 stringByAppendingString:@"#@"] stringByAppendingString:str2] stringByAppendingString:@"#@"]stringByAppendingString:str3];
-//    NSLog(@"%@",combineSONumber);
+//    [db getDetailMessagesofFeedbackOrQuery:feedType :SONumber];
     
-    FeedOrQueryMessageHeader *headerObj1=[feedTypeSONoArray objectAtIndex:indexPath.row];
-    int feedType=headerObj1.feedbackType;
-    NSString* SONumber=headerObj1.soNumber;
+   UIViewController * vc = [self.storyboard instantiateViewControllerWithIdentifier:@"DetailChatingViewController"];
     
-    [db getDetailMessagesofFeedbackOrQuery:feedType :SONumber];
-    UIViewController * vc = [self.storyboard instantiateViewControllerWithIdentifier:@"DetailChatingViewController"];
-    
-    [self.navigationController pushViewController:vc animated:YES];
+   [self.navigationController pushViewController:vc animated:YES];
 
 }
 
 
-- (void)dealloc
-{
-    [self removeObserver:searchResults forKeyPath:@"results"];
-}
+//- (void)dealloc
+//{
+//    [self removeObserver:searchResults forKeyPath:@"results"];
+//}
 
 - (void)didReceiveMemoryWarning
 {
@@ -245,12 +243,12 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
-{
-    
-    self.results = [(NSArray *)object valueForKey:@"results"];
-    [self.tableView reloadData];
-}
+//- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
+//{
+//    
+//    self.results = [(NSArray *)object valueForKey:@"results"];
+//    [self.tableView reloadData];
+//}
 - (IBAction)buttonClicked:(id)sender
 {
     UIViewController * vc = [self.storyboard instantiateViewControllerWithIdentifier:@"CreateNewFeedbackNavigationController"];

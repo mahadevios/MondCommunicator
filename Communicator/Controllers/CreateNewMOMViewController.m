@@ -23,7 +23,20 @@
 {
 //    self.navigationItem.title = @"New MOM";
     self.tabBarController.navigationItem.title = @"New MOM";
+    self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"SignOut"] style:UIBarButtonItemStylePlain target:self action:@selector(popViewController1)] ;
+    self.tabBarController.navigationItem.title = @"Dashboard";
+    [self.navigationItem setHidesBackButton:NO];
+   // self.navigationController.navigationBar.barTintColor = [UIColor communicatorColor];
+    self.tabBarController.navigationItem.leftBarButtonItem.tintColor=[UIColor whiteColor];
 
+}
+-(void)popViewController1
+{
+    UINavigationController *navController = self.navigationController;
+    UIViewController * vc = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginNaviagationController"];
+    [navController presentViewController:vc animated:YES completion:nil];
+    NSUserDefaults* defaults=[NSUserDefaults standardUserDefaults];
+    [defaults setObject:NULL forKey:@"userObject"];
 }
 
 - (void)didReceiveMemoryWarning {

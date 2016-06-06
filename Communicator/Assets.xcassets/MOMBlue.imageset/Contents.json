@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "plus.jpg",
+      "filename" : "MOM - blue -x.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "plus-1.jpg",
+      "filename" : "MOM - blue -2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "plus-2.jpg",
+      "filename" : "MOM - blue 3x.png",
       "scale" : "3x"
     }
   ],

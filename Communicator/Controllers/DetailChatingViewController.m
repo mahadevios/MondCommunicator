@@ -25,42 +25,37 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    UILabel* subjectLabel=(UILabel*)[self.view viewWithTag:100];
-    UILabel* SONumberLabel=(UILabel*)[self.view viewWithTag:101];
-    UILabel* dateOfFeedLabel=(UILabel*)[self.view viewWithTag:102];
+    self.tabBarController.navigationItem.title = @"Detail Chating";
 
-    app=[AppPreferences sharedAppPreferences];
-    NSArray* separatedSO=[[NSMutableArray alloc]init];
-    FeedbackChatingCounter *allMessageObj=[app.FeedbackOrQueryDetailChatingObjectsArray objectAtIndex:0];
-    NSString* soNumber= allMessageObj.soNumber;
-    separatedSO=[soNumber componentsSeparatedByString:@"#@"];
-    NSString* soNumr=[separatedSO objectAtIndex:0];
-    NSString* avaya=[separatedSO objectAtIndex:1];
-    NSString* Doc=[separatedSO objectAtIndex:2];
-
-    SONumberLabel.text=[NSString stringWithFormat:@"SO Number:%@\nAvaya Id:%@\nDocument Id:%@",soNumr,avaya,Doc];
-    subjectLabel.text=allMessageObj.emailSubject;
-    
-    FeedbackChatingCounter *allMessageObj1=[app.FeedbackOrQueryDetailChatingObjectsArray lastObject];
-
-    NSString* dateString= allMessageObj1.dateOfFeed;
-    double da=[dateString doubleValue];
-    NSString *dd = [NSString stringWithFormat:@"%@",[NSDate dateWithTimeIntervalSince1970:da/1000.0]];
-    NSDate* sd=[[NSDate alloc]init];
-    NSArray *components = [dd componentsSeparatedByString:@" "];
-    NSString *date = components[0];
-    NSString *time = components[1];
-    NSLog(@"%@,,,,%@",date,time);
-
-//    NSDateFormatter * formatter = [[NSDateFormatter alloc] init];
-//    NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
-//    [formatter setTimeZone:timeZone];
-//    [formatter setDateFormat:@"YYYY//MM/dd"];
-//    NSDate *currentDateInUTC = [formatter dateFromString:dd];
-//    NSLog(@"%@",currentDateInUTC);
-    
-        dateOfFeedLabel.text=[NSString stringWithFormat:@"%@\n%@",date,time];
-
+//    UILabel* subjectLabel=(UILabel*)[self.view viewWithTag:100];
+//    UILabel* SONumberLabel=(UILabel*)[self.view viewWithTag:101];
+//    UILabel* dateOfFeedLabel=(UILabel*)[self.view viewWithTag:102];
+//
+//    app=[AppPreferences sharedAppPreferences];
+//    NSArray* separatedSO=[[NSMutableArray alloc]init];
+//    FeedbackChatingCounter *allMessageObj=[app.FeedbackOrQueryDetailChatingObjectsArray objectAtIndex:0];
+//    NSString* soNumber= allMessageObj.soNumber;
+//    separatedSO=[soNumber componentsSeparatedByString:@"#@"];
+//    NSString* soNumr=[separatedSO objectAtIndex:0];
+//    NSString* avaya=[separatedSO objectAtIndex:1];
+//    NSString* Doc=[separatedSO objectAtIndex:2];
+//
+//    SONumberLabel.text=[NSString stringWithFormat:@"SO Number:%@\nAvaya Id:%@\nDocument Id:%@",soNumr,avaya,Doc];
+//    subjectLabel.text=allMessageObj.emailSubject;
+//    
+//    FeedbackChatingCounter *allMessageObj1=[app.FeedbackOrQueryDetailChatingObjectsArray lastObject];
+//
+//    NSString* dateString= allMessageObj1.dateOfFeed;
+//    double da=[dateString doubleValue];
+//    NSString *dd = [NSString stringWithFormat:@"%@",[NSDate dateWithTimeIntervalSince1970:da/1000.0]];
+//    NSDate* sd=[[NSDate alloc]init];
+//    NSArray *components = [dd componentsSeparatedByString:@" "];
+//    NSString *date = components[0];
+//    NSString *time = components[1];
+//    NSLog(@"%@,,,,%@",date,time);
+//
+//        dateOfFeedLabel.text=[NSString stringWithFormat:@"%@\n%@",date,time];
+//
     
 }
 
@@ -81,23 +76,27 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-   FeedbackChatingCounter* feedObject= [app.FeedbackOrQueryDetailChatingObjectsArray objectAtIndex:indexPath.row];
-   UILabel* userName= (UILabel*)[cell viewWithTag:50];
-    userName.text=feedObject.userFrom;
-    UILabel* feedText= (UILabel*)[cell viewWithTag:51];
-    feedText.text=feedObject.detailMessage;
-    UILabel* feedTime= (UILabel*)[cell viewWithTag:52];
-    
-    NSString* dateString= feedObject.dateOfFeed;
-    double da=[dateString doubleValue];
-    NSString *dd = [NSString stringWithFormat:@"%@",[NSDate dateWithTimeIntervalSince1970:da/1000.0]];
-    NSDate* sd=[[NSDate alloc]init];
-    NSArray *components = [dd componentsSeparatedByString:@" "];
-    NSString *date = components[0];
-    NSString *time = components[1];
-    
-    feedTime.text=[NSString stringWithFormat:@"%@\n%@",date,time];
 
+    UILabel* userName= (UILabel*)[cell viewWithTag:50];
+    userName.text=@"details";
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+//   FeedbackChatingCounter* feedObject= [app.FeedbackOrQueryDetailChatingObjectsArray objectAtIndex:indexPath.row];
+//   UILabel* userName= (UILabel*)[cell viewWithTag:50];
+//    userName.text=feedObject.userFrom;
+//    UILabel* feedText= (UILabel*)[cell viewWithTag:51];
+//    feedText.text=feedObject.detailMessage;
+//    UILabel* feedTime= (UILabel*)[cell viewWithTag:52];
+//    
+//    NSString* dateString= feedObject.dateOfFeed;
+//    double da=[dateString doubleValue];
+//    NSString *dd = [NSString stringWithFormat:@"%@",[NSDate dateWithTimeIntervalSince1970:da/1000.0]];
+//    NSDate* sd=[[NSDate alloc]init];
+//    NSArray *components = [dd componentsSeparatedByString:@" "];
+//    NSString *date = components[0];
+//    NSString *time = components[1];
+//    
+//    feedTime.text=[NSString stringWithFormat:@"%@\n%@",date,time];
+//
     return cell;
 }
 - (void)didReceiveMemoryWarning

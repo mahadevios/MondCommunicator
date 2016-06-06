@@ -10,10 +10,7 @@
 #import "Database.h"
 @interface LoginViewController : UIViewController<UITextFieldDelegate>
 {
-    UIActivityIndicatorView *activityView;
-
-    UIView *loadingView;
-    
+   
     UILabel *loadingLabel;
     int flag;
     
@@ -39,6 +36,7 @@
 @property (weak, nonatomic) IBOutlet UINavigationItem *navigationBar;
 
 @property (weak, nonatomic) MBProgressHUD *hud;
-                                
+-(void)findCounter;
+-(void)insertFeedQueryCounter:(NSDictionary*)dic;
 @end
 

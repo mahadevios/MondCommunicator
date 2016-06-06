@@ -14,7 +14,10 @@
 @synthesize currentSelectedItem;
 @synthesize alertDelegate;
 @synthesize isReachable;
-
+@synthesize companynameOrIdArray;
+@synthesize feedTypeWithFeedCounterDict;
+@synthesize feedTypeWithQueryCounterDict;
+@synthesize feedQueryCounterDictsWithTypeArray;
 static AppPreferences *singleton = nil;
 
 // Shared method

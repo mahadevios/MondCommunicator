@@ -50,7 +50,7 @@
 
 -(id) initWithdownLoadEntityJobName:(NSString *) jobName withRequestParameter:(id) localRequestParameter withResourcePath:(NSString *) resourcePath withHttpMethd:(NSString *) httpMethodParameter;
 -(void) startMetaDataDownLoad;
-
+-(void)startCounterDownLoad;
 
 @end
 

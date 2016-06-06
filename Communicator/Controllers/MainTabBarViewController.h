@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface MainTabBarViewController : UITabBarController
-
+//@property(strong,nonatomic)UINavigationController *navVC;
 @end

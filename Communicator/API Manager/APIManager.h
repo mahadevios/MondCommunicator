@@ -17,5 +17,6 @@
 +(APIManager *) sharedManager;
 
 -(void) validateUser:(NSString *) usernameString andPassword:(NSString *) passwordString;
-
+-(void) validateUser:(NSString *) usernameString Password:(NSString *) passwordString andDeviceId:(NSString*)DeviceId;
+-(void) findCountForUsername:(NSString*)username andPassword:(NSString*)password;
 @end

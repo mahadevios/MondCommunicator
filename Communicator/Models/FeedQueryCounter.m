@@ -10,7 +10,7 @@
 
 @implementation FeedQueryCounter
 
-@synthesize feedbackTypeId;
+@synthesize feedbackType;
 @synthesize feedCounter;
 @synthesize queryCounter;
 

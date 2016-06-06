@@ -25,6 +25,9 @@
 @property (strong, nonatomic)NSMutableArray *feedTypeSONoCopyForPredicate;
 
 @property (strong, nonatomic) NSArray *results;
-- (IBAction)buttonClicked:(id)sender;
 
+@property (strong, nonatomic) NSString *feedbackType;
+
+- (IBAction)buttonClicked:(id)sender;
+-(void)popViewController;
 @end

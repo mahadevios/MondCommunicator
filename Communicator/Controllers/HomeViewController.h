@@ -15,12 +15,13 @@
 @interface HomeViewController : UIViewController<UISearchBarDelegate, UISearchResultsUpdating>
 
 {
-    NSMutableArray* getFeedbackAndQueryTypesArray;
+   // NSMutableArray* getFeedbackAndQueryTypesArray;
     NSMutableArray* labelArray;
     UIBarButtonItem* menuBarButton;
        UILabel* label1;
     CGFloat width;
     int selectedFeedbackType;
+    long counter;
 }
 
 - (IBAction)changeType:(id)sender;
@@ -37,7 +38,9 @@
 
 @property (strong, nonatomic) NSIndexPath *data;
 @property (strong, nonatomic)NSMutableArray *demoCountArray;
-@property (strong, nonatomic) UILabel* counterGraphLabel;
+@property (nonatomic) UILabel* counterGraphLabel;
+@property (nonatomic) UIView* referenceViewForCounterGraph;
+
 
 
 
