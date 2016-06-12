@@ -63,6 +63,7 @@
 		844D064E1CCCDE2600B17A1F /* SBJson4Writer.m in Sources */ = {isa = PBXBuildFile; fileRef = 844D06471CCCDE2600B17A1F /* SBJson4Writer.m */; };
 		844D76E11CDCBD3900F65E55 /* FeedOrQueryMessageHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 844D76E01CDCBD3900F65E55 /* FeedOrQueryMessageHeader.m */; };
 		84657E451CCB6A9E00DC086E /* UIColor+CommunicatorColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 84657E441CCB6A9E00DC086E /* UIColor+CommunicatorColor.m */; };
+		846ACF771D0C13B60064803E /* AppIcon80x80.png in Resources */ = {isa = PBXBuildFile; fileRef = 846ACF761D0C13B60064803E /* AppIcon80x80.png */; };
 		8472EA0D1CA6582400285776 /* Database.m in Sources */ = {isa = PBXBuildFile; fileRef = 8472EA0C1CA6582400285776 /* Database.m */; };
 		848547E91CA6AA6A00ABEFD0 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 848547E81CA6AA6A00ABEFD0 /* HomeViewController.m */; };
 		84AF76FC1D0065CE00F381B4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84AF76FB1D0065CE00F381B4 /* Assets.xcassets */; };
@@ -212,6 +213,7 @@
 		84657E441CCB6A9E00DC086E /* UIColor+CommunicatorColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+CommunicatorColor.m"; sourceTree = "<group>"; };
 		84657E481CCB7BB900DC086E /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		84657E491CCB81D900DC086E /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PrefixHeader.pch; path = ../PrefixHeader.pch; sourceTree = "<group>"; };
+		846ACF761D0C13B60064803E /* AppIcon80x80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppIcon80x80.png; sourceTree = "<group>"; };
 		8472EA0B1CA6582400285776 /* Database.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Database.h; sourceTree = "<group>"; };
 		8472EA0C1CA6582400285776 /* Database.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Database.m; sourceTree = "<group>"; };
 		848547E71CA6AA6A00ABEFD0 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
@@ -345,6 +347,7 @@
 		8441772D1CA56CCA00C850B0 /* Database */ = {
 			isa = PBXGroup;
 			children = (
+				846ACF761D0C13B60064803E /* AppIcon80x80.png */,
 				844177321CA5749E00C850B0 /* Communicator_DB.sqlite */,
 				8472EA0B1CA6582400285776 /* Database.h */,
 				8472EA0C1CA6582400285776 /* Database.m */,
@@ -527,9 +530,9 @@
 				84196BA91CD6330700F46A42 /* Unit.h */,
 				84196BAA1CD6330700F46A42 /* Unit.m */,
 				84196BA31CD6316500F46A42 /* Permission.h */,
+				84196BA41CD6316500F46A42 /* Permission.m */,
 				841B1F7F1CFF36550038378A /* CompanyRelatedFeedQueryCounter.h */,
 				841B1F801CFF36550038378A /* CompanyRelatedFeedQueryCounter.m */,
-				84196BA41CD6316500F46A42 /* Permission.m */,
 				84196BAF1CD6342C00F46A42 /* UserPermissionCompany.h */,
 				84196BB01CD6342C00F46A42 /* UserPermissionCompany.m */,
 				84196B941CD62E3B00F46A42 /* Customer.h */,
@@ -666,6 +669,7 @@
 				844623201CB3A532007CC831 /* Main.storyboard in Resources */,
 				842784E61CBB7E6C0072893C /* Settings.plist in Resources */,
 				84AF76FC1D0065CE00F381B4 /* Assets.xcassets in Resources */,
+				846ACF771D0C13B60064803E /* AppIcon80x80.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

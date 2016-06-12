@@ -12,4 +12,8 @@
 {
     AppPreferences* app;
 }
+- (IBAction)sendFeedbackButtonClicked:(id)sender;
+@property (weak, nonatomic) IBOutlet UITextField *sendFeedbackTextfield;
+@property (weak, nonatomic) IBOutlet UITableView *tableview;
+
 @end

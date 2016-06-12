@@ -161,7 +161,7 @@
 {
 //    AppPreferences* app=[AppPreferences sharedAppPreferences];
 //
-//    return feedTypeSONoArray.count;
+    return feedTypeSONoArray.count;
     return 3;
 }
 - (nullable NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -174,35 +174,36 @@
         
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
 
-    UILabel* soNoLabel=(UILabel*)[cell viewWithTag:12];
-    soNoLabel.text=@"So No";
-//        FeedOrQueryMessageHeader *headerObj1=[feedTypeSONoArray objectAtIndex:indexPath.row];
-//        NSString* soNumber= headerObj1.soNumber;
-//        NSString* feedText=headerObj1.feedText;
-//        NSLog(@"%@,,,,%@",soNumber,feedText);
-//        NSArray* separatedSO=[soNumber componentsSeparatedByString:@"#@"];
-//   
-//    
-//
-//        UILabel* soNoLabel=(UILabel*)[cell viewWithTag:12];
-//
-//        soNoLabel.text=[NSString stringWithFormat:@"SO No.%@ \nAvaya Id:%@ \nDocument Id:%@",[separatedSO objectAtIndex:0],[separatedSO objectAtIndex:1],[separatedSO objectAtIndex:2]];
-//    
-//        UILabel* feedbackLabel=(UILabel*)[cell viewWithTag:15];
-//        feedbackLabel.text=headerObj1.feedText;
-//        NSString* dateString= headerObj1.feedDate;
-//        double da=[dateString doubleValue];
-//        NSLog(@"%f",da);
-//        NSString *dd = [NSString stringWithFormat:@"%@",[NSDate dateWithTimeIntervalSince1970:da/1000.0]];
-//        NSArray *components = [dd componentsSeparatedByString:@" "];
-//        NSString *date = components[0];
-//        NSString *time = components[1];
-//        NSLog(@"%@,,,,%@",date,time);
-//    
-//        UILabel* dateAndTimeLabel=(UILabel*)[cell viewWithTag:13];
-//        NSString* dateAndTimeLabelString=[NSString stringWithFormat:@"%@\n%@",date,time];
-//        dateAndTimeLabel.text=dateAndTimeLabelString;
-//    
+   // UILabel* soNoLabel=(UILabel*)[cell viewWithTag:12];
+   // soNoLabel.text=@"So No";
+        FeedOrQueryMessageHeader *headerObj1=[feedTypeSONoArray objectAtIndex:indexPath.row];
+        NSString* soNumber= headerObj1.soNumber;
+        NSString* feedText=headerObj1.feedText;
+        NSLog(@"%@,,,,%@",soNumber,feedText);
+        NSArray* separatedSO=[soNumber componentsSeparatedByString:@"#@"];
+   
+    
+
+        UILabel* soNoLabel=(UILabel*)[cell viewWithTag:12];
+
+        soNoLabel.text=[NSString stringWithFormat:@"SO No.%@ \nAvaya Id:%@ \nDocument Id:%@",[separatedSO objectAtIndex:0],[separatedSO objectAtIndex:1],[separatedSO objectAtIndex:2]];
+    
+        UILabel* feedbackLabel=(UILabel*)[cell viewWithTag:15];
+        NSString *feedBackString =  [self stringByStrippingHTML:headerObj1.feedText];
+    feedbackLabel.text= feedBackString;
+        NSString* dateString= headerObj1.feedDate;
+        double da=[dateString doubleValue];
+        NSLog(@"%f",da);
+        NSString *dd = [NSString stringWithFormat:@"%@",[NSDate dateWithTimeIntervalSince1970:da/1000.0]];
+        NSArray *components = [dd componentsSeparatedByString:@" "];
+        NSString *date = components[0];
+        NSString *time = components[1];
+        NSLog(@"%@,,,,%@",date,time);
+    
+        UILabel* dateAndTimeLabel=(UILabel*)[cell viewWithTag:13];
+        //NSString* dateAndTimeLabelString=[NSString stringWithFormat:@"%@\n%@",date,time];
+        dateAndTimeLabel.text=headerObj1.feedDate;
+    
         return cell;
     
 }
@@ -216,19 +217,26 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    Database *db=[Database shareddatabase];
-//    UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
-//
-//    FeedOrQueryMessageHeader *headerObj1=[feedTypeSONoArray objectAtIndex:indexPath.row];
-//    int feedType=headerObj1.feedbackType;
-//    NSString* SONumber=headerObj1.soNumber;
-//    
-//    [db getDetailMessagesofFeedbackOrQuery:feedType :SONumber];
+    Database *db=[Database shareddatabase];
+    UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
+
+    FeedOrQueryMessageHeader *headerObj1=[feedTypeSONoArray objectAtIndex:indexPath.row];
+    int feedType=headerObj1.feedbackType;
+    NSString* SONumber=headerObj1.soNumber;
+    
+    [db getDetailMessagesofFeedbackOrQuery:feedType :SONumber];
     
    UIViewController * vc = [self.storyboard instantiateViewControllerWithIdentifier:@"DetailChatingViewController"];
     
    [self.navigationController pushViewController:vc animated:YES];
 
+}
+
+-(NSString *) stringByStrippingHTML:(NSString *) stringWithHtmlTags {
+    NSRange r;
+    while ((r = [stringWithHtmlTags rangeOfString:@"<[^>]+>" options:NSRegularExpressionSearch]).location != NSNotFound)
+        stringWithHtmlTags = [stringWithHtmlTags stringByReplacingCharactersInRange:r withString:@""];
+    return stringWithHtmlTags;
 }
 
 

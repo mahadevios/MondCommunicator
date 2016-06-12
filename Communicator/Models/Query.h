@@ -19,7 +19,7 @@
 @property(nonatomic)int userFrom;
 @property(nonatomic)int userTo;
 @property(nonatomic)int userQuery;
-@property(nonatomic)NSDate* dateOfQuery;
+@property(nonatomic)NSString* dateOfQuery;
 @property(nonatomic,strong)NSString* emailSubject;
 
 @end

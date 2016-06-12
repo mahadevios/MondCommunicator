@@ -48,6 +48,11 @@ UINavigationController *navigationController;
         NSString* companyName= [NSString stringWithFormat:@"%d",userObj.comanyId];
         NSLog(@"%d",userObj.comanyId);
         NSLog(@"%@",userObj.username);
+     //[[APIManager sharedManager] findCountForUsername:userObj.username andPassword:userObj.password];
+        //[[APIManager sharedManager]getLatestRecordsForUsername:userObj.username andPassword:userObj.password];
+
+        app.getFeedbackAndQueryTypesArray = [db getFeedbackAndQueryTypes];
+
         NSString* company= [db getCompanyIdFromCompanyName:companyName];//for local use to find companyname from company id
         app.companynameOrIdArray= [db findPermittedCompaniesForUsername:userObj.username Password:userObj.password];
        

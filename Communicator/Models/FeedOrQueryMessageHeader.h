@@ -13,6 +13,6 @@
 @property(nonatomic,strong)NSString* soNumber;
 @property(nonatomic)int feedbackType;
 @property(nonatomic,strong)NSString* feedText;
-@property(nonatomic,strong)NSDate* feedDate;
+@property(nonatomic,strong)NSString* feedDate;
 
 @end

@@ -88,6 +88,9 @@ NSMutableArray* webFeedTypeArray;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(validateCounter:) name:NOTIFICATION_VALIDATE_COUNTER
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(getLatestRecords:) name:NOTIFICATION_GETLATEST_RECORDS
+                                               object:nil];
 }
 
 - (void) viewWillDisappear:(BOOL)animated
@@ -96,6 +99,7 @@ NSMutableArray* webFeedTypeArray;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_VALIDATE_USER object:nil];
 }
 
+//--------Selector for NOTIFICATION_VALIDATE_USER-----//
 
 - (void)validateUserResponse:(NSNotification *)notification
 {
@@ -119,6 +123,7 @@ NSMutableArray* webFeedTypeArray;
     }
 }
 
+//--------Selector for NOTIFICATION_VALIDATE_COUNTER -----//
 
 - (void)validateCounter:(NSNotification *)notification
 {
@@ -132,6 +137,10 @@ NSMutableArray* webFeedTypeArray;
        
        app.companynameOrIdArray= [db findPermittedCompaniesForUsername:self.usenameTextField.text Password:self.passwordTextField.text];
         NSLog(@"%ld",app.companynameOrIdArray.count);
+        
+        [[APIManager sharedManager]getLatestRecordsForUsername:self.usenameTextField.text andPassword:self.passwordTextField.text];
+
+        
         
         if (app.companynameOrIdArray.count==1)
         {
@@ -152,6 +161,31 @@ NSMutableArray* webFeedTypeArray;
        }
     
 }
+
+//-------- Selector for NOTIFICATION_GETLATEST_RECORDS -----//
+
+- (void)getLatestRecords:(NSNotification *)notificationData
+{
+    if ([[notificationData.object objectForKey:@"code"] isEqualToString:SUCCESS])
+    {
+        Database *db=[Database shareddatabase];
+        [db insertLatestRecordsForFeedcom:notificationData.object];
+        AppPreferences *app=[AppPreferences sharedAppPreferences];
+        
+        NSLog(@"%@",self.usenameTextField.text);
+        
+        app.getFeedbackAndQueryTypesArray = [db getFeedbackAndQueryTypes];
+        
+        NSLog(@"%lu",(unsigned long)app.feedQueryCounterArray.count);
+        
+        
+        hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        [hud hideAnimated:YES];
+    }
+}
+
+
+
 #pragma mark-texField delegate
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -214,6 +248,10 @@ NSMutableArray* webFeedTypeArray;
                 hud.label.text = NSLocalizedString(@"Please wait...", @"HUD Loading title");
                 // Will look best, if we set a minimum size.
                 hud.minSize = CGSizeMake(150.f, 100.f);
+        
+        NSUserDefaults* defaults=[NSUserDefaults standardUserDefaults];
+        [defaults setValue:self.usenameTextField.text forKey:@"currentUser"];
+        [defaults setValue:self.passwordTextField.text forKey:@"currentPassword"];
 
         Database* db=[Database shareddatabase];
        // [db validateUserFromLocalDatabase:self.usenameTextField.text :self.passwordTextField.text];

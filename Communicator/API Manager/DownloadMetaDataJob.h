@@ -51,6 +51,9 @@
 -(id) initWithdownLoadEntityJobName:(NSString *) jobName withRequestParameter:(id) localRequestParameter withResourcePath:(NSString *) resourcePath withHttpMethd:(NSString *) httpMethodParameter;
 -(void) startMetaDataDownLoad;
 -(void)startCounterDownLoad;
+-(void)startGetLatestRecordsDownLoad;
+-(void)startSendUpdatedRecords;
+
 
 @end
 

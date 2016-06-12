@@ -21,5 +21,4 @@
 @synthesize userFrom;
 @synthesize userTo;
 @synthesize userFeedback;
-
 @end

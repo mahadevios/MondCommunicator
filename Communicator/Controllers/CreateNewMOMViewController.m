@@ -24,7 +24,6 @@
 //    self.navigationItem.title = @"New MOM";
     self.tabBarController.navigationItem.title = @"New MOM";
     self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"SignOut"] style:UIBarButtonItemStylePlain target:self action:@selector(popViewController1)] ;
-    self.tabBarController.navigationItem.title = @"Dashboard";
     [self.navigationItem setHidesBackButton:NO];
    // self.navigationController.navigationBar.barTintColor = [UIColor communicatorColor];
     self.tabBarController.navigationItem.leftBarButtonItem.tintColor=[UIColor whiteColor];

@@ -11,7 +11,7 @@
 @interface Feedback : NSObject
 
 @property(nonatomic)long feedbackId;
-@property(nonatomic,strong)NSDate* dateOfFeed;
+@property(nonatomic,strong)NSString* dateOfFeed;
 @property(nonatomic,strong)NSString* feedbackText;
 @property(nonatomic,strong)NSString* soNumber;
 @property(nonatomic)long feedbackCounter;

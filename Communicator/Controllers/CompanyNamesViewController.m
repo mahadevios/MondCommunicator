@@ -41,7 +41,7 @@
     self.tabBarController.navigationItem.title = @"Company";
     self.navigationItem.title = @"Company";
     self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"SignOut"] style:UIBarButtonItemStylePlain target:self action:@selector(popViewController1)] ;
-    self.tabBarController.navigationItem.title = @"Dashboard";
+    //self.tabBarController.navigationItem.title = @"Dashboard";
     //self.navigationController.navigationBar.barTintColor = [UIColor communicatorColor];
     self.tabBarController.navigationItem.leftBarButtonItem.tintColor=[UIColor whiteColor];
 
@@ -97,12 +97,12 @@
     NSString* companyNameString=[NSString stringWithFormat:@"%@",companyNameLabel.text];
     NSLog(@"%@",companyNameString);
 
-    
+    [[NSUserDefaults standardUserDefaults] setValue:companyNameString forKey:@"selectedCompany"];
     [db getFeedbackAndQueryCounterForCompany:companyNameString];
 
     NSLog(@"%ld",app.feedQueryCounterDictsWithTypeArray.count);
     MainTabBarViewController * vc = [self.storyboard instantiateViewControllerWithIdentifier:@"MainTabBarViewController"];
-    
+
     [self.navigationController pushViewController:vc animated:YES];
 
 

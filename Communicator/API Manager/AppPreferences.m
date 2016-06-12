@@ -18,6 +18,7 @@
 @synthesize feedTypeWithFeedCounterDict;
 @synthesize feedTypeWithQueryCounterDict;
 @synthesize feedQueryCounterDictsWithTypeArray;
+@synthesize getFeedbackAndQueryTypesArray;
 static AppPreferences *singleton = nil;
 
 // Shared method

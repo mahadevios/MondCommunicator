@@ -131,6 +131,7 @@ self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc
    // app.getFeedbackAndQueryTypesArray = [database getFeedbackAndQueryTypes];
     
     NSLog(@"%ld",app.feedQueryCounterDictsWithTypeArray.count);
+    
     for (int i=0; i<app.feedQueryCounterDictsWithTypeArray.count; i++)
     {
         
@@ -221,6 +222,8 @@ self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
    counterGraphLabel=[cell viewWithTag:111];
     referenceViewForCounterGraph=[cell viewWithTag:112];
+    counterGraphLabel.textColor = [UIColor communicatorColor];
+
 
     UILabel* feedbackAndQueryTypeLabel=(UILabel*)[cell viewWithTag:12];
     feedbackAndQueryTypeLabel.text=[feedTypeArray objectAtIndex:indexPath.row];
@@ -244,7 +247,8 @@ self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc
     
     
     
-    UILabel* countLabel=(UILabel*)[cell viewWithTag:13];
+    UILabel* countLabel=(UILabel*)[cell viewWithTag:113];
+    countLabel.text=[NSString stringWithFormat:@"%ld", counter];
     //FeedbackType* ff=[feedTypeArray objectAtIndex:indexPath.row];
     
 
@@ -252,7 +256,7 @@ self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc
    // NSLog(@"%d",feedCounterObj.feedCounter);
 
         NSLog(@"%ld",indexPath.row);
-   counterGraphLabel.text=[NSString stringWithFormat:@"%ld",counter];
+ counterGraphLabel.text=[NSString stringWithFormat:@"%ld",counter];
   float cellHeight=  [self tableView:tableView heightForRowAtIndexPath:indexPath];
 
    // [self createGraph:counter];
@@ -285,29 +289,18 @@ self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc
 
 -(void)setCounterGraphLabel:(CounterGraph*)counterGraphObj
 {
-
-    
-  /*  NSLayoutConstraint *widt =[NSLayoutConstraint
-                                   constraintWithItem:counterGraphObj.counterGraphlabel
-                                   attribute:NSLayoutAttributeWidth
-                                   relatedBy:NSLayoutRelationEqual
-                                   toItem:counterGraphObj.referenceForCounterGraphView
-                                   attribute:NSLayoutAttributeWidth
-                                   multiplier:counterGraphObj.count
-                                   constant:0.f];*/
-   
-    
+    counterGraphObj.counterGraphlabel.adjustsFontSizeToFitWidth = false;
 
     [UIView animateWithDuration:0.5
                           delay:0.001
                         options: UIViewAnimationCurveEaseOut
                      animations:^{
-[counterGraphObj.counterGraphlabel setFrame:CGRectMake(counterGraphObj.counterGraphlabel.frame.origin.x, counterGraphObj.counterGraphlabel.frame.origin.y, counterGraphObj.count * 10, counterGraphObj.counterGraphlabel.frame.size.height)];                     }
+[counterGraphObj.counterGraphlabel setFrame:CGRectMake(counterGraphObj.counterGraphlabel.frame.origin.x, counterGraphObj.counterGraphlabel.frame.origin.y, counterGraphObj.count * 10, counterGraphObj.counterGraphlabel.frame.size.height)];
+                     }
                      completion:^(BOOL finished){
-                         NSLog(@"Done!");
+//                         NSLog(@"Done!");
                      }];
     
-   // [counterGraphObj.counterGraphlabel addConstraint:widt];
 }
 
 
@@ -329,9 +322,12 @@ counterGraphLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.tableView.fra
     NSLog(@"%ld",(long)indexPath.row);
     
     
-    
+    UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
+    UILabel* feedbackTypeLabel=(UILabel*)[selectedCell viewWithTag:12];
+    NSLog(@"%@",feedbackTypeLabel.text);
+
     Database *db=[Database shareddatabase];
-    [db setDatabaseToCompressAndShowTotalQueryOrFeedback:indexPath.row];
+    [db setDatabaseToCompressAndShowTotalQueryOrFeedback:feedbackTypeLabel.text];
     
     FeedcomQuerycomViewController * vc = [self.storyboard instantiateViewControllerWithIdentifier:@"FeedcomQuerycomViewController"];
     vc.feedbackType=[feedTypeArray objectAtIndex:indexPath.row];

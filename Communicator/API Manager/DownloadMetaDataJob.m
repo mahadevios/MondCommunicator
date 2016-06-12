@@ -55,6 +55,19 @@
     //[self sendRequestWithResourcePath:downLoadResourcePath withRequestParameter:requestParameter withJobName:downLoadEntityJobName withMethodType:httpMethod];
     [self sendFindCounterRequestWithResourcePath:downLoadResourcePath withRequestParameter:requestParameter withJobName:downLoadEntityJobName withMethodType:httpMethod];
 }
+-(void)startGetLatestRecordsDownLoad
+{
+    //[self sendRequestWithResourcePath:downLoadResourcePath withRequestParameter:requestParameter withJobName:downLoadEntityJobName withMethodType:httpMethod];
+    [self sendGetLatestRecordsRequestWithResourcePath:downLoadResourcePath withRequestParameter:requestParameter withJobName:downLoadEntityJobName withMethodType:httpMethod];
+
+}
+-(void)startSendUpdatedRecords
+{
+    //[self sendRequestWithResourcePath:downLoadResourcePath withRequestParameter:requestParameter withJobName:downLoadEntityJobName withMethodType:httpMethod];
+    [self sendUpdatedRecordsRequestWithResourcePath:downLoadResourcePath withRequestParameter:requestParameter withJobName:downLoadEntityJobName withMethodType:httpMethod];
+}
+
+
 
 
 -(void) sendRequestWithResourcePath:(NSString *) resourcePath withRequestParameter:(NSDictionary *) dictionary withJobName:(NSString *)jobName withMethodType:(NSString *) httpMethodParameter
@@ -147,6 +160,74 @@
 
 }
 
+
+-(void) sendGetLatestRecordsRequestWithResourcePath:(NSString *) resourcePath withRequestParameter:(NSDictionary *) dictionary withJobName:(NSString *)jobName withMethodType:(NSString *) httpMethodParameter
+{
+    responseData = [NSMutableData data];
+    
+    NSArray *params = [self.requestParameter objectForKey:REQUEST_PARAMETER];
+    
+    NSMutableString *parameter = [[NSMutableString alloc] init];
+    for(NSString *strng in params)
+    {
+        if([[params objectAtIndex:0] isEqualToString:strng]) {
+            [parameter appendFormat:@"%@", strng];
+        } else {
+            [parameter appendFormat:@"&%@", strng];
+        }
+    }
+    
+    NSString *webservicePath = [NSString stringWithFormat:@"%@/%@?%@",BASE_URL_PATH,resourcePath,parameter];
+    NSURL *url = [[NSURL alloc] initWithString:[webservicePath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:120];
+    [request setHTTPMethod:httpMethodParameter];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    
+    NSURLConnection *urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    NSLog(@"%@",urlConnection);
+    
+    
+}
+
+
+
+
+-(void) sendUpdatedRecordsRequestWithResourcePath:(NSString *) resourcePath withRequestParameter:(NSDictionary *) dictionary withJobName:(NSString *)jobName withMethodType:(NSString *) httpMethodParameter
+{
+    responseData = [NSMutableData data];
+    
+    NSArray *params = [self.requestParameter objectForKey:REQUEST_PARAMETER];
+    
+    NSMutableString *parameter = [[NSMutableString alloc] init];
+    for(NSString *strng in params)
+    {
+        if([[params objectAtIndex:0] isEqualToString:strng]) {
+            [parameter appendFormat:@"%@", strng];
+        } else {
+            [parameter appendFormat:@"&%@", strng];
+        }
+    }
+    
+    NSString *webservicePath = [NSString stringWithFormat:@"%@/%@?%@",BASE_URL_PATH,resourcePath,parameter];
+    NSURL *url = [[NSURL alloc] initWithString:[webservicePath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:120];
+    [request setHTTPMethod:httpMethodParameter];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    
+    NSURLConnection *urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    NSLog(@"%@",urlConnection);
+    
+    
+}
+
+
+
 /*================================================================================================================================================*/
 
 #pragma mark -
@@ -208,6 +289,16 @@
         [[AppPreferences sharedAppPreferences] showAlertViewWithTitle:@"Error" withMessage:[self shortErrorFromError:error] withCancelText:nil withOkText:@"Ok" withAlertTag:1000];
         
     }
+    
+    if ([self.downLoadEntityJobName isEqualToString:GET_LATEST_RECORDS])
+    {
+        //        AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
+        //        [appDelegate hideIndefiniteProgressView];
+        
+        [[AppPreferences sharedAppPreferences] showAlertViewWithTitle:@"Error" withMessage:[self shortErrorFromError:error] withCancelText:nil withOkText:@"Ok" withAlertTag:1000];
+        
+    }
+
 
 }
 
@@ -224,24 +315,24 @@
     //NSLog(@"Job Name = %@ Response %@",self.downLoadEntityJobName,response);
     //NSLog(@"%@",response);
     
-    if ([self.downLoadEntityJobName isEqualToString:USER_LOGIN_API])
-    {
-        if (response != nil)
-        {
-            if ([[response objectForKey:@"code"] isEqualToString:SUCCESS])
-            {
-                [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_VALIDATE_USER object:response];
-                
-                
-            }else
-            {
-                [[AppPreferences sharedAppPreferences] showAlertViewWithTitle:@"Error" withMessage:@"username or password is incorrect, please try again" withCancelText:nil withOkText:@"OK" withAlertTag:1000];
-            }
-        }else
-        {
-            [[AppPreferences sharedAppPreferences] showAlertViewWithTitle:@"Error" withMessage:@"please try again" withCancelText:nil withOkText:@"OK" withAlertTag:1000];
-        }
-    }
+//    if ([self.downLoadEntityJobName isEqualToString:USER_LOGIN_API])
+//    {
+//        if (response != nil)
+//        {
+//            if ([[response objectForKey:@"code"] isEqualToString:SUCCESS])
+//            {
+//                [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_VALIDATE_USER object:response];
+//                
+//                
+//            }else
+//            {
+//                [[AppPreferences sharedAppPreferences] showAlertViewWithTitle:@"Error" withMessage:@"username or password is incorrect, please try again" withCancelText:nil withOkText:@"OK" withAlertTag:1000];
+//            }
+//        }else
+//        {
+//            [[AppPreferences sharedAppPreferences] showAlertViewWithTitle:@"Error" withMessage:@"please try again" withCancelText:nil withOkText:@"OK" withAlertTag:1000];
+//        }
+//    }
  
     
     
@@ -290,6 +381,30 @@
             [[AppPreferences sharedAppPreferences] showAlertViewWithTitle:@"Error" withMessage:@"please try again" withCancelText:nil withOkText:@"OK" withAlertTag:1000];
         }
     }
+    
+    
+    if ([self.downLoadEntityJobName isEqualToString:GET_LATEST_RECORDS])
+    {
+        
+        if (response != nil)
+        {
+            
+            if ([[response objectForKey:@"code"] isEqualToString:SUCCESS])
+            {
+                [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_GETLATEST_RECORDS object:response];
+                
+                
+            }else
+            {
+                [[AppPreferences sharedAppPreferences] showAlertViewWithTitle:@"Error" withMessage:@"username or password is incorrect, please try again" withCancelText:nil withOkText:@"OK" withAlertTag:1000];
+            }
+        }else
+        {
+            [[AppPreferences sharedAppPreferences] showAlertViewWithTitle:@"Error" withMessage:@"please try again" withCancelText:nil withOkText:@"OK" withAlertTag:1000];
+        }
+    }
+    
+
 
 
 }
