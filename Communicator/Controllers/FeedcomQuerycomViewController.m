@@ -9,6 +9,7 @@
 #import "FeedcomQuerycomViewController.h"
 #import "FeedOrQueryMessageHeader.h"
 #import "HomeViewController.h"
+#import "CreateNewFeedbackViewController.h"
 @interface FeedcomQuerycomViewController ()
 
 @property (strong, nonatomic) UISearchController *searchController;
@@ -23,6 +24,7 @@
 @synthesize searchController;
 @synthesize feedTypeSONoArray;
 @synthesize feedTypeSONoCopyForPredicate;
+@synthesize cerateNewFeedbackOrQueryButton;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -53,6 +55,36 @@
     
     self.definesPresentationContext = YES;
 
+    NSLog(@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"flag"]);
+    Database *db=[Database shareddatabase];
+    NSString* username = [[NSUserDefaults standardUserDefaults] valueForKey:@"currentUser"];
+    NSString* companyId=[db getCompanyId:username];
+    //NSString* userFeedback=[db getUserIdFromUserName:username];
+    //NSMutableArray* feedidCounterAndFeedbackTypeArray=[db getFeedTypeIdAndMaxCounter:self.feedbackType];
+    
+    // NSString* selectedCompany = [[NSUserDefaults standardUserDefaults]valueForKey:@"selectedCompany"];
+    if ([companyId isEqual:@"1"] && [[[NSUserDefaults standardUserDefaults] valueForKey:@"flag"] isEqual:@"0"])
+    {
+        
+        [cerateNewFeedbackOrQueryButton setHidden:YES];
+        //username=[db getUserNameFromCompanyname:[[NSUserDefaults standardUserDefaults]valueForKey:@"selectedCompany"]];
+        //userTo=[db getUserIdFromUserNameWithRoll1:username];
+        
+    }
+    else
+    {
+    if (!([companyId isEqual:@"1"]) && [[[NSUserDefaults standardUserDefaults] valueForKey:@"flag"] isEqual:@"1"])
+    {
+        
+        [cerateNewFeedbackOrQueryButton setHidden:YES];
+        //username=[db getUserNameFromCompanyname:[[NSUserDefaults standardUserDefaults]valueForKey:@"selectedCompany"]];
+        //userTo=[db getUserIdFromUserNameWithRoll1:username];
+        
+    }
+    
+        else
+            [cerateNewFeedbackOrQueryButton setHidden:NO];
+    }
    // [self addObserver:searchResults forKeyPath:@"results" options:NSKeyValueObservingOptionNew context:nil];
 
 }
@@ -66,6 +98,8 @@
         NSLog(@"%@",[arr objectAtIndex:i]);
         
     }
+    NSLog(@"%@",self.feedbackType);
+
 //    self.tabBarController.navigationItem.hidesBackButton=NO;
     self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"BackArrow"] style:UIBarButtonItemStylePlain target:self action:@selector(popViewController)] ;
     
@@ -74,10 +108,7 @@
 
    //self.navigationController.navigationItem.backBarButtonItem.image = [UIImage imageNamed:@"BackArrow"];
     self.tabBarController.navigationItem.title = @"FeedCom";
-  //  self.tabBarController.navigationItem.backBarButtonItem=[UIImage imageNamed:@""];
-   //UIBarButtonItem *newBackButton =[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"BackArrow"] style:UIBarButtonItemStylePlain target:NULL action:NULL];
-   // [self.tabBarController.navigationItem setBackBarButtonItem:newBackButton];
-    //self.navigationItem.leftBarButtonItem.image=[UIImage imageNamed:@"BackArrow"];
+  
     arrayOfSeperatedSOArray=[[NSMutableArray alloc]init];
     AppPreferences* app=[AppPreferences sharedAppPreferences];
     feedTypeSONoArray=[[NSMutableArray alloc]init];
@@ -89,8 +120,9 @@
         NSString* soNumber= headerObj.soNumber;
         NSString* feedText=headerObj.feedText;
         NSString* feeddate=headerObj.feedDate;
-        NSLog(@"%@,,,,%@,,,,,,%@",soNumber,feedText,feeddate);
-         NSArray* separatedSO=[soNumber componentsSeparatedByString:@"#@"];
+        NSLog(@"%@,,,,%@,,,,,,%d",soNumber,feedText,headerObj.feedbackType);
+        
+        // NSArray* separatedSO=[soNumber componentsSeparatedByString:@"#@"];
         
         [feedTypeSONoArray addObject:headerObj];
         [feedTypeSONoCopyForPredicate addObject:headerObj];
@@ -162,7 +194,7 @@
 //    AppPreferences* app=[AppPreferences sharedAppPreferences];
 //
     return feedTypeSONoArray.count;
-    return 3;
+    //return 3;
 }
 - (nullable NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
@@ -182,7 +214,6 @@
         NSLog(@"%@,,,,%@",soNumber,feedText);
         NSArray* separatedSO=[soNumber componentsSeparatedByString:@"#@"];
    
-    
 
         UILabel* soNoLabel=(UILabel*)[cell viewWithTag:12];
 
@@ -232,7 +263,8 @@
 
 }
 
--(NSString *) stringByStrippingHTML:(NSString *) stringWithHtmlTags {
+-(NSString *) stringByStrippingHTML:(NSString *) stringWithHtmlTags
+{
     NSRange r;
     while ((r = [stringWithHtmlTags rangeOfString:@"<[^>]+>" options:NSRegularExpressionSearch]).location != NSNotFound)
         stringWithHtmlTags = [stringWithHtmlTags stringByReplacingCharactersInRange:r withString:@""];
@@ -259,8 +291,10 @@
 //}
 - (IBAction)buttonClicked:(id)sender
 {
-    UIViewController * vc = [self.storyboard instantiateViewControllerWithIdentifier:@"CreateNewFeedbackNavigationController"];
-    
+    UINavigationController * vc = [self.storyboard instantiateViewControllerWithIdentifier:@"CreateNewFeedbackNavigationController"];
+ NSArray* arr=   vc.childViewControllers;
+ CreateNewFeedbackViewController* vcc=   [arr objectAtIndex:0];
+    vcc.feedbackType=self.feedbackType;
     //[self.navigationController pushViewController:vc animated:YES];
     [self.navigationController presentViewController:vc animated:YES completion:nil];
     

@@ -8,7 +8,10 @@
 
 #import "CompanyNamesViewController.h"
 #import "MainTabBarViewController.h"
+#import "HomeViewController.h"
 #import "Database.h"
+#import "ReportAndDocsViewController.h"
+#import "MainMOMViewController.h"
 @interface CompanyNamesViewController ()
 
 @end
@@ -33,6 +36,8 @@
     [navController presentViewController:vc animated:YES completion:nil];
     NSUserDefaults* defaults=[NSUserDefaults standardUserDefaults];
     [defaults setObject:NULL forKey:@"userObject"];
+    [defaults setObject:NULL forKey:@"selectedCompany"];
+
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -41,6 +46,8 @@
     self.tabBarController.navigationItem.title = @"Company";
     self.navigationItem.title = @"Company";
     self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"SignOut"] style:UIBarButtonItemStylePlain target:self action:@selector(popViewController1)] ;
+    self.tabBarController.navigationItem.rightBarButtonItem=nil;
+
     //self.tabBarController.navigationItem.title = @"Dashboard";
     //self.navigationController.navigationBar.barTintColor = [UIColor communicatorColor];
     self.tabBarController.navigationItem.leftBarButtonItem.tintColor=[UIColor whiteColor];
@@ -99,12 +106,29 @@
 
     [[NSUserDefaults standardUserDefaults] setValue:companyNameString forKey:@"selectedCompany"];
     [db getFeedbackAndQueryCounterForCompany:companyNameString];
-
     NSLog(@"%ld",app.feedQueryCounterDictsWithTypeArray.count);
+    
     MainTabBarViewController * vc = [self.storyboard instantiateViewControllerWithIdentifier:@"MainTabBarViewController"];
+    HomeViewController * vc1 = [self.storyboard instantiateViewControllerWithIdentifier:@"HomeViewController"];
+    MainMOMViewController * vc2 = [self.storyboard instantiateViewControllerWithIdentifier:@"MainMOMViewController"];
 
+    if (self.tabBarController.selectedViewController==self)
+    {
+        NSLog(@"true");
+        //[vc setSelectedIndex:0];
+//        [db getFeedbackAndQueryCounterForCompany:companyNameString];
+//
+                [vc1 feedbackAndQuerySearch];
+       // [vc2.tableView reloadData];
+        //vc1.tableView=nil;
+        self.tabBarController.selectedIndex = 0;
+//[db getFeedbackAndQueryCounterForCompany:companyNameString];
+        //[self presentViewController:vc animated:YES completion:nil];
+        
+    }
+     // [self presentViewController:vc animated:YES completion:nil];
+    else
     [self.navigationController pushViewController:vc animated:YES];
-
 
 
 }

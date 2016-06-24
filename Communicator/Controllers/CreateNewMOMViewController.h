@@ -10,4 +10,10 @@
 
 @interface CreateNewMOMViewController : UIViewController
 
+- (IBAction)sendNewMom:(id)sender;
+
+@property (weak, nonatomic) IBOutlet UITextField *subjectTextField;
+@property (weak, nonatomic) IBOutlet UITextField *dateTextField;
+@property (weak, nonatomic) IBOutlet UITextView *attendiesTextview;
+@property (weak, nonatomic) IBOutlet UITextView *keyPointstextView;
 @end

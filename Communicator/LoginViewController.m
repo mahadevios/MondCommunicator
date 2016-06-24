@@ -89,7 +89,7 @@ NSMutableArray* webFeedTypeArray;
                                              selector:@selector(validateCounter:) name:NOTIFICATION_VALIDATE_COUNTER
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(getLatestRecords:) name:NOTIFICATION_GETLATEST_RECORDS
+                                             selector:@selector(getLatestRecords:) name:NOTIFICATION_GETLATEST_FEEDCOM
                                                object:nil];
 }
 
@@ -147,6 +147,7 @@ NSMutableArray* webFeedTypeArray;
             NSLog(@"%@",[app.companynameOrIdArray objectAtIndex:0]);
             Database* db=[Database shareddatabase];
             NSString* companyName= [NSString stringWithFormat:@"%@",[app.companynameOrIdArray objectAtIndex:0]];
+        
             [db getFeedbackAndQueryCounterForCompany:companyName];
 
             [self pushToHomeView];

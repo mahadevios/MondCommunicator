@@ -21,4 +21,7 @@
 @synthesize feedbackType;
 @synthesize dateOfQuery;
 @synthesize emailSubject;
+@synthesize operatorId;
+@synthesize userFeedback;
+@synthesize attachment;
 @end

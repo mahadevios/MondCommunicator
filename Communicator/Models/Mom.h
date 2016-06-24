@@ -16,7 +16,8 @@
 @property(nonatomic,strong)NSString* attendee;
 @property(nonatomic,strong)NSString* keyPoints;
 @property(nonatomic,strong)NSString* subject;
-@property(nonatomic,strong)NSDate* momDate;
-
+@property(nonatomic,strong)NSString* momDate;
+@property(nonatomic,strong)NSString* dateTime;
+@property(nonatomic)int userfeedback;
 
 @end

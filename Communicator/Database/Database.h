@@ -47,12 +47,27 @@
 -(User*)getUserUsername:(NSString*)username andPassword:(NSString*)pass;
 -(NSString*)getCompanyIdFromCompanyName:(NSString*)CompanyId;
 -(void)insertLatestRecordsForFeedcom:(NSDictionary*)dic;
+-(void)insertLatestRecordsForMOM:(NSDictionary*)dic;
 -(NSString*)getUserNameFromCompanyname:(NSString*)username;
 -(NSString*)getCompanyId:(NSString*)username;
 -(NSString*)getUserIdFromUserNameWithRoll1:(NSString*)username;
 -(NSString*)getUserIdFromUserName:(NSString*)username;
--(NSMutableArray*)getMaxFeedIdAndCounter:(NSString*)soNumber;
+-(NSString*)getUserNameFromUserId:(int)userId;
+-(NSMutableArray*)getMaxFeedIdAndCounter:(NSString*)soNumber :(int)feedtype;
+-(NSMutableArray*)getFeedTypeIdAndMaxCounter:(NSString*)feedbackType;
+-(long)getFeedbackCounterFromSONumberAndFeedbackType:(NSString*)sonumber :(int)feedtype;
+-(void)insertUpdatedRecordsForFeedcom:(NSDictionary*)recordDict;
+-(void)insertUpdatedRecordsForQueryCom:(NSDictionary*)recordDict;
+-(void)insertNewFeedback:(NSDictionary*)responseDict;
+-(void)insertNewQuery:(NSDictionary*)responseDict;
+
+-(void)insertReportData:(NSDictionary *)notificationData;
+-(void)insertDocumentsData:(NSDictionary *)notificationData;
+
 -(void)insertUserReply:(Feedback*)feedObj;
+-(void)setMOMView;
+-(void)setReportView;
+-(void)setDocumentView;
 //-(NSMutableArray*)uniqueUserIdArray;
 
 @end

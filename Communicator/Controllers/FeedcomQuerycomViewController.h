@@ -27,6 +27,7 @@
 @property (strong, nonatomic) NSArray *results;
 
 @property (strong, nonatomic) NSString *feedbackType;
+@property (weak, nonatomic) IBOutlet UIButton *cerateNewFeedbackOrQueryButton;
 
 - (IBAction)buttonClicked:(id)sender;
 -(void)popViewController;

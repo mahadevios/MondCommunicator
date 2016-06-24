@@ -13,7 +13,14 @@
     NSMutableArray* arrayForBool;
     NSArray* sectionTitleArray;
     UIView *sectionView;
-
+    NSMutableArray * fileNameUserArray;
+    NSMutableData* responseData;
+    int statusCode;
 }
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIButton *reportButton;
+@property (weak, nonatomic) IBOutlet UIButton *documentButton;
+@property (weak, nonatomic) IBOutlet UIView *reportButtonUnderlineView;
+@property (weak, nonatomic) IBOutlet UIView *documentButtonUnderlineView;
+- (IBAction)buttonClicked:(id)sender;
 @end

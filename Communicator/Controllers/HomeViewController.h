@@ -47,6 +47,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *feedComButton;
 
 @property (weak, nonatomic) IBOutlet UIButton *queryComButton;
+-(void)feedbackAndQuerySearch;
 
 - (IBAction)buttonClicked:(id)sender;
 -(void)setSelectedButton:(id)sender;

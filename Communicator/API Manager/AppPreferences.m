@@ -19,6 +19,11 @@
 @synthesize feedTypeWithQueryCounterDict;
 @synthesize feedQueryCounterDictsWithTypeArray;
 @synthesize getFeedbackAndQueryTypesArray;
+@synthesize sampleFeedtypeArray;
+@synthesize samplefeedTypeCopyForPredicate;
+@synthesize allMomArray;
+@synthesize reportFileNamesDict;
+@synthesize imageFilesArray;
 static AppPreferences *singleton = nil;
 
 // Shared method

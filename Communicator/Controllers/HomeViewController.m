@@ -38,6 +38,7 @@
 @synthesize feedcomButtonUndelineView;
 @synthesize querycomButtonUnderlineView;
 @synthesize referenceViewForCounterGraph;
+@synthesize tableView;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -50,26 +51,23 @@
     
     Database *db=[Database shareddatabase];
         labelArray=[[NSMutableArray alloc]init];
-//
-//    if ([[NSUserDefaults standardUserDefaults]boolForKey:@"logout"])
-//    {
-//        [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"logout"];
-//    }    // Override point for customization after application launch.
-//    
+
    }
 -(void)viewWillAppear:(BOOL)animated
 {
    //labelArray=[[NSMutableArray alloc]init];
-
     AppPreferences* app=[AppPreferences sharedAppPreferences];
-self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"SignOut"] style:UIBarButtonItemStylePlain target:self action:@selector(popViewController1)] ;
+  self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"SignOut"] style:UIBarButtonItemStylePlain target:self action:@selector(popViewController1)] ;
     self.tabBarController.navigationItem.title = @"Dashboard";
     [self.navigationItem setHidesBackButton:NO];
     self.navigationController.navigationBar.barTintColor = [UIColor communicatorColor];
     self.tabBarController.navigationItem.leftBarButtonItem.tintColor=[UIColor whiteColor];
+    self.tabBarController.navigationItem.rightBarButtonItem=nil;
+   
 
+    [tableView reloadData];
 
-  }
+}
 
 -(void)setSelectedSegment
 {
@@ -85,6 +83,8 @@ self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc
     [navController presentViewController:vc animated:YES completion:nil];
     NSUserDefaults* defaults=[NSUserDefaults standardUserDefaults];
     [defaults setObject:NULL forKey:@"userObject"];
+    [defaults setObject:NULL forKey:@"selectedCompany"];
+
 }
 
 
@@ -116,7 +116,6 @@ self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc
 //    }     // Do any additional setup after loading the view.
 }
 
-
 #pragma marks-feedbackOrQuerySearch
 
 
@@ -124,13 +123,12 @@ self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc
 {
     AppPreferences* app=[AppPreferences sharedAppPreferences];
     feedTypeArray=[[NSMutableArray alloc]init];
-    feedTypeCopyForPredicate=[[NSMutableArray alloc]init];
+    app.sampleFeedtypeArray=[[NSMutableArray alloc]init];
+
+    app.samplefeedTypeCopyForPredicate=[[NSMutableArray alloc]init];
     
     FeedQueryCounter *ft2=[[FeedQueryCounter alloc]init];
-  //  Database *database=[Database shareddatabase];
-   // app.getFeedbackAndQueryTypesArray = [database getFeedbackAndQueryTypes];
-    
-    NSLog(@"%ld",app.feedQueryCounterDictsWithTypeArray.count);
+     NSLog(@"%ld",app.feedQueryCounterDictsWithTypeArray.count);
     
     for (int i=0; i<app.feedQueryCounterDictsWithTypeArray.count; i++)
     {
@@ -138,17 +136,12 @@ self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc
         ft2= [app.feedQueryCounterDictsWithTypeArray objectAtIndex:i];
         NSLog(@"%@",ft2.feedbackType);
         
-        [feedTypeArray insertObject:ft2.feedbackType atIndex:i];
+        [app.sampleFeedtypeArray insertObject:ft2.feedbackType atIndex:i];
         
-        [feedTypeCopyForPredicate insertObject:ft2.feedbackType atIndex:i];
-        //        FeedbackType *ft2=[getFeedbackAndQueryTypesArray objectAtIndex:i];
-        //
-        //        [feedTypeArray insertObject:ft2.feedbacktype atIndex:ft2.Id];
-        //       [feedTypeCopyForPredicate insertObject:ft1.feedbacktype atIndex:ft2.Id];
-        
+        [app.samplefeedTypeCopyForPredicate insertObject:ft2.feedbackType atIndex:i];
+      
     }
     
-    //    searchResults = (HomeViewController *)self.searchController;
     searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
     searchController.searchResultsUpdater = self;
     searchController.searchBar.delegate = self;
@@ -156,9 +149,6 @@ self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc
     self.definesPresentationContext = YES;
     self.searchController.obscuresBackgroundDuringPresentation = NO;
     self.searchController.hidesNavigationBarDuringPresentation=NO;     // default is YES
-    
-    //[self addObserver:searchResults forKeyPath:@"feedTypeArray" options:NSKeyValueObservingOptionNew context:nil];
-    //[self addObserver:self forKeyPath:@"selectedIndexPath" options:NSKeyValueObservingOptionNew context:NULL];
     
 }
 
@@ -174,22 +164,22 @@ self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc
     {
         FeedQueryCounter *ft2=[[FeedQueryCounter alloc]init];
         int i;
-        feedTypeArray=[[NSMutableArray alloc]init];
+        app.sampleFeedtypeArray=[[NSMutableArray alloc]init];
         for (i=0; i<app.feedQueryCounterDictsWithTypeArray.count; i++)
         {
             ft2= [app.feedQueryCounterDictsWithTypeArray objectAtIndex:i];
             NSLog(@"%@",ft2.feedbackType);
-            [feedTypeArray insertObject:ft2.feedbackType atIndex:i];
+            [app.sampleFeedtypeArray insertObject:ft2.feedbackType atIndex:i];
 
             [self.tableView reloadData];
         }
     }
     else
     {
-        feedTypeArray=[[NSMutableArray alloc]init];
+        app.sampleFeedtypeArray=[[NSMutableArray alloc]init];
         predicateResultArray=[[NSMutableArray alloc]init];
-        predicateResultArray =[feedTypeCopyForPredicate filteredArrayUsingPredicate:predicate];
-        feedTypeArray=[predicateResultArray mutableCopy];
+        predicateResultArray =[app.samplefeedTypeCopyForPredicate filteredArrayUsingPredicate:predicate];
+        app.sampleFeedtypeArray=[predicateResultArray mutableCopy];
         [self.tableView reloadData];
     }
 }
@@ -198,14 +188,15 @@ self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    //[self feedbackAndQuerySearch];
+   return 1;
 }
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    //AppPreferences* app=[AppPreferences sharedAppPreferences];
-   return feedTypeArray.count;
+    AppPreferences *app=[AppPreferences sharedAppPreferences];
+      return app.sampleFeedtypeArray.count;
 }
 //- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 //{
@@ -217,7 +208,7 @@ self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc
 //}
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    AppPreferences *apppreferences=[AppPreferences sharedAppPreferences];
+    AppPreferences *app=[AppPreferences sharedAppPreferences];
    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
    counterGraphLabel=[cell viewWithTag:111];
@@ -226,9 +217,9 @@ self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc
 
 
     UILabel* feedbackAndQueryTypeLabel=(UILabel*)[cell viewWithTag:12];
-    feedbackAndQueryTypeLabel.text=[feedTypeArray objectAtIndex:indexPath.row];
+    feedbackAndQueryTypeLabel.text=[app.sampleFeedtypeArray objectAtIndex:indexPath.row];
     
-    FeedQueryCounter* feedCounterObj = [apppreferences.feedQueryCounterDictsWithTypeArray objectAtIndex:indexPath.row];
+    FeedQueryCounter* feedCounterObj = [app.feedQueryCounterDictsWithTypeArray objectAtIndex:indexPath.row];
 
    
     NSUserDefaults* defaults=[NSUserDefaults standardUserDefaults];
@@ -320,7 +311,7 @@ counterGraphLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.tableView.fra
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"%ld",(long)indexPath.row);
-    
+    AppPreferences *app=[AppPreferences sharedAppPreferences];
     
     UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
     UILabel* feedbackTypeLabel=(UILabel*)[selectedCell viewWithTag:12];
@@ -330,9 +321,9 @@ counterGraphLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.tableView.fra
     [db setDatabaseToCompressAndShowTotalQueryOrFeedback:feedbackTypeLabel.text];
     
     FeedcomQuerycomViewController * vc = [self.storyboard instantiateViewControllerWithIdentifier:@"FeedcomQuerycomViewController"];
-    vc.feedbackType=[feedTypeArray objectAtIndex:indexPath.row];
+    vc.feedbackType=[app.sampleFeedtypeArray objectAtIndex:indexPath.row];
     //NSLog(@"%lu",(unsigned long)app.feedQueryMessageHeaderArray.count);
-    
+//    NSLog(@"%@",vc.feedbackType);
   [self.navigationController pushViewController:vc animated:YES];
     //self.selectedIndexPath=indexPath;
 }

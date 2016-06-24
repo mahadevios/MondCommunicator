@@ -21,5 +21,16 @@
 -(void) findCountForUsername:(NSString*)username andPassword:(NSString*)password;
 -(void) getLatestRecordsForUsername:(NSString*)username andPassword:(NSString*)password;
 -(void) sendUpdatedRecords:(NSString*)flag Dict:(NSDictionary*)feedcomDict username:(NSString*)username password:(NSString*)password;
+-(void) sendNewFeedback:(NSString*)flag Dict:(NSDictionary*)feedcomDict username:(NSString*)username password:(NSString*)password;
+-(void) sendNewMOM:(NSString*)flag Dict:(NSDictionary*)feedcomDict username:(NSString*)username password:(NSString*)password;
+
 -(void) uploadFile:(NSString*)fileName andFileString:(NSString*)fileString;
+-(void) getLatestMOMForUsername:(NSString*)usernameString andPassword:(NSString*)passwordString;
+-(void) get50ReoprtForUsername:(NSString*)usernameString andPassword:(NSString*)passwordString;
+-(void) get50DocumentsForUsername:(NSString*)usernameString andPassword:(NSString*)passwordString;
+
+-(void)getFile;
+
+-(NSDate*) getDate;
+
 @end

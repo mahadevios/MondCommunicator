@@ -17,5 +17,7 @@
 @synthesize keyPoints;
 @synthesize subject;
 @synthesize momDate;
+@synthesize dateTime;
+@synthesize userfeedback;
 
 @end

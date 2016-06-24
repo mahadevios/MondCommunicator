@@ -37,11 +37,13 @@
 		842BF6581CF467CE00613E29 /* ReportAndDocsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 842BF6571CF467CE00613E29 /* ReportAndDocsViewController.m */; };
 		8432AD901CE467550011EF29 /* CompanyNamesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8432AD8F1CE467550011EF29 /* CompanyNamesViewController.m */; };
 		8434F0BA1CFDB341003C56D7 /* CompanyFeedbackTypeAssociation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8434F0B91CFDB341003C56D7 /* CompanyFeedbackTypeAssociation.m */; };
+		8438BE021D0E9A030003F3C4 /* MainMOMViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8438BE011D0E9A030003F3C4 /* MainMOMViewController.m */; };
 		844177301CA56D7900C850B0 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8441772F1CA56D7900C850B0 /* libsqlite3.tbd */; };
 		844177331CA5749E00C850B0 /* Communicator_DB.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 844177321CA5749E00C850B0 /* Communicator_DB.sqlite */; };
 		8446231A1CB398B6007CC831 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 844623191CB398B6007CC831 /* SWRevealViewController.m */; };
 		8446231D1CB3A0BD007CC831 /* SWMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8446231C1CB3A0BD007CC831 /* SWMenuViewController.m */; };
 		844623201CB3A532007CC831 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8446231E1CB3A532007CC831 /* Main.storyboard */; };
+		8448D65B1D119EA300B01560 /* MOMDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8448D65A1D119EA300B01560 /* MOMDetailTableViewController.m */; };
 		844B754C1D0454CF00052698 /* CounterGraph.m in Sources */ = {isa = PBXBuildFile; fileRef = 844B754B1D0454CF00052698 /* CounterGraph.m */; };
 		844C513B1CA123E3001B4591 /* CALayer+BorderColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 844C513A1CA123E3001B4591 /* CALayer+BorderColor.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		844C89611CB0F9AB00AA0B52 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 844C89551CB0F9AB00AA0B52 /* MBProgressHUD.m */; };
@@ -62,8 +64,10 @@
 		844D064D1CCCDE2600B17A1F /* SBJson4StreamWriterState.m in Sources */ = {isa = PBXBuildFile; fileRef = 844D06451CCCDE2600B17A1F /* SBJson4StreamWriterState.m */; };
 		844D064E1CCCDE2600B17A1F /* SBJson4Writer.m in Sources */ = {isa = PBXBuildFile; fileRef = 844D06471CCCDE2600B17A1F /* SBJson4Writer.m */; };
 		844D76E11CDCBD3900F65E55 /* FeedOrQueryMessageHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 844D76E01CDCBD3900F65E55 /* FeedOrQueryMessageHeader.m */; };
+		845B54351D192E0D009DEDCF /* UploadFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 845B54341D192E0D009DEDCF /* UploadFileViewController.m */; };
 		84657E451CCB6A9E00DC086E /* UIColor+CommunicatorColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 84657E441CCB6A9E00DC086E /* UIColor+CommunicatorColor.m */; };
 		846ACF771D0C13B60064803E /* AppIcon80x80.png in Resources */ = {isa = PBXBuildFile; fileRef = 846ACF761D0C13B60064803E /* AppIcon80x80.png */; };
+		847175441D12DE08000746FD /* Report.m in Sources */ = {isa = PBXBuildFile; fileRef = 847175431D12DE08000746FD /* Report.m */; };
 		8472EA0D1CA6582400285776 /* Database.m in Sources */ = {isa = PBXBuildFile; fileRef = 8472EA0C1CA6582400285776 /* Database.m */; };
 		848547E91CA6AA6A00ABEFD0 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 848547E81CA6AA6A00ABEFD0 /* HomeViewController.m */; };
 		84AF76FC1D0065CE00F381B4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84AF76FB1D0065CE00F381B4 /* Assets.xcassets */; };
@@ -161,6 +165,8 @@
 		8432AD8F1CE467550011EF29 /* CompanyNamesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompanyNamesViewController.m; sourceTree = "<group>"; };
 		8434F0B81CFDB341003C56D7 /* CompanyFeedbackTypeAssociation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompanyFeedbackTypeAssociation.h; sourceTree = "<group>"; };
 		8434F0B91CFDB341003C56D7 /* CompanyFeedbackTypeAssociation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompanyFeedbackTypeAssociation.m; sourceTree = "<group>"; };
+		8438BE001D0E9A030003F3C4 /* MainMOMViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMOMViewController.h; sourceTree = "<group>"; };
+		8438BE011D0E9A030003F3C4 /* MainMOMViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMOMViewController.m; sourceTree = "<group>"; };
 		8441772F1CA56D7900C850B0 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		844177321CA5749E00C850B0 /* Communicator_DB.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = Communicator_DB.sqlite; sourceTree = "<group>"; };
 		844623181CB398B6007CC831 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
@@ -168,6 +174,8 @@
 		8446231B1CB3A0BD007CC831 /* SWMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWMenuViewController.h; sourceTree = "<group>"; };
 		8446231C1CB3A0BD007CC831 /* SWMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWMenuViewController.m; sourceTree = "<group>"; };
 		8446231F1CB3A532007CC831 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8448D6591D119EA300B01560 /* MOMDetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOMDetailTableViewController.h; sourceTree = "<group>"; };
+		8448D65A1D119EA300B01560 /* MOMDetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOMDetailTableViewController.m; sourceTree = "<group>"; };
 		844B754A1D0454CF00052698 /* CounterGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CounterGraph.h; sourceTree = "<group>"; };
 		844B754B1D0454CF00052698 /* CounterGraph.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CounterGraph.m; sourceTree = "<group>"; };
 		844C51391CA123E2001B4591 /* CALayer+BorderColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CALayer+BorderColor.h"; path = "../CALayer+BorderColor.h"; sourceTree = "<group>"; };
@@ -209,11 +217,15 @@
 		844D06471CCCDE2600B17A1F /* SBJson4Writer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJson4Writer.m; sourceTree = "<group>"; };
 		844D76DF1CDCBD3900F65E55 /* FeedOrQueryMessageHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedOrQueryMessageHeader.h; sourceTree = "<group>"; };
 		844D76E01CDCBD3900F65E55 /* FeedOrQueryMessageHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedOrQueryMessageHeader.m; sourceTree = "<group>"; };
+		845B54331D192E0D009DEDCF /* UploadFileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadFileViewController.h; sourceTree = "<group>"; };
+		845B54341D192E0D009DEDCF /* UploadFileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadFileViewController.m; sourceTree = "<group>"; };
 		84657E431CCB6A9E00DC086E /* UIColor+CommunicatorColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+CommunicatorColor.h"; sourceTree = "<group>"; };
 		84657E441CCB6A9E00DC086E /* UIColor+CommunicatorColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+CommunicatorColor.m"; sourceTree = "<group>"; };
 		84657E481CCB7BB900DC086E /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		84657E491CCB81D900DC086E /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PrefixHeader.pch; path = ../PrefixHeader.pch; sourceTree = "<group>"; };
 		846ACF761D0C13B60064803E /* AppIcon80x80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppIcon80x80.png; sourceTree = "<group>"; };
+		847175421D12DE08000746FD /* Report.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Report.h; sourceTree = "<group>"; };
+		847175431D12DE08000746FD /* Report.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Report.m; sourceTree = "<group>"; };
 		8472EA0B1CA6582400285776 /* Database.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Database.h; sourceTree = "<group>"; };
 		8472EA0C1CA6582400285776 /* Database.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Database.m; sourceTree = "<group>"; };
 		848547E71CA6AA6A00ABEFD0 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
@@ -462,8 +474,6 @@
 				8446231C1CB3A0BD007CC831 /* SWMenuViewController.m */,
 				841F6D1F1C9D4BEC0082F7BE /* LoginViewController.h */,
 				841F6D201C9D4BEC0082F7BE /* LoginViewController.m */,
-				840374971CEDFB8700462602 /* CreateNewMOMViewController.h */,
-				840374981CEDFB8700462602 /* CreateNewMOMViewController.m */,
 				84F4F5121CE9EFE200AB91E9 /* MainTabBarViewController.h */,
 				84F4F5131CE9EFE200AB91E9 /* MainTabBarViewController.m */,
 				848547E71CA6AA6A00ABEFD0 /* HomeViewController.h */,
@@ -478,8 +488,16 @@
 				84B77EF71CAFB2E9008BC402 /* ComposeFeedbackOrQueryViewController.m */,
 				8411D4D51CF637D800EAACB6 /* DetailChatingViewController.h */,
 				8411D4D61CF637D800EAACB6 /* DetailChatingViewController.m */,
+				8438BE001D0E9A030003F3C4 /* MainMOMViewController.h */,
+				8438BE011D0E9A030003F3C4 /* MainMOMViewController.m */,
+				840374971CEDFB8700462602 /* CreateNewMOMViewController.h */,
+				840374981CEDFB8700462602 /* CreateNewMOMViewController.m */,
+				8448D6591D119EA300B01560 /* MOMDetailTableViewController.h */,
+				8448D65A1D119EA300B01560 /* MOMDetailTableViewController.m */,
 				842BF6561CF467CE00613E29 /* ReportAndDocsViewController.h */,
 				842BF6571CF467CE00613E29 /* ReportAndDocsViewController.m */,
+				845B54331D192E0D009DEDCF /* UploadFileViewController.h */,
+				845B54341D192E0D009DEDCF /* UploadFileViewController.m */,
 			);
 			name = ViewControllers;
 			path = Controllers;
@@ -555,6 +573,8 @@
 				84196B861CD6269800F46A42 /* UserPermission.m */,
 				84B705251CD604540075AA9E /* Company.h */,
 				84B705261CD604540075AA9E /* Company.m */,
+				847175421D12DE08000746FD /* Report.h */,
+				847175431D12DE08000746FD /* Report.m */,
 				84F1415A1C9EB8840022FA4F /* FeedbackChatingCounter.h */,
 				84F1415B1C9EB8840022FA4F /* FeedbackChatingCounter.m */,
 			);
@@ -710,6 +730,7 @@
 				84F141681C9EC13D0022FA4F /* User.m in Sources */,
 				844D76E11CDCBD3900F65E55 /* FeedOrQueryMessageHeader.m in Sources */,
 				84196B961CD62E3B00F46A42 /* Customer.m in Sources */,
+				8448D65B1D119EA300B01560 /* MOMDetailTableViewController.m in Sources */,
 				841F6D1E1C9D4BEC0082F7BE /* AppDelegate.m in Sources */,
 				844D06491CCCDE2600B17A1F /* SBJson4StreamParser.m in Sources */,
 				844D06371CCCD5AB00B17A1F /* Reachability.m in Sources */,
@@ -719,12 +740,14 @@
 				842B365C1CAA5282003D83D9 /* FeedcomQuerycomViewController.m in Sources */,
 				842BF6581CF467CE00613E29 /* ReportAndDocsViewController.m in Sources */,
 				844D064E1CCCDE2600B17A1F /* SBJson4Writer.m in Sources */,
+				845B54351D192E0D009DEDCF /* UploadFileViewController.m in Sources */,
 				844C89651CB0F9AB00AA0B52 /* NSStream+SKPSMTPExtensions.m in Sources */,
 				841B1F811CFF36550038378A /* CompanyRelatedFeedQueryCounter.m in Sources */,
 				844D064B1CCCDE2600B17A1F /* SBJson4StreamTokeniser.m in Sources */,
 				84F141591C9EB07B0022FA4F /* Feedback.m in Sources */,
 				8411D4D71CF637D800EAACB6 /* DetailChatingViewController.m in Sources */,
 				84196BA81CD631C300F46A42 /* Products.m in Sources */,
+				8438BE021D0E9A030003F3C4 /* MainMOMViewController.m in Sources */,
 				844D06311CCCD39100B17A1F /* AppPreferences.m in Sources */,
 				844D064A1CCCDE2600B17A1F /* SBJson4StreamParserState.m in Sources */,
 				844D064C1CCCDE2600B17A1F /* SBJson4StreamWriter.m in Sources */,
@@ -755,6 +778,7 @@
 				84196BB11CD6342C00F46A42 /* UserPermissionCompany.m in Sources */,
 				844C513B1CA123E3001B4591 /* CALayer+BorderColor.m in Sources */,
 				844C89611CB0F9AB00AA0B52 /* MBProgressHUD.m in Sources */,
+				847175441D12DE08000746FD /* Report.m in Sources */,
 				840374961CEDCA5700462602 /* CreateNewFeedbackViewController.m in Sources */,
 				84B705271CD604540075AA9E /* Company.m in Sources */,
 			);

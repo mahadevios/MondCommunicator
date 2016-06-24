@@ -10,16 +10,20 @@
 
 @interface Query : NSObject
 
-@property(nonatomic)int queryId;
+@property(nonatomic)long queryId;
 @property(nonatomic,strong)NSString* queryText;
 @property(nonatomic,strong)NSString* soNumber;
-@property(nonatomic)int queryCounter;
+@property(nonatomic)long queryCounter;
 @property(nonatomic)int feedbackType;
 @property(nonatomic)int statusId;
+@property(nonatomic)int operatorId;
+@property(nonatomic)int userFeedback;
+
 @property(nonatomic)int userFrom;
 @property(nonatomic)int userTo;
 @property(nonatomic)int userQuery;
 @property(nonatomic)NSString* dateOfQuery;
 @property(nonatomic,strong)NSString* emailSubject;
+@property(nonatomic,strong)NSString* attachment;
 
 @end

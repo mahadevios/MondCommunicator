@@ -21,4 +21,5 @@
 @synthesize userFrom;
 @synthesize userTo;
 @synthesize userFeedback;
+@synthesize emailSubject;
 @end

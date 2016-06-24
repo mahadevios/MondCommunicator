@@ -36,6 +36,12 @@
 @property (nonatomic,strong)NSMutableDictionary* feedTypeWithQueryCounterDict;
 @property (nonatomic,strong)NSMutableArray* feedQueryCounterDictsWithTypeArray;
 
+@property (nonatomic,strong)NSMutableArray* sampleFeedtypeArray;
+@property (nonatomic,strong)NSMutableArray* samplefeedTypeCopyForPredicate;
+@property (nonatomic,strong)NSMutableArray* allMomArray;
+@property (nonatomic,strong)NSMutableDictionary* reportFileNamesDict;
+@property(nonatomic,strong)NSMutableArray* imageFilesArray;
+@property(nonatomic,strong)NSMutableArray* imageFileNamesArray;
 
 
 +(AppPreferences *) sharedAppPreferences;
@@ -44,7 +50,6 @@
 -(void) showNoInternetMessage;
 
 -(void) startReachabilityNotifier;
-
 @end
 
 
