@@ -42,6 +42,7 @@
 @property (nonatomic,strong)NSMutableDictionary* reportFileNamesDict;
 @property(nonatomic,strong)NSMutableArray* imageFilesArray;
 @property(nonatomic,strong)NSMutableArray* imageFileNamesArray;
+@property(nonatomic,strong)NSMutableArray* uploadedFileNamesArray;
 
 
 +(AppPreferences *) sharedAppPreferences;

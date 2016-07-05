@@ -94,6 +94,25 @@ static Database *db;
     {
         NSLog(@"errormsg=%s",sqlite3_errmsg(feedbackAndQueryTypesDB));
     }
+    
+    if (sqlite3_finalize(statement) == SQLITE_OK)
+    {
+        NSLog(@"statement is finalized");
+    }
+    else
+        NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+    
+    
+    
+    if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+    {
+        NSLog(@"db is closed");
+    }
+    else
+    {
+        NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+    }
+
     return feedbackAndQueryTypesArray;
 }
 
@@ -151,13 +170,16 @@ int i=3;
         
         Database *db=[Database shareddatabase];
         NSString *dbPath=[db getDatabasePath];
-        sqlite3_stmt *statement;
+        sqlite3_stmt *statement = NULL;
         sqlite3* feedbackAndQueryTypesDB;
         /// NSString* q2=[NSString stringWithFormat:@"Drop table userpermission"];
         //  NSString* q3=[NSString stringWithFormat:@"INSERT INTO operator values(\"%d\",\"%@\",\"%@\",\"%@\",\"%@\")",NULL,fdate,feedbackText,soNumber,attachment];
         //deletequery
-       // NSString* q4=[NSString stringWithFormat:@"Delete from feedbackchatingcounter Where FeedBack_Counter>0"];
+        //NSString* q4=[NSString stringWithFormat:@"Delete from feedbackchatingcounter Where FeedBack_Counter>0"];
         NSString* q4=[NSString stringWithFormat:@"Delete from querychatingcounter Where Query_Counter>0"];
+
+       // NSString* q4=[NSString stringWithFormat:@"Delete from query Where Query_id>0"];
+        //NSString* q4=[NSString stringWithFormat:@"Delete from query Where Query_id>0"];
 
         //  NSString* q5=[NSString stringWithFormat:@"ALTER TABLE query1 RENAME TO query"];
         //  NSString* q7=[NSString stringWithFormat:@"CREATE TABLE userpermission (ID INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , CompanyId INTEGER, USER_ID INTEGER,FOREIGN KEY (CompanyId) REFERENCES company(CompanyId) ,FOREIGN KEY (USER_ID) REFERENCES user(ID))"];
@@ -192,6 +214,25 @@ int i=3;
             {
                 NSLog(@"errormsg=%s",sqlite3_errmsg(feedbackAndQueryTypesDB));
             }
+            
+            if (sqlite3_finalize(statement) == SQLITE_OK)
+            {
+                NSLog(@"statement is finalized");
+            }
+            else
+                NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+            
+            
+            
+            if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+            {
+                NSLog(@"db is closed");
+            }
+            else
+            {
+                NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+            }
+
         }
         
         if (!([UniqueFeedbackTypeIdArray containsObject:[NSString stringWithFormat:@"%d",feedTypeObj.Id]]))
@@ -218,6 +259,25 @@ int i=3;
             {
                 NSLog(@"errormsg=%s",sqlite3_errmsg(feedbackAndQueryTypesDB));
             }
+            
+            if (sqlite3_finalize(statement) == SQLITE_OK)
+            {
+                NSLog(@"statement is finalized");
+            }
+            else
+                NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+            
+            
+            
+            if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+            {
+                NSLog(@"db is closed");
+            }
+            else
+            {
+                NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+            }
+
         }
         
 
@@ -245,6 +305,25 @@ int i=3;
             {
                 NSLog(@"errormsg=%s",sqlite3_errmsg(feedbackAndQueryTypesDB));
             }
+            
+            if (sqlite3_finalize(statement) == SQLITE_OK)
+            {
+                NSLog(@"statement is finalized");
+            }
+            else
+                NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+            
+            
+            
+            if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+            {
+                NSLog(@"db is closed");
+            }
+            else
+            {
+                NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+            }
+
         }
 
         
@@ -267,7 +346,24 @@ int i=3;
         {
             NSLog(@"errormsg=%s",sqlite3_errmsg(feedbackAndQueryTypesDB));
         }
+        if (sqlite3_finalize(statement) == SQLITE_OK)
+        {
+            NSLog(@"statement is finalized");
+        }
+        else
+            NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
         
+        
+        
+        if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+        {
+            NSLog(@"db is closed");
+        }
+        else
+        {
+            NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+        }
+
 
 
     }
@@ -300,7 +396,7 @@ int i=3;
 
         Database *db=[Database shareddatabase];
         NSString *dbPath=[db getDatabasePath];
-        sqlite3_stmt *statement;
+        sqlite3_stmt *statement = NULL;
         sqlite3* feedbackAndQueryTypesDB;
         
         NSMutableArray* uniqueCompanyIdArray=[self checkCompanyAvailableOrNot];
@@ -330,6 +426,24 @@ int i=3;
             {
                 NSLog(@"errormsg=%s",sqlite3_errmsg(feedbackAndQueryTypesDB));
             }
+            if (sqlite3_finalize(statement) == SQLITE_OK)
+            {
+                NSLog(@"statement is finalized");
+            }
+            else
+                NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+            
+            
+            
+            if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+            {
+                NSLog(@"db is closed");
+            }
+            else
+            {
+                NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+            }
+
         }
         
         
@@ -357,6 +471,24 @@ int i=3;
             {
                 NSLog(@"errormsg=%s",sqlite3_errmsg(feedbackAndQueryTypesDB));
             }
+            if (sqlite3_finalize(statement) == SQLITE_OK)
+            {
+                NSLog(@"statement is finalized");
+            }
+            else
+                NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+            
+            
+            
+            if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+            {
+                NSLog(@"db is closed");
+            }
+            else
+            {
+                NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+            }
+
         }
     }
 }
@@ -391,7 +523,49 @@ int i=3;
     //---------for loop for getting query counters from web service insert-> company id as a key with their respective feedtype and counters into dictionary queryTypeCounterBufferDict for future inertion for counters into db-------
     
     
+    NSString *query5=@"DELETE FROM CompanyFeedTypeAndCounter WHERE id>0";
     
+    const char * queryi5=[query5 UTF8String];
+    if (sqlite3_open([dbPath UTF8String], &feedbackAndQueryTypesDB)==SQLITE_OK)
+    {
+        sqlite3_prepare_v2(feedbackAndQueryTypesDB, queryi5, -1, &statement, NULL);
+        if(sqlite3_step(statement)==SQLITE_DONE)
+        {
+            NSLog(@"CompanyFeedTypeAndCounter table data inserted");
+            NSLog(@"%@",NSHomeDirectory());
+            sqlite3_reset(statement);
+        }
+        else
+        {
+            NSLog(@"%s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+        }
+   
+    
+     }
+    else
+   {
+    NSLog(@"can't open db due error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+   }
+
+    if (sqlite3_finalize(statement) == SQLITE_OK)
+    {
+        NSLog(@"statement is finalized");
+    }
+    else
+        NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+    
+    
+    
+    if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+    {
+        NSLog(@"db is closed");
+    }
+    else
+    {
+        NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+    }
+
+
     for(NSString* companyObjectString in [querycomCommunicationCounterValue allKeys])
     {
         NSMutableArray* queryCounterBufferArray=[[NSMutableArray alloc]init];
@@ -460,73 +634,8 @@ int i=3;
             NSLog(@"j=%d company id=%d,id=%d,feedCount=%d,queryCount=%d ",j,obj.companyId,obj.feedTypeId,obj.feedCounter,obj.queryCounter);
 
             
-            //----------update CompanyFeedTypeAndCounter table if updated feed counter comes--------//
+           
             
-            NSString * query = [NSString stringWithFormat:@"SELECT feedCounter,queryCounter FROM CompanyFeedTypeAndCounter Where companyId=%d and feedbackTypeId=%d",obj.companyId,obj.feedTypeId];
-            
-            if (sqlite3_open([dbPath UTF8String], &feedbackAndQueryTypesDB) == SQLITE_OK)// 1. Open The DataBase.
-            {
-                if (sqlite3_prepare_v2(feedbackAndQueryTypesDB, [query UTF8String], -1, &statement, NULL) == SQLITE_OK)// 2. Prepare the query
-                {
-                    while (sqlite3_step(statement) == SQLITE_ROW)
-                    {
-                      int feedCounterRoValue=  [[NSString stringWithUTF8String:(const char*)sqlite3_column_text(statement,0)]intValue];
-                      int queryCounterRoValue=  [[NSString stringWithUTF8String:(const char*)sqlite3_column_text(statement, 1)]intValue];
-                        CompanyFeedTypeAndCounterTableEmpty=NO;
-                       // NSString* str=[NSString stringWithFormat:@"%d",obj.feedCounter];
-                       
-                        //------fetch feedCounterRoValue and queryCounterRoValue, and check it is equal to web service counters,if not equal then update
-                        
-                        if (feedCounterRoValue!=obj.feedCounter || queryCounterRoValue!=obj.queryCounter)
-                        {
-                            NSLog(@"feedcounter=%d queryCounter=%d",feedCounterRoValue,queryCounterRoValue);
-                            NSString* updateQueryForCounters=[NSString stringWithFormat:@"Update CompanyFeedTypeAndCounter set feedCounter=%d,queryCounter=%d Where companyId=%d and feedbackTypeId=%d",obj.feedCounter,obj.queryCounter,obj.companyId,obj.feedTypeId];
-                            const char * updateQueryForCountersUTFString=[updateQueryForCounters UTF8String];
-
-                            sqlite3_prepare_v2(feedbackAndQueryTypesDB,updateQueryForCountersUTFString, -1, &statement1, NULL);
-                            if(sqlite3_step(statement1)==SQLITE_DONE)
-                            {
-                                NSLog(@"Table updated");
-                                NSLog(@"%@",NSHomeDirectory());
-                                sqlite3_reset(statement1);
-                            }
-                            else
-                            {
-                                NSLog(@"%s",sqlite3_errmsg(feedbackAndQueryTypesDB));
-                            }
-
-                            NSLog(@"suce");
-                        }
-
-                    }
-                }
-                else
-                {
-                    NSLog(@"Can't preapre query due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
-                }
-            }
-            else
-            {
-                NSLog(@"can't open db due error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
-            }
-            
-            if (sqlite3_finalize(statement) == SQLITE_OK)
-            {
-                NSLog(@"statement is finalized");
-            }
-            else
-                NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
-            
-            
-            
-            
-            
-            
-     //-------if table data is empty CompanyFeedTypeAndCounterTableEmpty flag will remain true and data will be inserted--------//
-            
-            if (CompanyFeedTypeAndCounterTableEmpty)
-            {
-                
             NSString *query1=[NSString stringWithFormat:@"INSERT INTO CompanyFeedTypeAndCounter values(\"%d\",\"%d\",\"%d\",\"%d\",\"%d\")",j,obj.companyId,obj.feedTypeId,obj.feedCounter,obj.queryCounter];
             
             const char * queryi1=[query1 UTF8String];
@@ -548,12 +657,30 @@ int i=3;
             {
                 NSLog(@"errormsg=%s",sqlite3_errmsg(feedbackAndQueryTypesDB));
             }
-                
+            if (sqlite3_finalize(statement) == SQLITE_OK)
+            {
+                NSLog(@"statement is finalized");
+            }
+            else
+                NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+            
+            
+            
+            if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+            {
+                NSLog(@"db is closed");
+            }
+            else
+            {
+                NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
             }
 
             j++;
+ 
+            }
 
-        }
+        
+
         
         NSLog(@"%@",feedbackTypesAndCountersArray);
         
@@ -653,6 +780,32 @@ NSString * query = [NSString stringWithFormat:@"SELECT CompanyId FROM user Where
     else
         NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
     
+    if (sqlite3_finalize(statement1) == SQLITE_OK)
+    {
+        NSLog(@"statement is finalized");
+    }
+    else
+        NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+    
+  
+    if (sqlite3_finalize(statement2) == SQLITE_OK)
+    {
+        NSLog(@"statement is finalized");
+    }
+    else
+        NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+    
+    
+
+    if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+    {
+        NSLog(@"db is closed");
+    }
+    else
+    {
+        NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+    }
+    
 
 
     return companyNameOrIdArray;
@@ -718,6 +871,15 @@ NSString * query = [NSString stringWithFormat:@"SELECT CompanyId FROM user Where
                 {
                     NSLog(@"Can't preapre query due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
                 }
+                
+                if (sqlite3_finalize(statement1) == SQLITE_OK)
+                {
+                    NSLog(@"statement is finalized");
+                }
+                else
+                    NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                
+
             }
           
         }
@@ -737,6 +899,16 @@ NSString * query = [NSString stringWithFormat:@"SELECT CompanyId FROM user Where
     }
     else
         NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+    
+    if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+    {
+        NSLog(@"db is closed");
+    }
+    else
+    {
+        NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+    }
+
     
 
     NSLog(@"%ld",app.feedQueryCounterDictsWithTypeArray.count);
@@ -785,6 +957,16 @@ NSString * query = @"SELECT ID FROM user";
     else
         NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
     
+    
+    
+    if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+    {
+        NSLog(@"db is closed");
+    }
+    else
+    {
+        NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+    }
     return uniqueUserIdArray;
     
     
@@ -821,7 +1003,6 @@ NSString * query = @"SELECT ID FROM user";
     {
         NSLog(@"can't open db due error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
     }
-    
     if (sqlite3_finalize(statement3) == SQLITE_OK)
     {
         NSLog(@"statement is finalized");
@@ -829,6 +1010,16 @@ NSString * query = @"SELECT ID FROM user";
     else
         NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
     
+    
+    
+    if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+    {
+        NSLog(@"db is closed");
+    }
+    else
+    {
+        NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+    }
     return uniqueUserIdArray;
 
 
@@ -872,6 +1063,17 @@ NSString * query = @"SELECT ID FROM user";
     }
     else
         NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+    
+    
+    
+    if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+    {
+        NSLog(@"db is closed");
+    }
+    else
+    {
+        NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+    }
     
     return uniqueUserIdArray;
     
@@ -918,6 +1120,16 @@ NSString * query = @"SELECT ID FROM user";
     else
         NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
     
+    
+    
+    if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+    {
+        NSLog(@"db is closed");
+    }
+    else
+    {
+        NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+    }
     return uniqueUserIdArray;
     
     
@@ -966,6 +1178,16 @@ NSString * query = @"SELECT ID FROM user";
     else
         NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
     
+    
+    
+    if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+    {
+        NSLog(@"db is closed");
+    }
+    else
+    {
+        NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+    }
     return uniqueUserIdArray;
 
 }
@@ -1002,13 +1224,23 @@ NSString * query = @"SELECT ID FROM user";
     {
         NSLog(@"can't open db due error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
     }
-    
     if (sqlite3_finalize(statement7) == SQLITE_OK)
     {
         NSLog(@"statement is finalized");
     }
     else
         NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+    
+    
+    
+    if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+    {
+        NSLog(@"db is closed");
+    }
+    else
+    {
+        NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+    }
     
     return uniqueUserIdArray;
     
@@ -1055,6 +1287,17 @@ NSString * query = @"SELECT ID FROM user";
     }
     else
         NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+    
+    
+    
+    if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+    {
+        NSLog(@"db is closed");
+    }
+    else
+    {
+        NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+    }
     
     return uniqueCompanyFeedIdAssoArray;
     
@@ -1264,8 +1507,8 @@ NSString * query = @"SELECT ID FROM user";
     sqlite3_stmt *statement,*statement2;
     sqlite3* feedbackAndQueryTypesDB;
     NSMutableArray* uniqueUserIdArray=[[NSMutableArray alloc]init];
-    NSString* query1=[NSString stringWithFormat:@"SELECT Feedback_text,userFeedBack,userTo,EmailSubject,dateoffeed FROM feedback where feedBackType=%d AND SO_Number='%@'",feedType,SONumber];
-    NSString* query2=[NSString stringWithFormat:@"SELECT Query_text,userQuery,userTo,subject,dateofquery FROM query where feedBackType=%d AND SO_Number='%@'",feedType,SONumber];
+    NSString* query1=[NSString stringWithFormat:@"SELECT Feedback_text,userFeedBack,userTo,EmailSubject,dateoffeed,Attachments FROM feedback where feedBackType=%d AND SO_Number='%@'",feedType,SONumber];
+    NSString* query2=[NSString stringWithFormat:@"SELECT Query_text,userQuery,userTo,subject,dateofquery,attachment FROM query where feedBackType=%d AND SO_Number='%@'",feedType,SONumber];
     NSString* query3;
     NSUserDefaults* defaults=[NSUserDefaults standardUserDefaults];
 
@@ -1296,6 +1539,7 @@ NSString * query = @"SELECT ID FROM user";
                 NSString* userToString = [NSString stringWithUTF8String:(const char*)sqlite3_column_text(statement, 2)];
                 NSString* emailSubject = [NSString stringWithUTF8String:(const char*)sqlite3_column_text(statement, 3)];
                 NSString* dateOfFeed = [NSString stringWithUTF8String:(const char*)sqlite3_column_text(statement, 4)];
+                NSString* attachments = [NSString stringWithUTF8String:(const char*)sqlite3_column_text(statement, 5)];
 
 
                 
@@ -1334,6 +1578,15 @@ NSString * query = @"SELECT ID FROM user";
                       NSLog(@"Can't preapre query due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
                     }
                    
+                    if (sqlite3_finalize(statement2) == SQLITE_OK)
+                    {
+                        NSLog(@"statement is finalized");
+                    }
+                    else
+                        NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                    
+                    
+
                  }
                 
                
@@ -1344,13 +1597,14 @@ NSString * query = @"SELECT ID FROM user";
                     allMessageObj.dateOfFeed=dateOfFeed;
                 allMessageObj.detailMessage=messageString;
                 allMessageObj.feedbackType=feedType;
-            
+                allMessageObj.attachments=attachments;
                     [app.FeedbackOrQueryDetailChatingObjectsArray addObject:allMessageObj];
                 
                 NSLog(@"%@",messageString);
                 NSLog(@"%@",userFrom);
                 NSLog(@"%@",userTo);
                 NSLog(@"%@",emailSubject);
+                NSLog(@"%@",attachments);
                 NSLog(@"%ld",app.FeedbackOrQueryDetailChatingObjectsArray.count);
 
                 
@@ -1363,6 +1617,7 @@ NSString * query = @"SELECT ID FROM user";
             NSLog(@"Can't preapre query due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
         }
         
+       
         
     }
     else
@@ -1377,6 +1632,16 @@ NSString * query = @"SELECT ID FROM user";
     else
         NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
     
+    
+    
+    if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+    {
+        NSLog(@"db is closed");
+    }
+    else
+    {
+        NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+    }
     //return uniqueUserIdArray;
 
 }
@@ -1428,6 +1693,17 @@ NSString * query = @"SELECT ID FROM user";
     }
     else
         NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+    
+    
+    
+    if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+    {
+        NSLog(@"db is closed");
+    }
+    else
+    {
+        NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+    }
     
 }
 
@@ -1514,7 +1790,16 @@ NSString * query = @"SELECT ID FROM user";
     else
         NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
     
-
+    
+    
+    if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+    {
+        NSLog(@"db is closed");
+    }
+    else
+    {
+        NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+    }
 
     NSLog(@"%ld",app.allMomArray.count);
 
@@ -1606,6 +1891,8 @@ NSString * query = @"SELECT ID FROM user";
                 }
                 else
                     NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                
+                
                 if (bufferArr!=NULL)
                 {
                     //[NSKeyedArchiver archivedDataWithRootObject:userObjForDefault]
@@ -1620,20 +1907,31 @@ NSString * query = @"SELECT ID FROM user";
         {
             NSLog(@"Can't preapre query due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
         }
+        
+        if (sqlite3_finalize(statement) == SQLITE_OK)
+        {
+            NSLog(@"statement is finalized");
+        }
+        else
+            NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+        
+
     }
     else
     {
         NSLog(@"can't open db due error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
     }
     
-    if (sqlite3_finalize(statement) == SQLITE_OK)
+    
+    
+    if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
     {
-        NSLog(@"statement is finalized");
+        NSLog(@"db is closed");
     }
     else
-        NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
-    
-    
+    {
+        NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+    }
     
     
     
@@ -1755,6 +2053,15 @@ NSString * query = @"SELECT ID FROM user";
     
     
     
+    if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+    {
+        NSLog(@"db is closed");
+    }
+    else
+    {
+        NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+    }
+    
     
     
     
@@ -1822,7 +2129,16 @@ NSString * query = @"SELECT ID FROM user";
     else
         NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
     
-
+    
+    
+    if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+    {
+        NSLog(@"db is closed");
+    }
+    else
+    {
+        NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+    }
     return userObj;
 
 
@@ -1873,6 +2189,16 @@ NSString * query = @"SELECT ID FROM user";
     else
         NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
     
+    
+    
+    if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+    {
+        NSLog(@"db is closed");
+    }
+    else
+    {
+        NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+    }
     return companyNAME;
 
 }
@@ -1911,13 +2237,24 @@ NSString * query = @"SELECT ID FROM user";
     {
         NSLog(@"can't open db due error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
     }
-    
     if (sqlite3_finalize(statement) == SQLITE_OK)
     {
         NSLog(@"statement is finalized");
     }
     else
         NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+    
+    
+    
+    if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+    {
+        NSLog(@"db is closed");
+    }
+    else
+    {
+        NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+    }
+
     
     return userNAME;
     
@@ -2262,6 +2599,24 @@ NSString * query = @"SELECT ID FROM user";
                         {
                             NSLog(@"errormsg=%s",sqlite3_errmsg(feedbackAndQueryTypesDB));
                         }
+                        if (sqlite3_finalize(statement) == SQLITE_OK)
+                        {
+                            NSLog(@"statement is finalized");
+                        }
+                        else
+                            NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                        
+                        
+                        
+                        if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+                        {
+                            NSLog(@"db is closed");
+                        }
+                        else
+                        {
+                            NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                        }
+
                     }
                     
                     
@@ -2290,6 +2645,24 @@ NSString * query = @"SELECT ID FROM user";
                         {
                             NSLog(@"errormsg=%s",sqlite3_errmsg(feedbackAndQueryTypesDB));
                         }
+                        if (sqlite3_finalize(statement) == SQLITE_OK)
+                        {
+                            NSLog(@"statement is finalized");
+                        }
+                        else
+                            NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                        
+                        
+                        
+                        if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+                        {
+                            NSLog(@"db is closed");
+                        }
+                        else
+                        {
+                            NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                        }
+
                     }
                     
                     
@@ -2317,6 +2690,24 @@ NSString * query = @"SELECT ID FROM user";
                         {
                             NSLog(@"errormsg=%s",sqlite3_errmsg(feedbackAndQueryTypesDB));
                         }
+                        if (sqlite3_finalize(statement) == SQLITE_OK)
+                        {
+                            NSLog(@"statement is finalized");
+                        }
+                        else
+                            NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                        
+                        
+                        
+                        if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+                        {
+                            NSLog(@"db is closed");
+                        }
+                        else
+                        {
+                            NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                        }
+
                     }
                     
                     
@@ -2345,6 +2736,24 @@ NSString * query = @"SELECT ID FROM user";
                         {
                             NSLog(@"errormsg=%s",sqlite3_errmsg(feedbackAndQueryTypesDB));
                         }
+                        if (sqlite3_finalize(statement) == SQLITE_OK)
+                        {
+                            NSLog(@"statement is finalized");
+                        }
+                        else
+                            NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                        
+                        
+                        
+                        if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+                        {
+                            NSLog(@"db is closed");
+                        }
+                        else
+                        {
+                            NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                        }
+
                     }
                     
                     
@@ -2374,6 +2783,24 @@ NSString * query = @"SELECT ID FROM user";
                         {
                             NSLog(@"errormsg=%s",sqlite3_errmsg(feedbackAndQueryTypesDB));
                         }
+                        if (sqlite3_finalize(statement) == SQLITE_OK)
+                        {
+                            NSLog(@"statement is finalized");
+                        }
+                        else
+                            NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                        
+                        
+                        
+                        if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+                        {
+                            NSLog(@"db is closed");
+                        }
+                        else
+                        {
+                            NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                        }
+
                     }
                     
                     
@@ -2402,6 +2829,24 @@ NSString * query = @"SELECT ID FROM user";
                         {
                             NSLog(@"errormsg=%s",sqlite3_errmsg(feedbackAndQueryTypesDB));
                         }
+                        if (sqlite3_finalize(statement) == SQLITE_OK)
+                        {
+                            NSLog(@"statement is finalized");
+                        }
+                        else
+                            NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                        
+                        
+                        
+                        if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+                        {
+                            NSLog(@"db is closed");
+                        }
+                        else
+                        {
+                            NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                        }
+
                     }
                     
                     
@@ -2430,6 +2875,25 @@ NSString * query = @"SELECT ID FROM user";
                         {
                             NSLog(@"errormsg=%s",sqlite3_errmsg(feedbackAndQueryTypesDB));
                         }
+                        
+                        if (sqlite3_finalize(statement) == SQLITE_OK)
+                        {
+                            NSLog(@"statement is finalized");
+                        }
+                        else
+                            NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                        
+                        
+                        
+                        if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+                        {
+                            NSLog(@"db is closed");
+                        }
+                        else
+                        {
+                            NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                        }
+
                     }
                     
                     
@@ -2457,17 +2921,27 @@ NSString * query = @"SELECT ID FROM user";
                         {
                             NSLog(@"errormsg=%s",sqlite3_errmsg(feedbackAndQueryTypesDB));
                         }
+                        
+                        if (sqlite3_finalize(statement) == SQLITE_OK)
+                        {
+                            NSLog(@"statement is finalized");
+                        }
+                        else
+                            NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                        
+                        
+                        
+                        if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+                        {
+                            NSLog(@"db is closed");
+                        }
+                        else
+                        {
+                            NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                        }
+
                     }
                     
-                    if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
-                    {
-                        NSLog(@"db is closed");
-                    }
-                    else
-                    {
-                        NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
-                    }
-
                     
                     
                 }
@@ -2558,6 +3032,8 @@ NSString * query = @"SELECT ID FROM user";
             //query.attachment=[queryDetailDictionary valueForKey:@"attachment"];
             
             query.emailSubject=[oneMessageDict valueForKey:@"subject"];
+                    
+                    query.attachment=[oneMessageDict valueForKey:@"attachment"];
                     
                     
                     
@@ -2672,14 +3148,14 @@ NSString * query = @"SELECT ID FROM user";
             sqlite3* feedbackAndQueryTypesDB;
             /// NSString* q2=[NSString stringWithFormat:@"Drop table userpermission"];
             //  NSString* q3=[NSString stringWithFormat:@"INSERT INTO operator values(\"%d\",\"%@\",\"%@\",\"%@\",\"%@\")",NULL,fdate,feedbackText,soNumber,attachment];
-            NSString* q4=[NSString stringWithFormat:@"Delete from feedback where Feedback_id<34"];
+            NSString* q4=[NSString stringWithFormat:@"Delete from feedback where Feedback_id<0"];
             //  NSString* q5=[NSString stringWithFormat:@"ALTER TABLE query1 RENAME TO query"];
-            //  NSString* q7=[NSString stringWithFormat:@"CREATE TABLE userpermission (ID INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , CompanyId INTEGER, USER_ID INTEGER,FOREIGN KEY (CompanyId) REFERENCES company(CompanyId) ,FOREIGN KEY (USER_ID) REFERENCES user(ID))"];
+            //  NSString* q7=[NSString stringWithFormat:@"CREATE TABLE userpermission (ID INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , CompanyId INTEGER, USER_ID INTEGER,FOREIGN KEY (CompanyId) REFERENCES Fdeleyeqcompany(CompanyId) ,FOREIGN KEY (USER_ID) REFERENCES user(ID))"];
             
             /* Data insertion: feedback table */
             
             
-            NSString *query1=[NSString stringWithFormat:@"INSERT OR REPLACE INTO query values(\"%ld\",\"%@\",\"%@\",\"%ld\",\"%d\",\"%d\",\"%d\",\"%d\",\"%d\",\"%@\",\"%@\")",query.queryId,query.queryText,query.soNumber,query.queryCounter,query.feedbackType,query.statusId,query.userFrom,query.userTo,query.userQuery,query.dateOfQuery,query.emailSubject];
+            NSString *query1=[NSString stringWithFormat:@"INSERT OR REPLACE INTO query values(\"%ld\",\"%@\",\"%@\",\"%ld\",\"%d\",\"%d\",\"%d\",\"%d\",\"%d\",\"%@\",\"%@\",\"%@\")",query.queryId,query.queryText,query.soNumber,query.queryCounter,query.feedbackType,query.statusId,query.userFrom,query.userTo,query.userQuery,query.dateOfQuery,query.emailSubject,query.attachment];
             
             const char * queryi1=[query1 UTF8String];
             if (sqlite3_open([dbPath UTF8String], &feedbackAndQueryTypesDB)==SQLITE_OK)
@@ -2809,6 +3285,25 @@ NSString * query = @"SELECT ID FROM user";
                 {
                     NSLog(@"errormsg=%s",sqlite3_errmsg(feedbackAndQueryTypesDB));
                 }
+                
+                if (sqlite3_finalize(statement) == SQLITE_OK)
+                {
+                    NSLog(@"statement is finalized");
+                }
+                else
+                    NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                
+                
+                
+                if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+                {
+                    NSLog(@"db is closed");
+                }
+                else
+                {
+                    NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                }
+
             }
             
             
@@ -2837,6 +3332,25 @@ NSString * query = @"SELECT ID FROM user";
                 {
                     NSLog(@"errormsg=%s",sqlite3_errmsg(feedbackAndQueryTypesDB));
                 }
+                
+                if (sqlite3_finalize(statement) == SQLITE_OK)
+                {
+                    NSLog(@"statement is finalized");
+                }
+                else
+                    NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                
+                
+                
+                if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+                {
+                    NSLog(@"db is closed");
+                }
+                else
+                {
+                    NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                }
+
             }
             
             
@@ -2864,6 +3378,25 @@ NSString * query = @"SELECT ID FROM user";
                 {
                     NSLog(@"errormsg=%s",sqlite3_errmsg(feedbackAndQueryTypesDB));
                 }
+                
+                if (sqlite3_finalize(statement) == SQLITE_OK)
+                {
+                    NSLog(@"statement is finalized");
+                }
+                else
+                    NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                
+                
+                
+                if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+                {
+                    NSLog(@"db is closed");
+                }
+                else
+                {
+                    NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                }
+
             }
             
             
@@ -2892,6 +3425,25 @@ NSString * query = @"SELECT ID FROM user";
                 {
                     NSLog(@"errormsg=%s",sqlite3_errmsg(feedbackAndQueryTypesDB));
                 }
+                
+                if (sqlite3_finalize(statement) == SQLITE_OK)
+                {
+                    NSLog(@"statement is finalized");
+                }
+                else
+                    NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                
+                
+                
+                if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+                {
+                    NSLog(@"db is closed");
+                }
+                else
+                {
+                    NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                }
+
             }
             
             
@@ -2921,6 +3473,25 @@ NSString * query = @"SELECT ID FROM user";
                 {
                     NSLog(@"errormsg=%s",sqlite3_errmsg(feedbackAndQueryTypesDB));
                 }
+                
+                if (sqlite3_finalize(statement) == SQLITE_OK)
+                {
+                    NSLog(@"statement is finalized");
+                }
+                else
+                    NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                
+                
+                
+                if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+                {
+                    NSLog(@"db is closed");
+                }
+                else
+                {
+                    NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                }
+
             }
             
             
@@ -2949,6 +3520,24 @@ NSString * query = @"SELECT ID FROM user";
                 {
                     NSLog(@"errormsg=%s",sqlite3_errmsg(feedbackAndQueryTypesDB));
                 }
+                if (sqlite3_finalize(statement) == SQLITE_OK)
+                {
+                    NSLog(@"statement is finalized");
+                }
+                else
+                    NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                
+                
+                
+                if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+                {
+                    NSLog(@"db is closed");
+                }
+                else
+                {
+                    NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                }
+
             }
             
             
@@ -2977,6 +3566,24 @@ NSString * query = @"SELECT ID FROM user";
                 {
                     NSLog(@"errormsg=%s",sqlite3_errmsg(feedbackAndQueryTypesDB));
                 }
+                if (sqlite3_finalize(statement) == SQLITE_OK)
+                {
+                    NSLog(@"statement is finalized");
+                }
+                else
+                    NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                
+                
+                
+                if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+                {
+                    NSLog(@"db is closed");
+                }
+                else
+                {
+                    NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                }
+
             }
             
             
@@ -3004,18 +3611,29 @@ NSString * query = @"SELECT ID FROM user";
                 {
                     NSLog(@"errormsg=%s",sqlite3_errmsg(feedbackAndQueryTypesDB));
                 }
+                
+                
+                if (sqlite3_finalize(statement) == SQLITE_OK)
+                {
+                    NSLog(@"statement is finalized");
+                }
+                else
+                    NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+
+                
+                
+                if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+                {
+                    NSLog(@"db is closed");
+                }
+                else
+                {
+                    NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                }
+
             }
                     
                     
-                    if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
-                    {
-                        NSLog(@"db is closed");
-                    }
-                    else
-                    {
-                        NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
-                    }
-
             
             
             
@@ -3069,7 +3687,7 @@ NSString * query = @"SELECT ID FROM user";
             
            momObj.dateTime= [singleMOMDict valueForKey:@"dateTime"];
 
-            NSString *query3=[NSString stringWithFormat:@"INSERT OR REPLACE INTO mom values(\"%d\",\"%@\",\"%@\",\"%@\",\"%@\",\"%d\",\"%d\",\"%d\",\"%@\")", momObj.Id,momObj.attendee,momObj.momDate,momObj.keyPoints,momObj.subject,momObj.userFrom,momObj.userTo,momObj.userfeedback,momObj.dateTime];
+            NSString *query3=[NSString stringWithFormat:@"INSERT OR REPLACE INTO mom values(\"%ld\",\"%@\",\"%@\",\"%@\",\"%@\",\"%d\",\"%d\",\"%d\",\"%@\")", momObj.Id,momObj.attendee,momObj.momDate,momObj.keyPoints,momObj.subject,momObj.userFrom,momObj.userTo,momObj.userfeedback,momObj.dateTime];
             
             Database *db=[Database shareddatabase];
             NSString *dbPath=[db getDatabasePath];
@@ -3097,7 +3715,13 @@ NSString * query = @"SELECT ID FROM user";
                 NSLog(@"errormsg=%s",sqlite3_errmsg(feedbackAndQueryTypesDB));
             }
      
-        
+            if (sqlite3_finalize(statement) == SQLITE_OK)
+            {
+                NSLog(@"statement is finalized");
+            }
+            else
+                NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+
         
         if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
         {
@@ -3180,7 +3804,13 @@ NSString * query = @"SELECT ID FROM user";
                 NSLog(@"errormsg=%s",sqlite3_errmsg(feedbackAndQueryTypesDB));
             }
             
-            
+            if (sqlite3_finalize(statement) == SQLITE_OK)
+            {
+                NSLog(@"statement is finalized");
+            }
+            else
+                NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+
             
             if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
             {
@@ -3261,7 +3891,13 @@ NSString * query = @"SELECT ID FROM user";
                 NSLog(@"errormsg=%s",sqlite3_errmsg(feedbackAndQueryTypesDB));
             }
             
-            
+            if (sqlite3_finalize(statement) == SQLITE_OK)
+            {
+                NSLog(@"statement is finalized");
+            }
+            else
+                NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+
             
             if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
             {
@@ -3634,6 +4270,15 @@ NSString * query = @"SELECT ID FROM user";
     }
     else
         NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+    if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+    {
+        NSLog(@"db is closed");
+    }
+    else
+    {
+        NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+    }
+    
 
 
     
@@ -3721,11 +4366,25 @@ NSString * query = @"SELECT ID FROM user";
         {
             while (sqlite3_step(statement) == SQLITE_ROW)
             {
-                
-                // [app.feedOrQueryDetailMessageArray addObject:[NSString stringWithUTF8String:message]];
-                feedid=[NSString stringWithUTF8String:(const char*)sqlite3_column_text(statement, 0)];
-                counter=[NSString stringWithUTF8String:(const char*)sqlite3_column_text(statement, 1)];
-                
+
+                if((char*)sqlite3_column_text(statement, 0) != NULL)
+                {
+                   feedid = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 0)];
+                }
+                if ((char*)sqlite3_column_text(statement, 0) == NULL)
+                {
+                    feedid=@"0";
+
+                }
+                if((char*)sqlite3_column_text(statement, 1) != NULL)
+                {
+                    counter = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 0)];
+                }
+                if ((char*)sqlite3_column_text(statement, 1) == NULL)
+                {
+                    counter=@"0";
+                    
+                }
                 NSLog(@"%@",feedid);
                 
             }
@@ -3753,6 +4412,16 @@ NSString * query = @"SELECT ID FROM user";
     else
         NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
     
+    if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+    {
+        NSLog(@"db is closed");
+    }
+    else
+    {
+        NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+    }
+    
+
     
     
     if (sqlite3_open([dbPath UTF8String], &feedbackAndQueryTypesDB) == SQLITE_OK)// 1. Open The DataBase.
@@ -3859,6 +4528,15 @@ NSString * query = @"SELECT ID FROM user";
         NSLog(@"errormsg=%s",sqlite3_errmsg(feedbackAndQueryTypesDB));
     }
     
+    if (sqlite3_finalize(statement) == SQLITE_OK)
+    {
+        NSLog(@"statement is finalized");
+    }
+    else
+        NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+    
+    
+
     if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
     {
         NSLog(@"db is closed");
@@ -4043,16 +4721,6 @@ NSString * query = @"SELECT ID FROM user";
                     }
                     
                     
-                    if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
-                    {
-                        NSLog(@"db is closed");
-                    }
-                    else
-                    {
-                        NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
-                    }
-                    
-                    
                     
                 }
 
@@ -4076,7 +4744,6 @@ NSString * query = @"SELECT ID FROM user";
         //------------------------------
         
         NSDictionary* oneMessageDict = [ListOffeedbacksStringArray objectAtIndex:j];
-        //NSLog(@"%@",[oneMessageDict valueForKey:@"feedbackId"]);
         
         //-------------------------feedback table data insertion------------------------------------------
         
@@ -4087,8 +4754,6 @@ NSString * query = @"SELECT ID FROM user";
         
         NSString* dateString=[oneMessageDict valueForKey:@"dateofquery"];
         
-        //query.dateOfQuery=[oneMessageDict valueForKey:@"dateofquery"];
-        //NSString* dateString= allMessageObj1.dateOfFeed;
         double da=[dateString doubleValue];
         query.dateOfQuery = [NSString stringWithFormat:@"%@",[NSDate dateWithTimeIntervalSince1970:da/1000.0]];
         
@@ -4102,9 +4767,6 @@ NSString * query = @"SELECT ID FROM user";
         NSDictionary* counter=[oneMessageDict valueForKey:@"counter"];
         query.queryCounter=[[counter valueForKey:@"queryCounter"]intValue];;
         
-        // NSDictionary* operator=[queryDetailDictionary valueForKey:@"operator"];
-        // feedback.operatorId=[[operator valueForKey:@"operatorId"]intValue];
-        
         NSDictionary* status=[oneMessageDict valueForKey:@"status"];
         query.statusId=[[status valueForKey:@"statusId"]intValue];
         
@@ -4117,13 +4779,12 @@ NSString * query = @"SELECT ID FROM user";
         NSDictionary* userfeedback=[oneMessageDict valueForKey:@"userquery"];
         query.userQuery=[[userfeedback valueForKey:@"userId"]intValue];
         
-        //query.attachment=[queryDetailDictionary valueForKey:@"attachment"];
         
         query.emailSubject=[oneMessageDict valueForKey:@"subject"];
-        
-        
-        
-        QueryChatingCounter* chatingCounterObj=[[QueryChatingCounter alloc]init];
+        query.attachment=[oneMessageDict valueForKey:@"attachment"];
+
+       AppPreferences* app= [AppPreferences sharedAppPreferences];
+               QueryChatingCounter* chatingCounterObj=[[QueryChatingCounter alloc]init];
         
         chatingCounterObj.queryCounter=[[counter valueForKey:@"queryCounter"]intValue];
         chatingCounterObj.soNumber= [counter valueForKey:@"so_number"];
@@ -4145,7 +4806,7 @@ NSString * query = @"SELECT ID FROM user";
         NSString* q4=[NSString stringWithFormat:@"Delete from feedback where Feedback_id<61"];
         
         
-        NSString *query1=[NSString stringWithFormat:@"INSERT OR REPLACE INTO query values(\"%ld\",\"%@\",\"%@\",\"%ld\",\"%d\",\"%d\",\"%d\",\"%d\",\"%d\",\"%@\",\"%@\")",query.queryId,query.queryText,query.soNumber,query.queryCounter,query.feedbackType,query.statusId,query.userFrom,query.userTo,query.userQuery,query.dateOfQuery,query.emailSubject];
+        NSString *query1=[NSString stringWithFormat:@"INSERT OR REPLACE INTO query values(\"%ld\",\"%@\",\"%@\",\"%ld\",\"%d\",\"%d\",\"%d\",\"%d\",\"%d\",\"%@\",\"%@\",\"%@\")",query.queryId,query.queryText,query.soNumber,query.queryCounter,query.feedbackType,query.statusId,query.userFrom,query.userTo,query.userQuery,query.dateOfQuery,query.emailSubject,query.attachment];
         
         const char * queryi1=[query1 UTF8String];
         if (sqlite3_open([dbPath UTF8String], &feedbackAndQueryTypesDB)==SQLITE_OK)
@@ -4226,14 +4887,6 @@ NSString * query = @"SELECT ID FROM user";
         }
         
         
-        if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
-        {
-            NSLog(@"db is closed");
-        }
-        else
-        {
-            NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
-        }
         
     }
     
@@ -4382,27 +5035,9 @@ NSString * query = @"SELECT ID FROM user";
             NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
         }
         
-        
-        if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
-        {
-            NSLog(@"db is closed");
-        }
-        else
-        {
-            NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
-        }
-    
-    
-    
     
     NSString* username = [[NSUserDefaults standardUserDefaults] valueForKey:@"currentUser"];
     NSString* companyId=[db getCompanyId:username];
-    if ([companyId isEqualToString:@"1"])
-    {
-       NSString*  selectedCompany=[[NSUserDefaults standardUserDefaults]valueForKey:@"selectedCompany"];
-       companyId= [db getCompanyIdFromCompanyName:selectedCompany];
-        
-    }
     NSString *chatingCounterQuery12=[NSString stringWithFormat:@"Update CompanyFeedTypeAndCounter set feedCounter=(Select feedCounter from CompanyFeedTypeAndCounter Where CompanyId=%d and feedbackTypeId=%d)+1 Where feedbackTypeId=%d and CompanyId=%d",[companyId intValue],chatingCounterObj.feedbackType,chatingCounterObj.feedbackType,[companyId intValue]];
     
     const char * chatingCounterQuery123=[chatingCounterQuery12 UTF8String];
@@ -4431,16 +5066,6 @@ NSString * query = @"SELECT ID FROM user";
     }
     else
         NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
-    
-    
-    if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
-    {
-        NSLog(@"db is closed");
-    }
-    else
-    {
-        NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
-    }
     
     
     if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
@@ -4509,10 +5134,11 @@ NSString * query = @"SELECT ID FROM user";
     
     chatingCounterObj.userTo= [oneMessageDict valueForKey:@"userTo"];
     
-    chatingCounterObj.feedbacktype= [[oneMessageDict valueForKey:@"userFeedback"]intValue];
+    chatingCounterObj.feedbacktype= [[oneMessageDict valueForKey:@"feedbackType"]intValue];
     
     chatingCounterObj.count= [[oneMessageDict valueForKey:@"feedbackCounter"]intValue];
-    
+    query.attachment= [oneMessageDict valueForKey:@"attachment"];
+
     //-------------------------------------
     Database *db=[Database shareddatabase];
     NSString *dbPath=[db getDatabasePath];
@@ -4522,7 +5148,7 @@ NSString * query = @"SELECT ID FROM user";
     NSString* q4=[NSString stringWithFormat:@"Delete from feedback where Feedback_id<61"];
     
     
-    NSString *query1=[NSString stringWithFormat:@"INSERT OR REPLACE INTO query values(\"%ld\",\"%@\",\"%@\",\"%ld\",\"%d\",\"%d\",\"%d\",\"%d\",\"%d\",\"%@\",\"%@\")",query.queryId,query.queryText,query.soNumber,query.queryCounter,query.feedbackType,query.statusId,query.userFrom,query.userTo,query.userQuery,query.dateOfQuery,query.emailSubject];
+    NSString *query1=[NSString stringWithFormat:@"INSERT OR REPLACE INTO query values(\"%ld\",\"%@\",\"%@\",\"%ld\",\"%d\",\"%d\",\"%d\",\"%d\",\"%d\",\"%@\",\"%@\",\"%@\")",query.queryId,query.queryText,query.soNumber,query.queryCounter,query.feedbackType,query.statusId,query.userFrom,query.userTo,query.userQuery,query.dateOfQuery,query.emailSubject,query.attachment];
     
     const char * queryi1=[query1 UTF8String];
     if (sqlite3_open([dbPath UTF8String], &feedbackAndQueryTypesDB)==SQLITE_OK)
@@ -4603,32 +5229,25 @@ NSString * query = @"SELECT ID FROM user";
     }
     
     
-    if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
-    {
-        NSLog(@"db is closed");
-    }
-    else
-    {
-        NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
-    }
 
     NSString* username = [[NSUserDefaults standardUserDefaults] valueForKey:@"currentUser"];
     NSString* companyId=[db getCompanyId:username];
+    NSString*  selectedCompany;
     if ([companyId isEqualToString:@"1"])
     {
-        NSString*  selectedCompany=[[NSUserDefaults standardUserDefaults]valueForKey:@"selectedCompany"];
-        companyId= [db getCompanyIdFromCompanyName:selectedCompany];
+        selectedCompany=[[NSUserDefaults standardUserDefaults]valueForKey:@"selectedCompany"];
+        //companyId= [db getCompanyIdFromCompanyName:selectedCompany];
         
     }
-    NSString *chatingCounterQuery12=[NSString stringWithFormat:@"Update CompanyFeedTypeAndCounter set queryCounter=(Select queryCounter from CompanyFeedTypeAndCounter Where CompanyId=%d and feedbackTypeId=%d)+1 Where feedbackTypeId=%d and CompanyId=%d",[companyId intValue],chatingCounterObj.feedbacktype,chatingCounterObj.feedbacktype,[companyId intValue]];
     
+     NSString *chatingCounterQuery12=[NSString stringWithFormat:@"Update CompanyFeedTypeAndCounter set queryCounter=(Select queryCounter from CompanyFeedTypeAndCounter Where CompanyId=(Select CompanyId from company Where Company_Name='%@') and feedbackTypeId=%d)+1 Where feedbackTypeId=%d and CompanyId=(Select CompanyId from company Where Company_Name='%@')",selectedCompany,chatingCounterObj.feedbacktype,chatingCounterObj.feedbacktype,selectedCompany];
     const char * chatingCounterQuery123=[chatingCounterQuery12 UTF8String];
     if (sqlite3_open([dbPath UTF8String], &feedbackAndQueryTypesDB)==SQLITE_OK)
     {
         sqlite3_prepare_v2(feedbackAndQueryTypesDB, chatingCounterQuery123, -1, &chatingCounterStatement, NULL);
         if(sqlite3_step(chatingCounterStatement)==SQLITE_DONE)
         {
-            NSLog(@"chatingCounter table data inserted");
+            NSLog(@"CompanyFeedTypeAndCounter table data Updated");
             NSLog(@"%@",NSHomeDirectory());
             sqlite3_reset(chatingCounterStatement);
         }
@@ -4659,7 +5278,64 @@ NSString * query = @"SELECT ID FROM user";
         NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
     }
     
+   
+}
+
+
+-(void)insertNewMOM:(NSDictionary*)responseDict
+{
+    Database *db=[Database shareddatabase];
+    NSString *dbPath=[db getDatabasePath];
+    sqlite3_stmt *statement;
+    sqlite3* feedbackAndQueryTypesDB;
+    NSString *query1;
+    /* Data insertion: mom table */
     
+    Mom* momObj=[Mom new];
+   momObj.subject= [responseDict valueForKey:@"subject"];
+    momObj.momDate=[responseDict valueForKey:@"createdDate"];
+   momObj.attendee= [responseDict valueForKey:@"attendee"];
+   momObj.keyPoints= [responseDict valueForKey:@"keyPoints"];
+   momObj.userFrom= [[responseDict valueForKey:@"userFrom"]intValue];
+    momObj.userTo=[[responseDict valueForKey:@"userTo"]intValue];
+   momObj.userfeedback= [[responseDict valueForKey:@"userFeedback"]intValue];
+   momObj.dateTime= [responseDict valueForKey:@"submittedDateTime"];
+    momObj.Id=[[responseDict valueForKey:@"momId"]longLongValue];
+
+    
+   query1=[NSString stringWithFormat:@"INSERT OR REPLACE into mom(id,attendee,mom_date,keypoints,subject,userFrom,userTo,userFeedback,fileDatetime) values(\"%ld\",\"%@\",\"%@\",\"%@\",\"%@\",\"%d\",\"%d\",\"%d\",\"%@\")",momObj.Id,momObj.attendee,momObj.momDate,momObj.keyPoints,momObj.subject,momObj.userFrom,momObj.userTo,momObj.userfeedback,momObj.dateTime];
+    
+    const char * queryi1=[query1 UTF8String];
+    if (sqlite3_open([dbPath UTF8String], &feedbackAndQueryTypesDB)==SQLITE_OK)
+    {
+        sqlite3_prepare_v2(feedbackAndQueryTypesDB, queryi1, -1, &statement, NULL);
+        if(sqlite3_step(statement)==SQLITE_DONE)
+        {
+            NSLog(@"mom table data inserted");
+            NSLog(@"%@",NSHomeDirectory());
+            sqlite3_reset(statement);
+        }
+        else
+        {
+            NSLog(@"%s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+        }
+    }
+
+
+    else
+    {
+        NSLog(@"errormsg=%s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+    }
+    
+    if (sqlite3_finalize(statement) == SQLITE_OK)
+    {
+        NSLog(@"statement is finalized");
+    }
+    else
+        NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+    
+    
+
     if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
     {
         NSLog(@"db is closed");
@@ -4669,8 +5345,12 @@ NSString * query = @"SELECT ID FROM user";
         NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
     }
     
+    
 
-   
+
+
+
 }
+
 
 @end

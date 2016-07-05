@@ -10,7 +10,7 @@
 
 @interface Mom : NSObject
 
-@property(nonatomic)int Id;
+@property(nonatomic)long Id;
 @property(nonatomic)int userFrom;
 @property(nonatomic)int userTo;
 @property(nonatomic,strong)NSString* attendee;

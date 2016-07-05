@@ -9,7 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface CreateNewMOMViewController : UIViewController
+{
+    BOOL gotResponse;
 
+}
 - (IBAction)sendNewMom:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UITextField *subjectTextField;

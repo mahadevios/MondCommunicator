@@ -60,6 +60,7 @@
 -(void)insertUpdatedRecordsForQueryCom:(NSDictionary*)recordDict;
 -(void)insertNewFeedback:(NSDictionary*)responseDict;
 -(void)insertNewQuery:(NSDictionary*)responseDict;
+-(void)insertNewMOM:(NSDictionary*)responseDict;
 
 -(void)insertReportData:(NSDictionary *)notificationData;
 -(void)insertDocumentsData:(NSDictionary *)notificationData;

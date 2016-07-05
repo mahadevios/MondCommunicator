@@ -12,7 +12,7 @@
 #import "Database.h"
 #import "Report.h"
 @interface ReportAndDocsViewController ()
-
+//@property(nonatomic,strong) UIDocumentInteractionController* documentInteractionController;
 @end
 
 @implementation ReportAndDocsViewController
@@ -101,8 +101,9 @@
 
 -(void)selectFileToUpload:(NSString*)para
 {
- UIViewController* vc= [self.storyboard instantiateViewControllerWithIdentifier:@"SelectFileNavigationController"];
-    [self.navigationController presentViewController:vc animated:YES completion:nil];
+    UIViewController* vc= [self.storyboard instantiateViewControllerWithIdentifier:@"UploadFileViewController"];
+    [self.navigationController pushViewController:vc animated:YES];
+
 }
 
 -(void)setFilesDateWise
@@ -161,7 +162,7 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 70;
+    return 50;
 
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -182,10 +183,10 @@
     BOOL isExapnd  = [[arrayForBool objectAtIndex:section] boolValue];
 
     sectionView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, 280,40)];
-    UILabel *fileCountLabel=[[UILabel alloc]initWithFrame:CGRectMake(self.tableView.frame.size.width-60, 0, 50, 40)];
+    UILabel *fileCountLabel=[[UILabel alloc]initWithFrame:CGRectMake(self.tableView.frame.size.width-60, 5, 50, 40)];
 
     //UIImage* fileClosed=[UIImage imageNamed:@"Fileclosed"];
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, 50, 40)];
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 5, 35, 35)];
     if ([[arrayForBool objectAtIndex:section] boolValue])
     {
         
@@ -211,7 +212,7 @@
    // UILabel* label=[[UILabel alloc]initWithFrame:CGRectMake(10, 0, 50, 40)];
     //UILabel* label=[[UILabel alloc]initWithFrame:CGRectMake(0, 0, 50, 40)];
 
-    UILabel *fileSectionLabel=[[UILabel alloc]initWithFrame:CGRectMake(70, 0, self.tableView.frame.size.width-10, 40)];
+    UILabel *fileSectionLabel=[[UILabel alloc]initWithFrame:CGRectMake(70, 5, self.tableView.frame.size.width-10, 40)];
     //label.text=@"hello";
     fileSectionLabel.backgroundColor=[UIColor clearColor];
     fileSectionLabel.textColor=[UIColor blackColor];
@@ -257,7 +258,7 @@
     //cell.imageView.image=[UIImage imageNamed:@"Fileclosed"];
     AppPreferences* app=[AppPreferences sharedAppPreferences];
     BOOL manyCells  = [[arrayForBool objectAtIndex:indexPath.section] boolValue];
-    
+    NSString* filePath;
     /********** If the section supposed to be closed *******************/
     if(!manyCells)
     {
@@ -277,13 +278,26 @@
             NSLog(@"%@",obj.name);
        
 
-       // [sectionTitleArray objectAtIndex:indexPath.row];
-        //fileNameUserArray
+       
         fileNameLabel.text=[NSString stringWithFormat:@"%@",obj.name];
         fileNameLabel.font=[UIFont systemFontOfSize:15.0f];
+        if ([[[NSUserDefaults standardUserDefaults]valueForKey:@"flag1"]isEqualToString:@"0"])
+        filePath=[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/Reports/%@",obj.name]];
+    
+        else
+        filePath=[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/Documents/%@",obj.name]];
+  
+        if (![[NSFileManager defaultManager] fileExistsAtPath:filePath])
+       {
         UIImageView* fileDownloadImageView=(UIImageView*)[cell viewWithTag:102];
         fileDownloadImageView.image=[UIImage imageNamed:@"FileDownload"];
-
+       }
+       else
+       {
+         UIImageView* fileDownloadImageView=(UIImageView*)[cell viewWithTag:102];
+         fileDownloadImageView.image=nil;
+           
+       }
        // cell.imageView.image=[UIImage imageNamed:@"point.png"];
        // cell.selectionStyle=UITableViewCellSelectionStyleNone ;
     }
@@ -310,30 +324,62 @@
     
     NSString* filenameString=fileNameLabel.text;
 
-    NSError* error;
-   // [NSString stringWithFormat:@"http://localhost:9090/coreflex/resources/CfsFiles/%@",filenameString];
-//    NSURL *url = [NSURL URLWithString:
-//                  [NSString stringWithFormat:@"http://localhost:9090/coreflex/resources/CfsFiles/%@",filenameString]];
-   NSString* str= [NSString stringWithFormat:@"http://localhost:9090/coreflex/resources/CfsFiles/%@",filenameString];
-    
-    NSString* stringURL = [NSString stringWithFormat:@"http://localhost:9090/coreflex/resources/CfsFiles/%@",filenameString];
-    NSString* webStringURL = [stringURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSURL* url = [NSURL URLWithString:webStringURL];
-    
-           NSData * data = [NSData dataWithContentsOfURL:url];
-    NSString *folderpath=[NSHomeDirectory() stringByAppendingPathComponent:@"Documents/Downloads"];
-    
-    NSString *destpath=[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/Downloads/%@",filenameString]];
-    
-     if (![[NSFileManager defaultManager] fileExistsAtPath:folderpath])
-        [[NSFileManager defaultManager] createDirectoryAtPath:folderpath withIntermediateDirectories:NO attributes:nil error:&error]; //Create folder
-    [data writeToFile:destpath atomically:YES];
-       
-    
+    [self showFilePreviewOrDownload:filenameString];
     
 }
 
+-(void)showFilePreviewOrDownload:(NSString*)filenameString
+{
+    NSString* folderName;
+    NSError* error;
+    NSString *folderpath,*destpath;
+    NSString* stringURL = [NSString stringWithFormat:@"http://localhost:9090/coreflex/resources/CfsFiles/%@",filenameString];
+    NSString* webStringURL = [stringURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSURL* url = [NSURL URLWithString:webStringURL];
+    if ([[[NSUserDefaults standardUserDefaults]valueForKey:@"flag1"]isEqualToString:@"0"])
+    {
+        folderName=@"Reports";
+    }
+    else
+        folderName=@"Documents";
+    
+    destpath=[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@/%@",folderName,filenameString]];
+    
+    NSString* filePath=[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@/%@",folderName,filenameString]];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:filePath])
+    {
+        if (![[NSFileManager defaultManager] fileExistsAtPath:folderpath])
+            [[NSFileManager defaultManager] createDirectoryAtPath:folderpath withIntermediateDirectories:NO attributes:nil error:&error]; //Create folder
+        NSData * data = [NSData dataWithContentsOfURL:url];
+        [data writeToFile:destpath atomically:YES];
+        
+    }
+    
+    else
+    {
+        NSString* fileURL=[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/Reports/%@",filenameString]];
+        NSURL* file = [NSURL fileURLWithPath:fileURL];
+        
+        UIDocumentInteractionController* documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:file];
+        
+        
+        [documentInteractionController setDelegate:self];
+        [documentInteractionController presentOpenInMenuFromRect:self.view.frame inView:self.view animated:YES];
+        
+        
+        //documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:file];
+        [documentInteractionController presentPreviewAnimated:YES];
+        
+    }
 
+
+
+}
+- (UIViewController *) documentInteractionControllerViewControllerForPreview: (UIDocumentInteractionController *) controller
+{
+    return self;
+}
 
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
@@ -475,7 +521,7 @@
         [sender setTitleColor:[UIColor colorWithRed:10/255.0 green:32/255.0 blue:47/255.0 alpha:1] forState:UIControlStateSelected];
         
         NSUserDefaults* defaults=[NSUserDefaults standardUserDefaults];
-        [defaults setValue:@"0" forKey:@"flag"];
+        [defaults setValue:@"0" forKey:@"flag1"];
         [self.tableView reloadData];
         
     }
@@ -495,7 +541,7 @@
         [sender setTitleColor:[UIColor colorWithRed:9/255.0 green:45/255.0 blue:61/255.0 alpha:1] forState:UIControlStateSelected];
         
         NSUserDefaults* defaults=[NSUserDefaults standardUserDefaults];
-        [defaults setValue:@"1" forKey:@"flag"];
+        [defaults setValue:@"1" forKey:@"flag1"];
         [self.tableView reloadData];
         
         

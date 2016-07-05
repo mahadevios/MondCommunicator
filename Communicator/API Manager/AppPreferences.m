@@ -23,7 +23,7 @@
 @synthesize samplefeedTypeCopyForPredicate;
 @synthesize allMomArray;
 @synthesize reportFileNamesDict;
-@synthesize imageFilesArray;
+@synthesize imageFilesArray, uploadedFileNamesArray;
 static AppPreferences *singleton = nil;
 
 // Shared method

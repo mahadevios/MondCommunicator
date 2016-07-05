@@ -13,5 +13,6 @@
 @synthesize count;
 @synthesize referenceForCounterGraphView;
 @synthesize counterGraphlabel;
-
+@synthesize attachmentArray;
+@synthesize cell;
 @end

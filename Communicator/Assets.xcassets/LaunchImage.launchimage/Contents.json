@@ -47,6 +47,7 @@
     {
       "orientation" : "portrait",
       "idiom" : "ipad",
+      "filename" : "SplashScreen_iPhone -1.png",
       "extent" : "full-screen",
       "minimum-system-version" : "7.0",
       "scale" : "1x"
@@ -54,6 +55,7 @@
     {
       "orientation" : "landscape",
       "idiom" : "ipad",
+      "filename" : "SplashScreen_iPhone@2x -3.png",
       "extent" : "full-screen",
       "minimum-system-version" : "7.0",
       "scale" : "1x"
@@ -61,6 +63,7 @@
     {
       "orientation" : "portrait",
       "idiom" : "ipad",
+      "filename" : "SplashScreen_iPhone@2x -2.png",
       "extent" : "full-screen",
       "minimum-system-version" : "7.0",
       "scale" : "2x"
@@ -68,6 +71,7 @@
     {
       "orientation" : "landscape",
       "idiom" : "ipad",
+      "filename" : "SplashScreen_iPhone5@2x -2.png",
       "extent" : "full-screen",
       "minimum-system-version" : "7.0",
       "scale" : "2x"
@@ -97,48 +101,56 @@
     {
       "orientation" : "portrait",
       "idiom" : "ipad",
+      "filename" : "SplashScreen_iPhone5@2x -3.png",
       "extent" : "to-status-bar",
       "scale" : "1x"
     },
     {
       "orientation" : "portrait",
       "idiom" : "ipad",
+      "filename" : "SplashScreen_iPhone5@2x -5.png",
       "extent" : "full-screen",
       "scale" : "1x"
     },
     {
       "orientation" : "landscape",
       "idiom" : "ipad",
+      "filename" : "SplashScreen_iPhone@2x -4.png",
       "extent" : "to-status-bar",
       "scale" : "1x"
     },
     {
       "orientation" : "landscape",
       "idiom" : "ipad",
+      "filename" : "SplashScreen_iPhone@2x -6.png",
       "extent" : "full-screen",
       "scale" : "1x"
     },
     {
       "orientation" : "portrait",
       "idiom" : "ipad",
+      "filename" : "SplashScreen_iPhone5@2x -4.png",
       "extent" : "to-status-bar",
       "scale" : "2x"
     },
     {
       "orientation" : "portrait",
       "idiom" : "ipad",
+      "filename" : "SplashScreen_iPhone5@2x -6.png",
       "extent" : "full-screen",
       "scale" : "2x"
     },
     {
       "orientation" : "landscape",
       "idiom" : "ipad",
+      "filename" : "SplashScreen_iPhone@2x -5.png",
       "extent" : "to-status-bar",
       "scale" : "2x"
     },
     {
       "orientation" : "landscape",
       "idiom" : "ipad",
+      "filename" : "SplashScreen_iPhone@2x -7.png",
       "extent" : "full-screen",
       "scale" : "2x"
     }

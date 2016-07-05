@@ -35,6 +35,19 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillDisappear:(BOOL)animated; // Called when the view is dismissed, covered or otherwise hidden. Default does nothing
+{
+    [super viewWillDisappear:YES];
+    
+    
+}
+
+- (void)viewDidDisappear:(BOOL)animated;  // Called after the view was dismissed, covered or otherwise hidden. Default does nothing
+{
+    [super viewDidDisappear:YES];
+    
+}
+
 -(void)viewWillAppear:(BOOL)animated
 {
     AppPreferences* app=[AppPreferences sharedAppPreferences];
@@ -63,7 +76,7 @@
 
 -(void)popViewController
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 /*
 #pragma mark - Navigation
@@ -78,10 +91,14 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     
-    
-    NSURL *imageURL = [info valueForKey:UIImagePickerControllerReferenceURL];
-
-    ALAssetsLibraryAssetForURLResultBlock resultblock = ^(ALAsset *myasset)
+     UIImage *chosenImage = info[UIImagePickerControllerOriginalImage];
+     AppPreferences* app=[AppPreferences sharedAppPreferences];
+    [app.imageFileNamesArray addObject:@"12345.png"];
+    [app.imageFilesArray addObject:chosenImage];
+    [self.collectionView reloadData];
+    [picker.view removeFromSuperview] ;
+    [picker removeFromParentViewController] ;
+ /*   ALAssetsLibraryAssetForURLResultBlock resultblock = ^(ALAsset *myasset)
     {
         ALAssetRepresentation *representation = [myasset defaultRepresentation];
         CGImageRef iref = [representation fullResolutionImage];
@@ -100,12 +117,19 @@
         NSLog(@"fileName : %@",fileName);
     };
     
-    ALAssetsLibrary* assetslibrary = [[ALAssetsLibrary alloc] init];
-    [assetslibrary assetForURL:imageURL
-                   resultBlock:resultblock
-                  failureBlock:nil];
+    [picker.view removeFromSuperview] ;
+    [picker removeFromParentViewController] ;
+*/
     
-    [picker dismissViewControllerAnimated:YES completion:nil];
+//    ALAssetsLibrary* assetslibrary = [[ALAssetsLibrary alloc] init];
+//    [assetslibrary assetForURL:imageURL
+//                   resultBlock:resultblock
+//                  failureBlock:nil];
+//    [picker dismissViewControllerAnimated:YES completion:nil];
+    
+//    [self.navigationController popViewControllerAnimated:YES];
+//    [picker removeFromParentViewController];
+//    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 
@@ -119,8 +143,12 @@
     
     //[self.view addSubview:imagePickerController.cameraOverlayView];
     // UINavigationController *navController=[[UINavigationController alloc]initWithRootViewController:imagePickerController];
+    [self addChildViewController:imagePickerController] ;
     
-    [self presentViewController:imagePickerController animated:YES completion:nil];
+    [imagePickerController didMoveToParentViewController:self] ;
+    
+    [self.view addSubview:imagePickerController.view] ;
+    //    [self.navigationController presentedViewController:imagePickerController];
 
 }
 
@@ -140,7 +168,31 @@
 {
     AppPreferences* app=[AppPreferences sharedAppPreferences];
     if (!(app.imageFilesArray.count==0)) {
-        rightBarButton.title=@"Upload";
+//        rightBarButton.title=@"Upload";
+        if (self.tabBarController == nil)
+        {
+            self.navigationItem.title = @"Upload Files";
+            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Upload" style:UIBarButtonItemStylePlain target:self action:@selector(uploadFileToServer:)];
+        }
+        else
+        {
+        self.tabBarController.navigationItem.title = @"Upload Files";
+        self.tabBarController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Upload" style:UIBarButtonItemStylePlain target:self action:@selector(uploadFileToServer:)];
+        }
+    }
+    else
+    {
+        if (self.tabBarController == nil)
+        {
+            self.navigationItem.title = @"Upload Files";
+            self.navigationItem.rightBarButtonItem = nil;
+        }
+        else
+        {
+            self.tabBarController.navigationItem.title = @"Upload Files";
+            self.tabBarController.navigationItem.rightBarButtonItem = nil;
+        }
+
     }
     return app.imageFilesArray.count;
 }
@@ -197,6 +249,7 @@ UIImageView* img=(UIImageView*)[cell viewWithTag:100];
 
 {
     AppPreferences* app=[AppPreferences sharedAppPreferences];
+    
 
    // NSURL* url = [NSURL URLWithString:webStringURL];
     for (int i=0; i<app.imageFilesArray.count; i++)
@@ -258,7 +311,16 @@ UIImageView* img=(UIImageView*)[cell viewWithTag:100];
        result = [NSJSONSerialization JSONObjectWithData:data
                                                               options:NSJSONReadingAllowFragments
                                                                 error:&error];
+        
+        if (app.uploadedFileNamesArray == nil)
+        {
+            app.uploadedFileNamesArray = [[NSMutableArray alloc] init];
+        }
+        NSString *uploadedFileNameString = [result valueForKey:@"fileName"];
+        uploadedFileNameString = [uploadedFileNameString stringByReplacingOccurrencesOfString:@"/" withString:@""];
+        uploadedFileNameString = [uploadedFileNameString stringByReplacingOccurrencesOfString:@"\"" withString:@""];
 
+     [app.uploadedFileNamesArray addObject:[result valueForKey:@"fileName"]];//add the uploaded file names to uploaded file names array to display on detail chating view controller
                      NSLog(@"result = %@", result);
         
         NSString* returnCode= [result valueForKey:@"code"];
@@ -275,12 +337,12 @@ UIImageView* img=(UIImageView*)[cell viewWithTag:100];
                                        {
                                            AppPreferences* app=[AppPreferences sharedAppPreferences];
                                            
-                                           app.imageFileNamesArray=[[NSMutableArray alloc]init];
-                                           app.imageFilesArray=[[NSMutableArray alloc]init];
+                                           [app.imageFileNamesArray removeAllObjects];
+                                           [app.imageFilesArray removeAllObjects];
                                            //self.navigationItem.rightBarButtonItem.title=nil;
                                            
                                            [self.collectionView reloadData];
-                                           [self dismissViewControllerAnimated:YES completion:nil];
+                                           [self popViewController];
                                        }]; //You can use a block here to handle a press on this button
             [alertController addAction:actionOk];
             [self presentViewController:alertController animated:YES completion:nil];

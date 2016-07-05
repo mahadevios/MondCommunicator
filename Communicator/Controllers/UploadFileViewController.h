@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UploadFileViewController : UIViewController
+@interface UploadFileViewController : UIViewController<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 {
     NSDictionary* result;
 
@@ -22,4 +22,6 @@
 - (IBAction)barbuttonClicked:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *rightBarButton;
+
+@property (nonatomic)BOOL isFromImagePicker;
 @end

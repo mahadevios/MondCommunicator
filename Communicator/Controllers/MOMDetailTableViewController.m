@@ -64,6 +64,13 @@
     Mom* momObj= [app.allMomArray objectAtIndex:self.selectedRow];
     UIView* sectionView=[self.view viewWithTag:100];
     
+    UILabel* redUnderlineView=[[UILabel alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 2)];
+    redUnderlineView.backgroundColor=[UIColor colorWithRed:204/255.0 green:0/255.0 blue:1/255.0 alpha:1];
+    			
+    //[redUnderlineView setFont:[UIFont systemFontOfSize:14 weight:UIFontWeightSemibold]];
+   // redUnderlineView.textColor=[UIColor communicatorColor];
+    [sectionView addSubview:redUnderlineView];
+    
     UILabel* subjectlabel=[[UILabel alloc]initWithFrame:CGRectMake(10, 10, 260, 10)];
     [subjectlabel setFont:[UIFont systemFontOfSize:14 weight:UIFontWeightSemibold]];
     subjectlabel.textColor=[UIColor communicatorColor];

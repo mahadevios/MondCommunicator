@@ -37,7 +37,7 @@
 //        [menuBarButton setAction: @selector( revealToggle: )];
 //       // [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
 //    }     // Do any additional setup after loading the view.
-//    
+//
     [[self navigationController] setNavigationBarHidden:NO animated:YES];
 
     results=[NSArray arrayWithObjects:@"11",@"12",@"13",@"14",@"15",nil];
@@ -56,36 +56,7 @@
     self.definesPresentationContext = YES;
 
     NSLog(@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"flag"]);
-    Database *db=[Database shareddatabase];
-    NSString* username = [[NSUserDefaults standardUserDefaults] valueForKey:@"currentUser"];
-    NSString* companyId=[db getCompanyId:username];
-    //NSString* userFeedback=[db getUserIdFromUserName:username];
-    //NSMutableArray* feedidCounterAndFeedbackTypeArray=[db getFeedTypeIdAndMaxCounter:self.feedbackType];
-    
-    // NSString* selectedCompany = [[NSUserDefaults standardUserDefaults]valueForKey:@"selectedCompany"];
-    if ([companyId isEqual:@"1"] && [[[NSUserDefaults standardUserDefaults] valueForKey:@"flag"] isEqual:@"0"])
-    {
-        
-        [cerateNewFeedbackOrQueryButton setHidden:YES];
-        //username=[db getUserNameFromCompanyname:[[NSUserDefaults standardUserDefaults]valueForKey:@"selectedCompany"]];
-        //userTo=[db getUserIdFromUserNameWithRoll1:username];
-        
-    }
-    else
-    {
-    if (!([companyId isEqual:@"1"]) && [[[NSUserDefaults standardUserDefaults] valueForKey:@"flag"] isEqual:@"1"])
-    {
-        
-        [cerateNewFeedbackOrQueryButton setHidden:YES];
-        //username=[db getUserNameFromCompanyname:[[NSUserDefaults standardUserDefaults]valueForKey:@"selectedCompany"]];
-        //userTo=[db getUserIdFromUserNameWithRoll1:username];
-        
-    }
-    
-        else
-            [cerateNewFeedbackOrQueryButton setHidden:NO];
-    }
-   // [self addObserver:searchResults forKeyPath:@"results" options:NSKeyValueObservingOptionNew context:nil];
+       // [self addObserver:searchResults forKeyPath:@"results" options:NSKeyValueObservingOptionNew context:nil];
 
 }
 
@@ -103,12 +74,45 @@
 //    self.tabBarController.navigationItem.hidesBackButton=NO;
     self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"BackArrow"] style:UIBarButtonItemStylePlain target:self action:@selector(popViewController)] ;
     
-    
+    self.tabBarController.navigationItem.rightBarButtonItem = nil;
+
     self.tabBarController.navigationItem.leftBarButtonItem.tintColor=[UIColor whiteColor];
 
    //self.navigationController.navigationItem.backBarButtonItem.image = [UIImage imageNamed:@"BackArrow"];
-    self.tabBarController.navigationItem.title = @"FeedCom";
+   // self.tabBarController.navigationItem.title = @"FeedCom";
   
+    Database *db=[Database shareddatabase];
+    NSString* username = [[NSUserDefaults standardUserDefaults] valueForKey:@"currentUser"];
+    NSString* companyId=[db getCompanyId:username];
+    if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"flag"] isEqual:@"0"])
+    {
+        self.tabBarController.navigationItem.title = @"FeedCom";
+
+    }
+    if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"flag"] isEqual:@"1"])
+    {
+        self.tabBarController.navigationItem.title = @"QueryCom";
+        
+    }
+    if ([companyId isEqual:@"1"] && [[[NSUserDefaults standardUserDefaults] valueForKey:@"flag"] isEqual:@"0"])
+    {
+        
+        [cerateNewFeedbackOrQueryButton setHidden:YES];
+
+    }
+    else
+    {
+        if (!([companyId isEqual:@"1"]) && [[[NSUserDefaults standardUserDefaults] valueForKey:@"flag"] isEqual:@"1"])
+        {
+            
+            [cerateNewFeedbackOrQueryButton setHidden:YES];
+
+        }
+        
+        else
+            [cerateNewFeedbackOrQueryButton setHidden:NO];
+    }
+
     arrayOfSeperatedSOArray=[[NSMutableArray alloc]init];
     AppPreferences* app=[AppPreferences sharedAppPreferences];
     feedTypeSONoArray=[[NSMutableArray alloc]init];

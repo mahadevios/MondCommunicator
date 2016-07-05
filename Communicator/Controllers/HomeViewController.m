@@ -44,20 +44,17 @@
     [super viewDidLoad];
     [self setSelectedButton:feedComButton];
 
-    [self createBarButtonItems];
+   // [self createBarButtonItems];
    // [self createSWRevealView];
     [[self navigationController] setNavigationBarHidden:NO animated:YES];
     [self feedbackAndQuerySearch];
     
-    Database *db=[Database shareddatabase];
         labelArray=[[NSMutableArray alloc]init];
 
    }
 -(void)viewWillAppear:(BOOL)animated
 {
-   //labelArray=[[NSMutableArray alloc]init];
-    AppPreferences* app=[AppPreferences sharedAppPreferences];
-  self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"SignOut"] style:UIBarButtonItemStylePlain target:self action:@selector(popViewController1)] ;
+   self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"SignOut"] style:UIBarButtonItemStylePlain target:self action:@selector(popViewController1)] ;
     self.tabBarController.navigationItem.title = @"Dashboard";
     [self.navigationItem setHidesBackButton:NO];
     self.navigationController.navigationBar.barTintColor = [UIColor communicatorColor];
@@ -66,15 +63,15 @@
    
 
     [tableView reloadData];
-
-}
-
--(void)setSelectedSegment
-{
-   NSUserDefaults* defaults=[NSUserDefaults standardUserDefaults];
-    [defaults setValue:@"0" forKey:@"flag"];
     
 }
+//
+//-(void)setSelectedSegment
+//{
+//   NSUserDefaults* defaults=[NSUserDefaults standardUserDefaults];
+//    [defaults setValue:@"0" forKey:@"flag"];
+//    
+//}
 
 -(void)popViewController1
 {
@@ -88,12 +85,12 @@
 }
 
 
--(void)createBarButtonItems
-{
-    
-//    UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(flipview:)];
-//    self.navigationItem.rightBarButtonItem = btn;
-}
+//-(void)createBarButtonItems
+//{
+//    
+////    UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(flipview:)];
+////    self.navigationItem.rightBarButtonItem = btn;
+//}
 
 -(void)flipview:id
 {
@@ -105,8 +102,8 @@
 
     }
 
--(void)createSWRevealView
-{
+//-(void)createSWRevealView
+//{
 //    SWRevealViewController *revealViewController = self.revealViewController;
 //    if ( revealViewController )
 //    {
@@ -114,7 +111,7 @@
 //        [menuBarButton setAction: @selector( revealToggle: )];
 //        [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
 //    }     // Do any additional setup after loading the view.
-}
+//}
 
 #pragma marks-feedbackOrQuerySearch
 
@@ -136,9 +133,10 @@
         ft2= [app.feedQueryCounterDictsWithTypeArray objectAtIndex:i];
         NSLog(@"%@",ft2.feedbackType);
         
-        [app.sampleFeedtypeArray insertObject:ft2.feedbackType atIndex:i];
+        [app.sampleFeedtypeArray insertObject:ft2 atIndex:i];
+        //[app.sampleFeedtypeArray insertObject:ft2.feedbackType atIndex:i];
         
-        [app.samplefeedTypeCopyForPredicate insertObject:ft2.feedbackType atIndex:i];
+        [app.samplefeedTypeCopyForPredicate insertObject:ft2 atIndex:i];
       
     }
     
@@ -155,7 +153,7 @@
 
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
-    NSPredicate *predicate =[NSPredicate predicateWithFormat:@"SELF contains [cd] %@", self.searchController.searchBar.text];
+    NSPredicate *predicate =[NSPredicate predicateWithFormat:@"feedbackType CONTAINS [cd] %@", self.searchController.searchBar.text];
     NSArray *predicateResultArray;
     AppPreferences* app=[AppPreferences sharedAppPreferences];
 
@@ -169,7 +167,7 @@
         {
             ft2= [app.feedQueryCounterDictsWithTypeArray objectAtIndex:i];
             NSLog(@"%@",ft2.feedbackType);
-            [app.sampleFeedtypeArray insertObject:ft2.feedbackType atIndex:i];
+            [app.sampleFeedtypeArray insertObject:ft2 atIndex:i];
 
             [self.tableView reloadData];
         }
@@ -197,6 +195,7 @@
 {
     AppPreferences *app=[AppPreferences sharedAppPreferences];
       return app.sampleFeedtypeArray.count;
+    
 }
 //- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 //{
@@ -217,10 +216,10 @@
 
 
     UILabel* feedbackAndQueryTypeLabel=(UILabel*)[cell viewWithTag:12];
-    feedbackAndQueryTypeLabel.text=[app.sampleFeedtypeArray objectAtIndex:indexPath.row];
+    //feedbackAndQueryTypeLabel.text=[app.sampleFeedtypeArray objectAtIndex:indexPath.row];
     
-    FeedQueryCounter* feedCounterObj = [app.feedQueryCounterDictsWithTypeArray objectAtIndex:indexPath.row];
-
+    FeedQueryCounter* feedCounterObj = [app.sampleFeedtypeArray objectAtIndex:indexPath.row];
+    feedbackAndQueryTypeLabel.text=feedCounterObj.feedbackType;
    
     NSUserDefaults* defaults=[NSUserDefaults standardUserDefaults];
     //NSLog(@"%@",[defaults valueForKey:@"flag"]);
@@ -250,19 +249,6 @@
  counterGraphLabel.text=[NSString stringWithFormat:@"%ld",counter];
   float cellHeight=  [self tableView:tableView heightForRowAtIndexPath:indexPath];
 
-   // [self createGraph:counter];
-   
-//     counterGraphLabel = [[UILabel alloc] initWithFrame:CGRectMake(tableView.frame.origin.x+([UIScreen mainScreen].bounds.size.width/2)+1,5,20*(counter),cellHeight-10)];
-//    NSLog(@"%ld",counter);
-//    [counterGraphLabel setText:[NSString stringWithFormat:@"%ld",counter]];
-//  //  [counterGraphLabel setTextAlignment:UITextAlignmentRight];
-//    [counterGraphLabel setFont: [UIFont fontWithName:@"Arial" size:13.0f]];
-//    [counterGraphLabel setBackgroundColor:[UIColor communicatorColor]];
-//    [counterGraphLabel setTextColor:[UIColor whiteColor]];
-//    
-//    [labelArray addObject:counterGraphLabel];
-//    [cell addSubview:counterGraphLabel];
-     //counterGraphLabel=nil;
 
     CounterGraph* counterGraphObj=[[CounterGraph alloc]init];
     counterGraphObj.counterGraphlabel=counterGraphLabel;

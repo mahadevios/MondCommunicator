@@ -19,6 +19,7 @@
 @property(nonatomic,strong)NSString* emailSubject;
 @property(nonatomic,strong)NSString* dateOfFeed;
 @property(nonatomic,strong)NSString* detailMessage;
+@property(nonatomic,strong)NSString* attachments;
 
 
 

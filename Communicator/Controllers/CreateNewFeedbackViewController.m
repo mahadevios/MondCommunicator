@@ -10,6 +10,7 @@
 #import "UIColor+CommunicatorColor.h"
 #import "Feedback.h"
 #import "Database.h"
+#import "HomeViewController.h"
 @interface CreateNewFeedbackViewController ()
 
 @end
@@ -179,7 +180,7 @@
     
         [OperatorTextField becomeFirstResponder];
     
-    [self moveViewUp:YES];
+   // [self moveViewUp:YES];
     NSLog(@"%ld",(long)[[UIDevice currentDevice] orientation]);
     
 }
@@ -262,6 +263,20 @@
                 double milliseconds = seconds*1000;
                 
                 Feedback* feedObj=[[Feedback alloc]init];
+                if (SONumberTextField.text.length <=0)
+                {
+                    SONumberTextField.text=@"0";
+                }
+                if (AvayaIdTextField.text.length <=0)
+                {
+                    AvayaIdTextField.text=@"0";
+                    
+                }
+                if (DocumentIdTextField.text.length <=0)
+                {
+                    DocumentIdTextField.text=@"0";
+                }
+                
                 feedObj.soNumber=[NSString stringWithFormat:@"%@#@%@#@%@",SONumberTextField.text,AvayaIdTextField.text,DocumentIdTextField.text];
                 feedObj.emailSubject=[NSString stringWithFormat:@"%@ %ld",SubjectTextView.text,(long)milliseconds];
                 feedObj.operatorId=[OperatorTextField.text intValue];
@@ -318,8 +333,50 @@
                     {
                         [db insertNewQuery:dic];
                     }
+                    
                         gotResponse=FALSE;
-                }
+                    HomeViewController * vc1 = [self.storyboard instantiateViewControllerWithIdentifier:@"HomeViewController"];
+                    NSString* alertMessage;
+                    if ([companyId isEqual:@"1"])
+                    {
+                      NSString* companyNameString=[[NSUserDefaults standardUserDefaults]valueForKey:@"selectedCompany"];
+                        [db getFeedbackAndQueryCounterForCompany:companyNameString];
+                       [vc1 feedbackAndQuerySearch];
+                        alertMessage=@"Query generated successfully";
+
+                    }
+                    
+                    else
+                    {
+                        NSString* companyNameString= [db getCompanyIdFromCompanyName:companyId];
+                        [db getFeedbackAndQueryCounterForCompany:companyNameString];
+                        [vc1 feedbackAndQuerySearch];
+                        alertMessage=@"Feedback generated successfully";
+
+
+                    }
+                    
+                    
+                    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Alert"
+                                                                                             message:alertMessage
+                                                                                      preferredStyle:UIAlertControllerStyleAlert];
+                    //We add buttons to the alert controller by creating UIAlertActions:
+                    UIAlertAction *actionOk = [UIAlertAction actionWithTitle:@"Ok"
+                                                                       style:UIAlertActionStyleDefault
+                                                                     handler:^(UIAlertAction *action)
+                                               {
+                                                   
+                                                   [self dismissViewControllerAnimated:YES completion:nil];
+                                               }]; //You can use a block here to handle a press on this button
+                    [alertController addAction:actionOk];
+                    [self presentViewController:alertController animated:YES completion:nil];
+                    
+
+                    
+                    
+                    
+
+        }
                 else
                 [[APIManager sharedManager] sendNewFeedback:[[NSUserDefaults standardUserDefaults] valueForKey:@"flag"] Dict:dic username:[[NSUserDefaults standardUserDefaults] valueForKey:@"currentUser"] password:[[NSUserDefaults standardUserDefaults] valueForKey:@"currentPassword"]];
                

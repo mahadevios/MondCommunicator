@@ -12,7 +12,6 @@
 #define  BASE_URL_PATH                  @"http://localhost:9090/coreflex/feedcom"
 //#define  BASE_URL_PATH                  @"http://192.168.3.170:8080/coreflex/feedcom"
 
-
 #define  POST                           @"POST"
 #define  GET                            @"GET"
 #define  PUT                            @"PUT"
@@ -21,13 +20,13 @@
 #define  FAILURE                        @"1001"
 
 // API List
-#define  USER_LOGIN_API                @"getListOfFeedcomAndQueryComForCommunication"
+//#define  USER_LOGIN_API                @"getListOfFeedcomAndQueryComForCommunication"
 #define  NEW_USER_LOGIN_API            @"login"
 #define  FIND_COUNT_API                @"getcommunicationCounterForFeedComQueryCom"
 #define GET_LATEST_RECORDS             @"getListOfFeedcomAndQueryComForCommunication"
 #define SEND_UPDATED_RECORDS           @"updatedMobileFeedcomCommunication"
 #define SEND_NEW_FEEDBACK              @"newMobileFeedcomCommunication"
-#define SEND_NEW_MOM                   @"saveNewMomFromMobile"
+#define SEND_NEW_MOM                   @"newMobileMOM"
 #define UPLOAD_FILE                    @"uploadFileFromMobile"
 #define GET_LATEST_MOM                 @"getListOf50MOM"
 #define GET_50_REPORTS                 @"getListOf50Reports"

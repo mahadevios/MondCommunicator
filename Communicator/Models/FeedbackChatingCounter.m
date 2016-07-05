@@ -19,4 +19,5 @@
 @synthesize emailSubject;
 @synthesize dateOfFeed;
 @synthesize detailMessage;
+@synthesize attachments;
 @end

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ReportAndDocsViewController : UIViewController
+@interface ReportAndDocsViewController : UIViewController<UIDocumentInteractionControllerDelegate>
 {
     NSMutableArray* arrayForBool;
     NSArray* sectionTitleArray;

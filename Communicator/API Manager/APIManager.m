@@ -165,11 +165,11 @@ static APIManager *singleton = nil;
     
 }
 
--(void) sendNewMOM:(NSString*)flag Dict:(NSDictionary*)feedcomDict username:(NSString*)username password:(NSString*)password;
+-(void) sendNewMOM:(NSDictionary*)feedcomDict username:(NSString*)username password:(NSString*)password
 {
     if ([[AppPreferences sharedAppPreferences] isReachable])
     {
-        NSArray *params = [[NSArray alloc] initWithObjects:[NSString stringWithFormat:@"flag=%@",flag], [NSString stringWithFormat:@"feedcomDict=%@",feedcomDict],[NSString stringWithFormat:@"username=%@",username],[NSString stringWithFormat:@"password=%@",password],nil];
+        NSArray *params = [[NSArray alloc] initWithObjects:[NSString stringWithFormat:@"MomDict=%@",feedcomDict],[NSString stringWithFormat:@"username=%@",username],[NSString stringWithFormat:@"password=%@",password],nil];
         
         NSDictionary *dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:params,REQUEST_PARAMETER, nil];
         

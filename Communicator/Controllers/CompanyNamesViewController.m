@@ -43,8 +43,8 @@
 -(void)viewWillAppear:(BOOL)animated
 {
    self.navigationItem.hidesBackButton=YES;
-    self.tabBarController.navigationItem.title = @"Company";
-    self.navigationItem.title = @"Company";
+    self.tabBarController.navigationItem.title = @"Select Company";
+    self.navigationItem.title = @"Select Company";
     self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"SignOut"] style:UIBarButtonItemStylePlain target:self action:@selector(popViewController1)] ;
     self.tabBarController.navigationItem.rightBarButtonItem=nil;
 
@@ -110,18 +110,17 @@
     
     MainTabBarViewController * vc = [self.storyboard instantiateViewControllerWithIdentifier:@"MainTabBarViewController"];
     HomeViewController * vc1 = [self.storyboard instantiateViewControllerWithIdentifier:@"HomeViewController"];
-    MainMOMViewController * vc2 = [self.storyboard instantiateViewControllerWithIdentifier:@"MainMOMViewController"];
+  //  MainMOMViewController * vc2 = [self.storyboard instantiateViewControllerWithIdentifier:@"MainMOMViewController"];
 
     if (self.tabBarController.selectedViewController==self)
     {
         NSLog(@"true");
-        //[vc setSelectedIndex:0];
-//        [db getFeedbackAndQueryCounterForCompany:companyNameString];
-//
-                [vc1 feedbackAndQuerySearch];
+        
+        [vc1 feedbackAndQuerySearch];
        // [vc2.tableView reloadData];
         //vc1.tableView=nil;
-        self.tabBarController.selectedIndex = 0;
+        self.tabBarController.selectedIndex= 0;
+
 //[db getFeedbackAndQueryCounterForCompany:companyNameString];
         //[self presentViewController:vc animated:YES completion:nil];
         

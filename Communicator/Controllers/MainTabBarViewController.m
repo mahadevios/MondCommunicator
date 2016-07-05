@@ -120,10 +120,9 @@
         
         [[APIManager sharedManager]get50DocumentsForUsername:[[NSUserDefaults standardUserDefaults] valueForKey:@"currentUser"] andPassword:[[NSUserDefaults standardUserDefaults] valueForKey:@"currentPassword"]];
 
-        
-        ReportAndDocsViewController * vc2 = [self.storyboard instantiateViewControllerWithIdentifier:@"ReportAndDocsViewController"];
-        //[vc2.tableView reloadData];
     }
+    
+
     NSLog(@"hello");
     
 }

@@ -263,14 +263,14 @@
     ////NSLog(@"Failed %@",error.description);
     ////NSLog(@"%@ Entity Job -",self.downLoadEntityJobName);
     
-    if ([self.downLoadEntityJobName isEqualToString:USER_LOGIN_API])
-    {
-//        AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
-//        [appDelegate hideIndefiniteProgressView];
-        
-        [[AppPreferences sharedAppPreferences] showAlertViewWithTitle:@"Error" withMessage:[self shortErrorFromError:error] withCancelText:nil withOkText:@"Ok" withAlertTag:1000];
-        
-    }
+//    if ([self.downLoadEntityJobName isEqualToString:USER_LOGIN_API])
+//    {
+////        AppDelegate *appDelegate = (AppDelegate *) [[UIApplication sharedApplication] delegate];
+////        [appDelegate hideIndefiniteProgressView];
+//        
+//        [[AppPreferences sharedAppPreferences] showAlertViewWithTitle:@"Error" withMessage:[self shortErrorFromError:error] withCancelText:nil withOkText:@"Ok" withAlertTag:1000];
+//        
+//    }
     
     if ([self.downLoadEntityJobName isEqualToString:NEW_USER_LOGIN_API])
     {

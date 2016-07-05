@@ -13,4 +13,8 @@
 @property(nonatomic,strong)UILabel* counterGraphlabel;
 @property(nonatomic,strong)UIView* referenceForCounterGraphView;
 @property(nonatomic)long count;
+@property(nonatomic,strong)NSArray* attachmentArray;
+@property(nonatomic,strong)UITableViewCell* cell;
+@property(nonatomic)int selectedIndex;
+
 @end

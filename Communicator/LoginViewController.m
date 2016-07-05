@@ -254,10 +254,9 @@ NSMutableArray* webFeedTypeArray;
         [defaults setValue:self.usenameTextField.text forKey:@"currentUser"];
         [defaults setValue:self.passwordTextField.text forKey:@"currentPassword"];
 
-        Database* db=[Database shareddatabase];
+        //Database* db=[Database shareddatabase];
        // [db validateUserFromLocalDatabase:self.usenameTextField.text :self.passwordTextField.text];
         
-       // [[APIManager sharedManager] validateUser:self.usenameTextField.text andPassword:self.passwordTextField.text];
         [[APIManager sharedManager] validateUser:self.usenameTextField.text Password:self.passwordTextField.text andDeviceId:@"21"];
 
 
