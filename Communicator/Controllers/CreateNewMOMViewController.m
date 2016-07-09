@@ -21,7 +21,7 @@
 @synthesize dateTextField;
 @synthesize attendiesTextview;
 @synthesize keyPointstextView;
-
+@synthesize insideView;
 
 - (void) viewDidLoad
 {
@@ -40,16 +40,22 @@
                                                object:nil];
     dateTextField.delegate=self;
     UIDatePicker *datePicker = [[UIDatePicker alloc]init];
-    [datePicker setDate:[NSDate date]];
+    [datePicker setDatePickerMode:UIDatePickerModeDate];
+    [datePicker setDate:[[APIManager sharedManager] getDate]];
     [datePicker addTarget:self action:@selector(updateTextField:) forControlEvents:UIControlEventValueChanged];
     [dateTextField setInputView:datePicker];
+    subjectTextField.delegate=self;
+    attendiesTextview.delegate=self;
+    keyPointstextView.delegate=self;
 }
-
 
 -(void)updateTextField:(id)sender
 {
     UIDatePicker *picker = (UIDatePicker*)dateTextField.inputView;
-    dateTextField.text = [NSString stringWithFormat:@"%@",picker.date];
+    NSDateFormatter *formatter=[NSDateFormatter new];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    NSString* date= [formatter stringFromDate:picker.date];
+    dateTextField.text = [NSString stringWithFormat:@"%@",date];
 }
 
 
@@ -59,18 +65,9 @@
     NSLog(@"got notification from server");
     if ([[notification.object objectForKey:@"code"] isEqualToString:SUCCESS])
     {
-        NSError* error;
         gotResponse=TRUE;
         [self saveNewMOM:notification.object];
-        //NSString* str=[NSString stringWithFormat:@"%@",notification];
-//        NSString* companyFeedbackTypeAsscociationString=[notification.object objectForKey:@"newMomId"];
-//        NSData *companyFeedbackTypeAsscociationData = [companyFeedbackTypeAsscociationString dataUsingEncoding:NSUTF8StringEncoding];
-//        
-//        NSString *companyFeedbackTypeAsscociationValue = [NSJSONSerialization JSONObjectWithData:companyFeedbackTypeAsscociationData
-//                                                                                         options:NSJSONReadingAllowFragments
-//                                                                                           error:&error];
-        
-       // NSLog(@"%@",companyFeedbackTypeAsscociationString);
+
     }
 }
 
@@ -94,15 +91,7 @@
     [self dismissViewControllerAnimated:self completion:nil];
     
 }
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 - (IBAction)sendNewMom:(id)sender
 {
@@ -149,14 +138,6 @@
                         
                     }
                     
-                    //NSArray* operatorAndStausidArray=[db getOperatotAndStatusIdArrayFromSoNo:feedObject.soNumber];
-                    
-                    //                Feedback* feedObj=[[Feedback alloc]init];
-                    NSDate* date= [[APIManager sharedManager] getDate];
-                    NSTimeInterval seconds = [date timeIntervalSince1970];
-                    double milliseconds = seconds*1000;
-                    
-                    
                     Mom* momObj=[[Mom alloc]init];
                     
                     momObj.subject=subjectTextField.text;
@@ -167,26 +148,16 @@
                     momObj.userFrom=[userFrom intValue];
                     momObj.userTo=[userTo intValue];
                     momObj.dateTime=[NSString stringWithFormat:@"%@",[[APIManager sharedManager] getDate]];
-                    // feedObj.feedbackCounter=[[NSString stringWithFormat:@"%@",[maxFeedIdAndCounterArray objectAtIndex:1]]longLongValue];
-                    //feedObj.feedbackId=[[NSString stringWithFormat:@"%@",[maxFeedIdAndCounterArray objectAtIndex:0]]longLongValue];
                     
-                    //NSLog(@"%d,%d",feedObj.userFrom,feedObj.userTo);
-                    //feedObj.statusId=[[NSString stringWithFormat:@"%@",[maxFeedIdAndCounterArray objectAtIndex:2]]intValue];
-                    //feedObj.operatorId=[[NSString stringWithFormat:@"%@",[maxFeedIdAndCounterArray objectAtIndex:3]]intValue];
-                    //feedObj.attachment;
                     NSLog(@"%@,%@,%@,%@,%d,%d,%d,%@",momObj.subject,momObj.momDate, momObj.attendee,momObj.keyPoints,momObj.userfeedback,momObj.userFrom,momObj.userTo,momObj.dateTime);
                     
                     
                     NSArray* keys=[NSArray arrayWithObjects:@"subject",@"createdDate",@"attendee",@"keyPoints",@"userFrom",@"userTo",@"userFeedback",@"submittedDateTime",@"momId",nil];
-                    // NSArray* values=[NSArray arrayWithObjects:feedObj.soNumber,feedObj.userFrom,feedObj.userTo,feedObj.feedbackText,feedObj.feedbackType,feedObj.feedbackCounter+1, nil];
-                    
+                   
                     NSArray* values=@[momObj.subject,momObj.momDate, momObj.attendee,momObj.keyPoints,[NSString stringWithFormat:@"%d",momObj.userFrom],[NSString stringWithFormat:@"%d",momObj.userTo],[NSString stringWithFormat:@"%d",momObj.userfeedback],momObj.dateTime,[NSString stringWithFormat:@"%ld",momObj.Id]];
                     
                     NSDictionary* dic=[NSDictionary dictionaryWithObjects:values forKeys:keys];
                     NSLog(@"%@",[dic valueForKey:@"userFeedback"]);
-                    
-                    NSMutableDictionary* MainDict=[NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] valueForKey:@"flag"],@"flag",dic,@"feedcomOrQuerycom", nil];
-                    //NSDictionary* dict=[MainDict valueForKey:@"feedcomOrQuerycom"];
                     NSLog(@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"flag"]);
                     [[NSUserDefaults standardUserDefaults] valueForKey:@"currentUser"];
                     [[NSUserDefaults standardUserDefaults] valueForKey:@"currentPassword"];
@@ -201,12 +172,10 @@
                         
                         dic=[NSDictionary dictionaryWithObjects:values forKeys:keys];
                         [db insertNewMOM:dic];
-                        //[db setMOMView];
                         gotResponse=FALSE;
                         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Alert"
                                                                                                  message:@"MOM generated sucessfully"
                                                                                           preferredStyle:UIAlertControllerStyleAlert];
-                        //We add buttons to the alert controller by creating UIAlertActions:
                         UIAlertAction *actionOk = [UIAlertAction actionWithTitle:@"Ok"
                                                                            style:UIAlertActionStyleDefault
                                                                          handler:^(UIAlertAction *action)
@@ -221,8 +190,7 @@
                     }
                     else
                     [[APIManager sharedManager] sendNewMOM:dic username:[[NSUserDefaults standardUserDefaults] valueForKey:@"currentUser"] password:[[NSUserDefaults standardUserDefaults] valueForKey:@"currentPassword"]];
-                    //[[APIManager sharedManager]sendUpdatedRecords:[[NSUserDefaults standardUserDefaults] valueForKey:@"flag"] andPassword:dic];
-                    // [[APIManager sharedManager] sendUpdatedRecords:[[NSUserDefaults standardUserDefaults] valueForKey:@"flag"] Dict:dic username:[[NSUserDefaults standardUserDefaults] valueForKey:@"currentUser"] password:[[NSUserDefaults standardUserDefaults] valueForKey:@"currentPassword"]];
+                    
                     
                     
                 }
@@ -233,4 +201,104 @@
 
 
 }
+
+-(void)textFieldDidEndEditing:(UITextField *)textField
+{
+    
+}
+
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    
+    if (textField==dateTextField)
+    {
+        [self moveViewUp:YES];
+    }
+    
+}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    if (textField==subjectTextField)
+    {
+        //[self moveViewUp:YES];
+
+        [dateTextField becomeFirstResponder];
+    }
+    if (textField==dateTextField)
+    {
+        [attendiesTextview becomeFirstResponder];
+        // [self moveViewUp:YES];
+        
+    }
+    return YES;
+}
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range
+ replacementText:(NSString *)text
+{
+    
+    if ([text isEqualToString:@"\n"])
+    {
+        if(textView==attendiesTextview)
+        {
+            [attendiesTextview resignFirstResponder];
+            //[self moveViewUp:YES];
+        }
+        else
+        {
+            [textView resignFirstResponder];
+            [self moveViewUp:NO];
+        }
+        // Return FALSE so that the final '\n' character doesn't get added
+        return NO;
+    }
+    // For any other character return TRUE so that the text gets added to the view
+    return YES;
+}
+-(void)textViewDidEndEditing:(UITextView *)textView
+{
+   
+    if (textView==attendiesTextview)
+    {
+        [keyPointstextView becomeFirstResponder];
+        //[self moveViewUp:YES];
+        
+    }
+    else
+    {
+        [textView resignFirstResponder];
+        [self moveViewUp:NO];
+
+    }
+    NSLog(@"%ld",(long)[[UIDevice currentDevice] orientation]);
+    
+}
+
+-(void)textViewDidBeginEditing:(UITextView *)textView
+{
+    [self moveViewUp:YES];
+}
+
+
+
+- (void) moveViewUp: (BOOL) isUp
+{
+    const int movementDistance = 70; // tweak as needed
+    const float movementDuration = 0.3f; // tweak as needed
+   
+    //    if (!isUp)
+    //    {
+    //        movementDistance=totalMovement;
+    //        totalMovement=0;
+    //    }
+    
+    movement = (isUp ? -movementDistance : movementDistance);
+    
+    [UIView beginAnimations: @"anim" context: nil];
+    [UIView setAnimationBeginsFromCurrentState: YES];
+    [UIView setAnimationDuration: movementDuration];
+    insideView.frame = CGRectOffset(insideView.frame, 0, movement);
+    [UIView commitAnimations];
+}
+
 @end

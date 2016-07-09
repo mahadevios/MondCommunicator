@@ -22,6 +22,7 @@
 - (IBAction)barbuttonClicked:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *rightBarButton;
+@property (weak, nonatomic) MBProgressHUD *hud;
 
 @property (nonatomic)BOOL isFromImagePicker;
 @end

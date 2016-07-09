@@ -12,22 +12,40 @@
 #import "Database.h"
 #import "ReportAndDocsViewController.h"
 #import "MainMOMViewController.h"
+#import "UIColor+CommunicatorColor.h"
 @interface CompanyNamesViewController ()
 
 @end
 
 @implementation CompanyNamesViewController
-
+@synthesize SelectComapnyHeaderLabel;
 - (void)viewDidLoad
 
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self setNavigationBar];
+}
+
+#pragma mark:setNavigationBar
+
+-(void)setNavigationBar
+{
+    self.navigationItem.hidesBackButton=YES;
+    self.tabBarController.navigationItem.title = @"Select Company";
+    self.navigationItem.title = @"Select Company";
+    self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"SignOut"] style:UIBarButtonItemStylePlain target:self action:@selector(popViewController1)] ;
+    self.tabBarController.navigationItem.rightBarButtonItem=nil;
+    SelectComapnyHeaderLabel.textColor=[UIColor communicatorColor];
+    self.tabBarController.navigationItem.leftBarButtonItem.tintColor=[UIColor whiteColor];
 }
 -(void)popViewController1
 {
@@ -37,31 +55,10 @@
     NSUserDefaults* defaults=[NSUserDefaults standardUserDefaults];
     [defaults setObject:NULL forKey:@"userObject"];
     [defaults setObject:NULL forKey:@"selectedCompany"];
-
+    
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-   self.navigationItem.hidesBackButton=YES;
-    self.tabBarController.navigationItem.title = @"Select Company";
-    self.navigationItem.title = @"Select Company";
-    self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"SignOut"] style:UIBarButtonItemStylePlain target:self action:@selector(popViewController1)] ;
-    self.tabBarController.navigationItem.rightBarButtonItem=nil;
-
-    //self.tabBarController.navigationItem.title = @"Dashboard";
-    //self.navigationController.navigationBar.barTintColor = [UIColor communicatorColor];
-    self.tabBarController.navigationItem.leftBarButtonItem.tintColor=[UIColor whiteColor];
-
-}
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+#pragma mark:tableView delegates and dataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -78,57 +75,32 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     AppPreferences *app=[AppPreferences sharedAppPreferences];
-//    
-//    NSLog(@"%lu",(unsigned long)app.permittedCompaniesForUserArray.count);
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     UILabel* companyNameLabel=(UILabel*)[cell viewWithTag:101];
     NSLog(@"%ld",app.companynameOrIdArray.count);
-
-    //cell.textLabel.text=[app.companynameOrIdArray objectAtIndex:indexPath.row];
-    //cell.textLabel.backgroundColor=[UIColor blackColor];
-   companyNameLabel.text=[app.companynameOrIdArray objectAtIndex:indexPath.row];
-   // companyNameLabel.text=[UIColor blackColor];
+    companyNameLabel.text=[app.companynameOrIdArray objectAtIndex:indexPath.row];
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     Database* db=[Database shareddatabase];
-    AppPreferences *app=[AppPreferences sharedAppPreferences];
-
     UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
     UILabel* companyNameLabel=(UILabel*)[selectedCell viewWithTag:101];
-    NSLog(@"%@",companyNameLabel.text);
     NSString* companyNameString=[NSString stringWithFormat:@"%@",companyNameLabel.text];
-    NSLog(@"%@",companyNameString);
-
     [[NSUserDefaults standardUserDefaults] setValue:companyNameString forKey:@"selectedCompany"];
     [db getFeedbackAndQueryCounterForCompany:companyNameString];
-    NSLog(@"%ld",app.feedQueryCounterDictsWithTypeArray.count);
-    
     MainTabBarViewController * vc = [self.storyboard instantiateViewControllerWithIdentifier:@"MainTabBarViewController"];
     HomeViewController * vc1 = [self.storyboard instantiateViewControllerWithIdentifier:@"HomeViewController"];
-  //  MainMOMViewController * vc2 = [self.storyboard instantiateViewControllerWithIdentifier:@"MainMOMViewController"];
-
     if (self.tabBarController.selectedViewController==self)
     {
-        NSLog(@"true");
-        
         [vc1 feedbackAndQuerySearch];
-       // [vc2.tableView reloadData];
-        //vc1.tableView=nil;
         self.tabBarController.selectedIndex= 0;
 
-//[db getFeedbackAndQueryCounterForCompany:companyNameString];
-        //[self presentViewController:vc animated:YES completion:nil];
-        
     }
-     // [self presentViewController:vc animated:YES completion:nil];
     else
     [self.navigationController pushViewController:vc animated:YES];
-
 
 }
 

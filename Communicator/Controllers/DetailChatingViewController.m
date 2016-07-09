@@ -14,6 +14,7 @@
 #import "Feedback.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "CounterGraph.h"
+#import "MBProgressHUD.h"
 @interface DetailChatingViewController ()
 
 @end
@@ -22,6 +23,7 @@
 DetailChatingViewController
 @synthesize tableview;
 @synthesize sendFeedbackTextfield;
+@synthesize hud;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -32,19 +34,51 @@ DetailChatingViewController
 
 -(void)viewWillAppear:(BOOL)animated
 {
+   
+    [self setNavigationItems];
+    [self setHeaderForTableView];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(getLatestRecords:) name:NOTIFICATION_SEND_UPDATED_RECORDS
+                                               object:nil];
+
+}
+
+-(void)setNavigationItems
+{
     self.tabBarController.navigationItem.title = @"Feedback Communication";
     self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"BackArrow"] style:UIBarButtonItemStylePlain target:self action:@selector(popViewController)] ;
     self.tabBarController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Attachment"] style:UIBarButtonItemStylePlain target:self action:@selector(selectFileToUpload:)] ;
     self.tabBarController.navigationItem.rightBarButtonItem.tintColor=[UIColor whiteColor];
     self.tabBarController.navigationItem.leftBarButtonItem.tintColor=[UIColor whiteColor];
 
+}
+-(void)popViewController
+{
+    UINavigationController *navController = self.navigationController;
+    
+    [navController popViewControllerAnimated:YES];
+}
+-(void)selectFileToUpload:(NSString*)para
+{
+    UIViewController* vc= [self.storyboard instantiateViewControllerWithIdentifier:@"UploadFileViewController"];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+-(void)setHeaderForTableView
+{
+    sendFeedbackTextfield.delegate=self;
     UILabel* subjectLabel=(UILabel*)[self.view viewWithTag:100];
     UILabel* SONumberLabel=(UILabel*)[self.view viewWithTag:101];
     UILabel* dateOfFeedLabel=(UILabel*)[self.view viewWithTag:102];
-
+    
     app=[AppPreferences sharedAppPreferences];
     NSArray* separatedSO=[[NSMutableArray alloc]init];
-    FeedbackChatingCounter *allMessageObj=[app.FeedbackOrQueryDetailChatingObjectsArray objectAtIndex:0];
+    FeedbackChatingCounter *allMessageObj=[app.FeedbackOrQueryDetailChatingObjectsArray lastObject];
+    //-----------setSubject---------//
+    subjectLabel.text=allMessageObj.emailSubject;
+
+    //------setSONumber----------------//
     NSString* soNumber= allMessageObj.soNumber;
     separatedSO=[soNumber componentsSeparatedByString:@"#@"];
     NSString* soNumr=[separatedSO objectAtIndex:0];
@@ -52,25 +86,15 @@ DetailChatingViewController
     NSString* Doc=[separatedSO objectAtIndex:2];
 
     SONumberLabel.text=[NSString stringWithFormat:@"SO Number:%@\nAvaya Id:%@\nDocument Id:%@",soNumr,avaya,Doc];
-    subjectLabel.text=allMessageObj.emailSubject;
     
-    FeedbackChatingCounter *allMessageObj1=[app.FeedbackOrQueryDetailChatingObjectsArray lastObject];
+    //------setDate----------------//
 
-    NSString* dd=allMessageObj1.dateOfFeed;
-    //NSString *dd = [NSString stringWithFormat:@"%@",[NSDate dateWithTimeIntervalSince1970:da/1000.0]];
+    NSString* dd=allMessageObj.dateOfFeed;
     NSArray *components = [dd componentsSeparatedByString:@" "];
     NSString *date = components[0];
     NSString *time = components[1];
-    NSLog(@"%@,,,,%@",date,time);
-
-    dateOfFeedLabel.text=[NSString stringWithFormat:@"%@\n%@",date,time];
-   
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(getLatestRecords:) name:NOTIFICATION_SEND_UPDATED_RECORDS
-                                               object:nil];
-
     
-   // [self uploadFileToServer:@""];
+    dateOfFeedLabel.text=[NSString stringWithFormat:@"%@\n%@",date,time];
 
 }
 
@@ -87,8 +111,8 @@ DetailChatingViewController
         NSString* str=[[NSUserDefaults standardUserDefaults] valueForKey:@"flag"] ;
         if ([str isEqualToString:@"0"])
         {
-            [db insertUpdatedRecordsForFeedcom:notificationData.object];
-            [db getDetailMessagesofFeedbackOrQuery:feedObject.feedbackType :feedObject.soNumber];
+            [db insertUpdatedRecordsForFeedcom:notificationData.object];                          //insert response date
+            [db getDetailMessagesofFeedbackOrQuery:feedObject.feedbackType :feedObject.soNumber]; //fetch updated data after inserting response data
             sendFeedbackTextfield.text=@"";
             [tableview reloadData];
         }
@@ -104,20 +128,9 @@ DetailChatingViewController
         
     }
 }
--(void)popViewController
-{
-    UINavigationController *navController = self.navigationController;
-    
-    [navController popViewControllerAnimated:YES];
-}
--(void)selectFileToUpload:(NSString*)para
-{
-    //UIViewController* vc1= [self.storyboard instantiateViewControllerWithIdentifier:@"SelectFileNavigationController"];
 
-   /// UINavigationController* navi=[[UINavigationController alloc]initWithRootViewController:vc1];
-    UIViewController* vc= [self.storyboard instantiateViewControllerWithIdentifier:@"UploadFileViewController"];
-    [self.navigationController pushViewController:vc animated:YES];
-}
+
+#pragma mark:tableView delegates
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -129,18 +142,13 @@ DetailChatingViewController
    
     return app.FeedbackOrQueryDetailChatingObjectsArray.count;
 }
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-   
-}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-   FeedbackChatingCounter* feedObject= [app.FeedbackOrQueryDetailChatingObjectsArray objectAtIndex:indexPath.row];
-    NSLog(@"%@",feedObject.userFrom);
-    
+    FeedbackChatingCounter* feedObject= [app.FeedbackOrQueryDetailChatingObjectsArray objectAtIndex:indexPath.row];
     Database* db=[Database shareddatabase];
     NSString* userRole=[db getUserIdFromUserNameWithRoll1:feedObject.userFrom];
     if (cell!=nil)
@@ -153,41 +161,37 @@ DetailChatingViewController
         }
     }
     
-   UILabel* userName= (UILabel*)[cell viewWithTag:50];
+    UILabel* userName= (UILabel*)[cell viewWithTag:50];
     userName.text=feedObject.userFrom;
+    
     UILabel* feedText= (UILabel*)[cell viewWithTag:51];
     NSString* detailMessage=[self stringByStrippingHTML:feedObject.detailMessage];
-    //feedText.text= @"gfhghj gg gh kljh klh lkjhkl lkh klh lkhlk klj klh kljh klh kljh lkhjkl kljh kljh kljh kljh klh kljh k fghdf hdf hdfh dh h h dfhdfh dfh dfh h h dfh h dfhdf hdfh dfh dfh dfhdfhdfh dfhd hdfh dhdh lhj lkjh kljh l;khj lkh lkhj klj kljh klj hhj";
     feedText.text=detailMessage;
-    UILabel* feedTime= (UILabel*)[cell viewWithTag:52];
-   // UILabel* referenceLabel= (UILabel*)[cell viewWithTag:101];
-
-    UILabel* attachmentLabel= (UILabel*)[cell viewWithTag:53];
-    //attachmentLabel.text=[self stringByStrippingHTML:feedObject.attachments];
-
-    NSString* allAttachmentsNamesString=[self stringByStrippingHTML:feedObject.attachments];
     
-       NSArray* attachmentsNamesArray=[allAttachmentsNamesString componentsSeparatedByString:@"#@$"];
+    UILabel* feedTime= (UILabel*)[cell viewWithTag:52];
+    NSString* dd=feedObject.dateOfFeed;
+    NSArray *components = [dd componentsSeparatedByString:@" "];
+    NSString *date = components[0];
+    NSString *time = components[1];
+    feedTime.text=[NSString stringWithFormat:@"%@   %@",date,time];
+    
+    UILabel* attachmentLabel= (UILabel*)[cell viewWithTag:53];
+    NSString* allAttachmentsNamesString=[self stringByStrippingHTML:feedObject.attachments];
+    NSArray* attachmentsNamesArray=[allAttachmentsNamesString componentsSeparatedByString:@"#@$"];
    
     
-    //[[cell viewWithTag:10000] removeFromSuperview];
+    
     NSString *attachmentString = @"";
     if (attachmentsNamesArray.count > 0)
     {
         attachmentString = attachmentsNamesArray[0];
     }
     
-    NSLog(@" Row = %ld",(long)indexPath.row);
-    NSLog(@"attachmentString = %@",attachmentString);
-    
     UIView *subView = [cell.contentView viewWithTag:10000];
-    
     if (subView != nil)
     {
         [subView removeFromSuperview];
     }
-    
-    
     cell.tag = indexPath.row;
     if (attachmentString.length > 0)
     {
@@ -198,11 +202,6 @@ DetailChatingViewController
             counterGraphObj.attachmentArray=[NSArray arrayWithArray:attachmentsNamesArray];
             counterGraphObj.cell=cell;
             counterGraphObj.selectedIndex = (int)indexPath.row;
-            //counterGraphObj.referenceForCounterGraphView=referenceViewForCounterGraph;
-            //counterGraphObj.count=counter;
-            //counterGraphLabel.backgroundColor = [UIColor communicatorColor];
-            // [counterGraphLabel setFrame:CGRectMake(counterGraphLabel.frame.origin.x, counterGraphLabel.frame.origin.y, 0.0f, counterGraphLabel.frame.size.height)];
-            
             [self performSelector:@selector(setCounterGraphLabel:) withObject:counterGraphObj afterDelay:0.0005];
         }
     }
@@ -211,31 +210,34 @@ DetailChatingViewController
     
     CGSize expectedLabelSize = [feedObject.detailMessage sizeWithFont:feedText.font constrainedToSize:maximumLabelSize lineBreakMode:feedText.lineBreakMode];
     
-    //adjust the label the the new height.
     CGRect newFrame = feedText.frame;
     newFrame.size.height = expectedLabelSize.height;
     feedText.frame = newFrame;
     
-    
-    
-    
-    
-    NSString* dd=feedObject.dateOfFeed;
-   // NSDate* sd=[[NSDate alloc]init];
-    NSArray *components = [dd componentsSeparatedByString:@" "];
-        NSString *date = components[0];
-    NSString *time = components[1];
-//    NSLog(@"%@",date);
-//    NSLog(@"%@",time);
-
-    feedTime.text=[NSString stringWithFormat:@"%@   %@",date,time];
-
     return cell;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    FeedbackChatingCounter* feedObject= [app.FeedbackOrQueryDetailChatingObjectsArray objectAtIndex:indexPath.row];
+    
+    UILabel* feedTextLbl= [[UILabel alloc]initWithFrame:CGRectMake(5.0f, 0.0f, self.view.frame.size.width - 10.0f, 30.0f)];
+    feedTextLbl.text=feedObject.detailMessage;
+    [feedTextLbl setFont:[UIFont systemFontOfSize:12.0f]];
+    feedTextLbl.lineBreakMode = UILineBreakModeWordWrap;
+    feedTextLbl.numberOfLines = 10000000;
+    CGRect newFrame= [self getFrameSize:feedObject label:feedTextLbl];
+    CGRect newFrame1= [self getFrame:feedObject label:feedTextLbl];
+    
+    
+    NSLog(@"%f",40 + newFrame.size.height+newFrame1.size.height);
+    return 30 + newFrame.size.height+newFrame1.size.height;
+}
+
+#pragma mark:height for cell;supporting methods
+
 -(void)setCounterGraphLabel:(CounterGraph*)counterGraphObj
 {
-   // counterGraphObj.counterGraphlabel.adjustsFontSizeToFitWidth = false;
     UIView *subView = [counterGraphObj.cell.contentView viewWithTag:10000];
     
     if (subView != nil)
@@ -248,42 +250,65 @@ DetailChatingViewController
         return;
     }
     
-                            UIView* attachmentSubView=[[UIView alloc]init];
-                         //[attachmentSubView setFrame:CGRectMake(12, 12, 300, counterGraphObj.counterGraphlabel.frame.size.height)];
+                         UIView* attachmentSubView=[[UIView alloc]init];
                          attachmentSubView.tag=10000;
                          float yPosOfLbl = 10.0f;
-    NSLog(@"%f",counterGraphObj.counterGraphlabel.frame.origin.y);
+                         NSLog(@"%f",counterGraphObj.counterGraphlabel.frame.origin.y);
                          for (int i=0; i<counterGraphObj.attachmentArray.count; i++)
                          {
-                             [attachmentSubView setFrame:CGRectMake(counterGraphObj.counterGraphlabel.frame.origin.x, counterGraphObj.counterGraphlabel.frame.origin.y+(10), 300, 10)];
-                            
-                             
+                             [attachmentSubView setFrame:CGRectMake(counterGraphObj.counterGraphlabel.frame.origin.x, counterGraphObj.counterGraphlabel.frame.origin.y+(2*i), 320, 34*(counterGraphObj.attachmentArray.count))];
+                           
 
                              UILabel* label=[[UILabel alloc]init];
                              //label.tag=10000;
                              label.font=[UIFont systemFontOfSize:12];
-                             [label setFrame:CGRectMake(counterGraphObj.counterGraphlabel.frame.origin.x, (i*yPosOfLbl), 200, counterGraphObj.counterGraphlabel.frame.size.height)];
+                             [label setFrame:CGRectMake(counterGraphObj.counterGraphlabel.frame.origin.x, (yPosOfLbl*i*4), 200, counterGraphObj.counterGraphlabel.frame.size.height)];
                              label.text=[counterGraphObj.attachmentArray objectAtIndex:i];
                              
-                             UIButton* attachmentDownloadButton=[UIButton new];
-                             [attachmentDownloadButton setFrame:CGRectMake(counterGraphObj.counterGraphlabel.frame.origin.x, (i*yPosOfLbl), 300, counterGraphObj.counterGraphlabel.frame.size.height)];
-                             attachmentDownloadButton.backgroundColor=[UIColor clearColor];
+                             NSLog(@"%f,%f",counterGraphObj.counterGraphlabel.frame.origin.x,counterGraphObj.counterGraphlabel.frame.origin.y);
+                             
+
+                             
+                             NSString* filePath=[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/Attachments/%@",[counterGraphObj.attachmentArray objectAtIndex:i]]];
                              
                              UIImageView* attachmentDownloadImageView=[[UIImageView alloc]init];
-                             attachmentDownloadImageView.image=[UIImage imageNamed:@"FileDownload"];
-                             [attachmentDownloadImageView setFrame:CGRectMake(205, (i*yPosOfLbl),20, 20)];
 
-                             float heightOfView = attachmentDownloadButton.frame.size.height+yPosOfLbl;
-                             //float heightOfView = attachmentDownloadButton.frame.size.height + attachmentSubView.frame.size.height;
+                             if (![[NSFileManager defaultManager] fileExistsAtPath:filePath])
+                             {
+                                 attachmentDownloadImageView.image=[UIImage imageNamed:@"FileDownload"];
+                                 [attachmentDownloadImageView setFrame:CGRectMake(205, (yPosOfLbl*i*4),20, 20)];
+                             }
+                             else
+                             {
+                                 attachmentDownloadImageView.image=nil;
+                                 [attachmentDownloadImageView setFrame:CGRectMake(205, (yPosOfLbl*i*4),20, 20)];
+                             }
 
                              
+                            
+                             
+                             UIButton* attachmentDownloadButton=[UIButton buttonWithType:UIButtonTypeRoundedRect];
+                             [attachmentDownloadButton setFrame:CGRectMake(counterGraphObj.counterGraphlabel.frame.origin.x, (yPosOfLbl*i*4), 300, counterGraphObj.counterGraphlabel.frame.size.height)];
+                             //attachmentDownloadButton.backgroundColor=[UIColor redColor];
+                             attachmentDownloadButton.titleLabel.text=[counterGraphObj.attachmentArray objectAtIndex:i];
+                             hud.label.text = NSLocalizedString(@"Please wait...", @"HUD Loading title");
+                             hud.minSize = CGSizeMake(150.f, 100.f);
+                             [attachmentDownloadButton addTarget:self action:@selector(showFilePreviewOrDownload:) forControlEvents:UIControlEventTouchUpInside];
 
+                             
                              
                              [attachmentSubView addSubview:label];
-                             [attachmentSubView addSubview:attachmentDownloadButton];
                              [attachmentSubView addSubview:attachmentDownloadImageView];
-                             [counterGraphObj.cell.contentView addSubview:attachmentSubView];
+                             [attachmentSubView addSubview:attachmentDownloadButton];
+                             
+                              attachmentSubView.userInteractionEnabled=YES;
 
+                             NSLog(@"dfds");
+                             
+
+                             [counterGraphObj.cell.contentView addSubview:attachmentSubView];
+                             
+                            
                          }
 
     
@@ -291,32 +316,59 @@ DetailChatingViewController
     
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+-(void)showFilePreviewOrDownload:(UIButton*)sender
 {
-    // userName.text=@"details";
-    FeedbackChatingCounter* feedObject= [app.FeedbackOrQueryDetailChatingObjectsArray objectAtIndex:indexPath.row];
+    
+    NSLog(@"%@",sender.titleLabel.text);
+    NSError* error;
+    NSString *folderpath,*destpath;
+    NSString* stringURL = [NSString stringWithFormat:@"http://localhost:9090/coreflex/resources/CfsFiles/%@",sender.titleLabel.text];
+    NSString* webStringURL = [stringURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSURL* url = [NSURL URLWithString:webStringURL];
+    
+    
+    destpath=[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/Attachments/%@",sender.titleLabel.text]];
+    
+    NSString* filePath=[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/Attachments"]];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:destpath])
+    {
+        if (![[NSFileManager defaultManager] fileExistsAtPath:filePath])
+            [[NSFileManager defaultManager] createDirectoryAtPath:filePath withIntermediateDirectories:NO attributes:nil error:&error]; //Create folder
+        
+            hud.label.text = NSLocalizedString(@"Please wait...", @"HUD Loading title");
+            // Will look best, if we set a minimum size.
+            hud.minSize = CGSizeMake(150.f, 100.f);
+            NSData * data = [NSData dataWithContentsOfURL:url];
+            [data writeToFile:destpath atomically:YES];
+       
+        
+        
+    }
+    
+    else
+    {
+        NSString* fileURL=[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/Attachments/%@",sender.titleLabel.text]];
+        NSURL* file = [NSURL fileURLWithPath:fileURL];
+        
+        UIDocumentInteractionController* documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:file];
+        
+        
+        [documentInteractionController setDelegate:self];
+        [documentInteractionController presentOpenInMenuFromRect:self.view.frame inView:self.view animated:YES];
 
-    UILabel* feedTextLbl= [[UILabel alloc]initWithFrame:CGRectMake(5.0f, 0.0f, self.view.frame.size.width - 10.0f, 30.0f)];
-    feedTextLbl.text=feedObject.detailMessage;
-    [feedTextLbl setFont:[UIFont systemFontOfSize:12.0f]];
-    feedTextLbl.lineBreakMode = UILineBreakModeWordWrap;
-    feedTextLbl.numberOfLines = 10000000;
-   // feedTextLbl.text= @"gfhghj gg gh kljh klh lkjhkl lkh klh lkhlk klj klh kljh klh kljh lkhjkl kljh kljh kljh kljh klh kljh k fghdf hdf hdfh dh h h dfhdfh dfh dfh h h dfh h dfhdf hdfh dfh dfh dfhdfhdfh dfhd hdfh dhdh lhj lkjh kljh l;khj lkh lkhj klj kljh klj hhj";
-
-   CGRect newFrame= [self getFrameSize:feedObject label:feedTextLbl];
-    CGRect newFrame1= [self getFrame:feedObject label:feedTextLbl];
-
-//    CGSize maximumLabelSize = CGSizeMake(96, FLT_MAX);
-//    
-//    CGSize expectedLabelSize = [feedObject.detailMessage sizeWithFont:feedTextLbl.font constrainedToSize:maximumLabelSize lineBreakMode:feedTextLbl.lineBreakMode];
-//    
-//    //adjust the label the the new height.
-//    CGRect newFrame = feedTextLbl.frame;
-//    newFrame.size.height = expectedLabelSize.height;
-    NSLog(@"%f",40 + newFrame.size.height+newFrame1.size.height);
-    return 30 + newFrame.size.height+newFrame1.size.height;
+        [documentInteractionController presentPreviewAnimated:YES];
+        
+    }
+    
+    
+    
 }
 
+- (UIViewController *) documentInteractionControllerViewControllerForPreview: (UIDocumentInteractionController *) controller
+{
+    return self;
+}
 -(CGRect)getFrame:(FeedbackChatingCounter*)feedObject label:(UILabel*)feedTextLbl
 {
     NSString* attachmentString= feedObject.attachments;
@@ -333,11 +385,6 @@ DetailChatingViewController
     //adjust the label the the new height.
     CGRect newFrame = feedTextLbl.frame;
     newFrame.size.height = expectedLabelSize.height*allAttachmentArray.count;
-//    if ([attachmentName isEqualToString:@""])
-//    {
-//        newFrame.size.height=0;
-//        
-//    }
     if (newFrame.size.height < 20)
     {
         newFrame.size.height = 20.0f; 
@@ -363,6 +410,9 @@ DetailChatingViewController
     return newFrame;
 
 }
+
+#pragma mark:remove html tags
+
 -(NSString *) stringByStrippingHTML:(NSString *) stringWithHtmlTags {
     NSRange r;
     while ((r = [stringWithHtmlTags rangeOfString:@"<[^>]+>" options:NSRegularExpressionSearch]).location != NSNotFound)
@@ -370,166 +420,21 @@ DetailChatingViewController
     return stringWithHtmlTags;
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-//
-//-(void)uploadFileToServer:(NSString *)fileName
-//
-//{
-//    fileName = @"AppIcon80x80.png";
-//
-//    
-//    // NSURL* url=[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", @"http://192.168.3.170:8080/coreflex/feedcom", @"uploadFileFromMobile"]];
-//    
-//    NSURL* url=[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", @"http://localhost:9090/coreflex/feedcom", @"uploadFileFromMobile"]];
-//    
-//
-//    NSString *boundary = [self generateBoundaryString];
-//    
-//    NSString *path = [[NSBundle mainBundle] pathForResource:@"AppIcon80x80" ofType:@"png"];
-//
-//    // configure the request
-//    NSDictionary *params = @{@"filename"     : @"AppIcon80x80.png",
-//                             };
-//    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
-//    [request setHTTPMethod:@"POST"];
-//    
-//    // set content type
-//    
-//    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
-//    [request setValue:contentType forHTTPHeaderField: @"Content-Type"];
-//    
-//    // create body
-//    
-//    NSData *httpBody = [self createBodyWithBoundary:boundary parameters:params paths:@[path] fieldName:fileName];
-//    
-//    request.HTTPBody = httpBody;
-//    
-//    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-//        if (connectionError)
-//        {
-//            NSLog(@"error = %@", connectionError);
-//            return;
-//        }
-//        
-//        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-//        NSLog(@"result = %@", result);
-//    }];
-//    
-//    
-//    
-//    
-//    
-//}
-//
-//
-//
-//- (NSData *)createBodyWithBoundary:(NSString *)boundary
-//                        parameters:(NSDictionary *)parameters
-//                             paths:(NSArray *)paths
-//                         fieldName:(NSString *)fieldName
-//{
-//    NSMutableData *httpBody = [NSMutableData data];
-//    
-//    // add params (all params are strings)
-//    
-//    [parameters enumerateKeysAndObjectsUsingBlock:^(NSString *parameterKey, NSString *parameterValue, BOOL *stop) {
-//        [httpBody appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-//        [httpBody appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n", parameterKey] dataUsingEncoding:NSUTF8StringEncoding]];
-//        [httpBody appendData:[[NSString stringWithFormat:@"%@\r\n", parameterValue] dataUsingEncoding:NSUTF8StringEncoding]];
-//    }];
-//    
-//    // add image data
-//    
-//    for (NSString *path in paths)
-//    {
-//        NSString *filename  = [path lastPathComponent];
-//        NSData   *data      = [NSData dataWithContentsOfFile:path];
-//        NSString *mimetype  = [self mimeTypeForPath:path];
-//        
-//        [httpBody appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-//        [httpBody appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n", fieldName, filename] dataUsingEncoding:NSUTF8StringEncoding]];
-//        [httpBody appendData:[[NSString stringWithFormat:@"Content-Type: %@\r\n\r\n", mimetype] dataUsingEncoding:NSUTF8StringEncoding]];
-//        [httpBody appendData:data];
-//        [httpBody appendData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-//    }
-//    
-//    [httpBody appendData:[[NSString stringWithFormat:@"--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-//    
-//    return httpBody;
-//}
-//
-//
-//- (NSString *)mimeTypeForPath:(NSString *)path
-//{
-//    // get a mime type for an extension using MobileCoreServices.framework
-//    
-//    CFStringRef extension = (__bridge CFStringRef)[path pathExtension];
-//    CFStringRef UTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, extension, NULL);
-//    assert(UTI != NULL);
-//    
-//    NSString *mimetype = CFBridgingRelease(UTTypeCopyPreferredTagWithClass(UTI, kUTTagClassMIMEType));
-//    assert(mimetype != NULL);
-//    
-//    CFRelease(UTI);
-//    
-//    return mimetype;
-//}
-//
-//
-//- (NSString *)generateBoundaryString
-//{
-//    return [NSString stringWithFormat:@"Boundary-%@", [[NSUUID UUID] UUIDString]];
-//}
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+#pragma mark:image picker delegates
 - (void)imagePickerController:(UIImagePickerController *)picker
         didFinishPickingImage:(UIImage *)image
                   editingInfo:(NSDictionary *)editingInfo
 {
-    // Dismiss the image selection, hide the picker and
-    //UIViewController * vc = [self.storyboard instantiateViewControllerWithIdentifier:@"DetailChatingViewController"];
-    
-
-    //show the image view with the picked image
     
        [self dismissViewControllerAnimated:YES completion:NULL];
-    //UIImage *newImage = image;
 }
 
-//- (void)imagePickerController:(UIImagePickerController *)picker
-//        didFinishPickingImage:(UIImage *)image
-//                  editingInfo:(NSDictionary *)editingInfo
-//{
-//    // Dismiss the image selection, hide the picker and
-//    
-//    //show the image view with the picked image
-//    NSLog(@"%@",self.presentingViewController.presentingViewController);
-//    UIViewController * vc = [self.storyboard instantiateViewControllerWithIdentifier:@"DetailChatingViewController"];
-//    
-//    //[self.navigationController pushViewController:vc animated:YES];
-//
-//    [self.navigationController pushViewController:vc animated:YES];
-//    //UIImage *newImage = image;
-//}
+#pragma mark:self view action methods
 
 - (IBAction)sendFeedbackButtonClicked:(id)sender
 {
-    //NSString* replyMessageString= sendFeedbackTextfield.text;
     NSString* userFrom,* userTo;
-    long feedbackCount;
-   //NSString* userFeedback;
     if ([sendFeedbackTextfield.text length] <= 0)
     {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Empty message!" message:@"Please enter some messag and try again" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:@"Cancel", nil];
@@ -546,13 +451,11 @@ DetailChatingViewController
         NSString* companyId=[db getCompanyId:username];
         NSString* userFeedback=[db getUserIdFromUserName:username];
         NSMutableArray* maxFeedIdAndCounterArray=[db getMaxFeedIdAndCounter:feedObject.soNumber :feedObject.feedbackType];
-      // NSString* selectedCompany = [[NSUserDefaults standardUserDefaults]valueForKey:@"selectedCompany"];
         if ([companyId isEqual:@"1"])
         {
             userFrom=@"1";
             username=[db getUserNameFromCompanyname:[[NSUserDefaults standardUserDefaults]valueForKey:@"selectedCompany"]];
             userTo=[db getUserIdFromUserNameWithRoll1:username];
-            //userTo=[db getCompanyId: [[NSUserDefaults standardUserDefaults]valueForKey:@"selectedCompany"]];
 
         }
         
@@ -564,9 +467,6 @@ DetailChatingViewController
 
            
         }
-        //feedbackCount=[db getFeedbackCounterFromSONumberAndFeedbackType:feedObject.soNumber :feedObject.feedbackType];
-
-        //NSArray* operatorAndStausidArray=[db getOperatotAndStatusIdArrayFromSoNo:feedObject.soNumber];
         
         Feedback* feedObj=[[Feedback alloc]init];
        feedObj.soNumber = feedObject.soNumber;
@@ -618,7 +518,7 @@ DetailChatingViewController
         
         NSLog(@"%@",[dic valueForKey:@"userFeedback"]);
         
-        NSMutableDictionary* MainDict=[NSMutableDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] valueForKey:@"flag"],@"flag",dic,@"feedcomOrQuerycom", nil];
+        
 
         
         NSLog(@"%@",dic);
@@ -637,4 +537,51 @@ DetailChatingViewController
     }
 
 }
+
+#pragma mark:texfield delegates
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
+}
+
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    [self moveViewUp:YES];
+}
+
+-(void)textFieldDidEndEditing:(UITextField *)textField
+{
+    [self moveViewUp:NO];
+}
+
+- (void) moveViewUp: (BOOL) isUp
+{
+    const int movementDistance = 200; // tweak as needed
+    const float movementDuration = 0.3f; // tweak as needed
+    
+    //    if (!isUp)
+    //    {
+    //        movementDistance=totalMovement;
+    //        totalMovement=0;
+    //    }
+    
+    movement = (isUp ? -movementDistance : movementDistance);
+    
+    [UIView beginAnimations: @"anim" context: nil];
+    [UIView setAnimationBeginsFromCurrentState: YES];
+    [UIView setAnimationDuration: movementDuration];
+    self.tableview.frame = CGRectOffset(self.tableview.frame, 0, movement);
+    self.view.frame = CGRectOffset(self.view.frame, 0, movement);
+
+    [UIView commitAnimations];
+}
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+
 @end

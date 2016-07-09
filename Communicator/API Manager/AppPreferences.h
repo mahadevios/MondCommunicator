@@ -38,6 +38,10 @@
 
 @property (nonatomic,strong)NSMutableArray* sampleFeedtypeArray;
 @property (nonatomic,strong)NSMutableArray* samplefeedTypeCopyForPredicate;
+
+@property (nonatomic,strong)NSMutableDictionary* sampleReportDateDict;
+@property (nonatomic,strong)NSMutableDictionary* sampleReportDateCopyForPredicate;
+
 @property (nonatomic,strong)NSMutableArray* allMomArray;
 @property (nonatomic,strong)NSMutableDictionary* reportFileNamesDict;
 @property(nonatomic,strong)NSMutableArray* imageFilesArray;

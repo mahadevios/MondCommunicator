@@ -11,11 +11,16 @@
 #import "Mom.h"
 #import "MOMDetailTableViewController.h"
 @interface MainMOMViewController ()
+@property (strong, nonatomic) UISearchController *searchController;
+@property (nonatomic, strong) NSArray *search;
+@property(nonatomic, weak) id< UISearchControllerDelegate > delegate;
+@property (strong, nonatomic) NSString *indexPath;
 
 @end
 
 @implementation MainMOMViewController
-
+@synthesize search;
+@synthesize searchController;
 -(void)viewWillAppear:(BOOL)animated
 {
     //    self.navigationItem.title = @"New MOM";
@@ -29,6 +34,14 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(getLatestMOM:) name:NOTIFICATION_GETLATEST_MOM
                                                object:nil];
+//        searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
+//        searchController.searchResultsUpdater = self;
+//        searchController.searchBar.delegate = self;
+//        self.tableView.tableHeaderView = self.searchController.searchBar;
+//        self.definesPresentationContext = YES;
+//        self.searchController.obscuresBackgroundDuringPresentation = NO;
+//        self.searchController.hidesNavigationBarDuringPresentation=NO;     // default is YES
+
     Database *db=[Database shareddatabase];
     [db setMOMView];
     [self.tableView reloadData];
@@ -58,6 +71,36 @@
     [defaults setObject:NULL forKey:@"userObject"];
     [defaults setObject:NULL forKey:@"selectedCompany"];
 
+}
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController
+{
+//    NSPredicate *predicate =[NSPredicate predicateWithFormat:@"feedbackType CONTAINS [cd] %@", self.searchController.searchBar.text];
+//    NSArray *predicateResultArray;
+//    AppPreferences* app=[AppPreferences sharedAppPreferences];
+//    
+//    
+//    if ([self.searchController.searchBar.text isEqual:@""])
+//    {
+//        FeedQueryCounter *ft2=[[FeedQueryCounter alloc]init];
+//        int i;
+//        app.sampleFeedtypeArray=[[NSMutableArray alloc]init];
+//        for (i=0; i<app.feedQueryCounterDictsWithTypeArray.count; i++)
+//        {
+//            ft2= [app.feedQueryCounterDictsWithTypeArray objectAtIndex:i];
+//            NSLog(@"%@",ft2.feedbackType);
+//            [app.sampleFeedtypeArray insertObject:ft2 atIndex:i];
+//            
+//            [self.tableView reloadData];
+//        }
+//    }
+//    else
+//    {
+//        app.sampleFeedtypeArray=[[NSMutableArray alloc]init];
+//        predicateResultArray=[[NSMutableArray alloc]init];
+//        predicateResultArray =[app.samplefeedTypeCopyForPredicate filteredArrayUsingPredicate:predicate];
+//        app.sampleFeedtypeArray=[predicateResultArray mutableCopy];
+//        [self.tableView reloadData];
+//    }
 }
 
 

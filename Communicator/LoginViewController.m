@@ -22,6 +22,7 @@
 @end
 
 @implementation LoginViewController
+
 @synthesize rememberMeButton;
 @synthesize remeberMeLabel;
 @synthesize usenameTextField;
@@ -29,7 +30,6 @@
 @synthesize buttonColor;
 @synthesize hud;
 @synthesize navigationBar;
-
 BOOL check;
 UIAlertController *alertController1;
 NSMutableArray* webFeedCountArray;
@@ -37,35 +37,40 @@ NSMutableArray* webFeedTypeArray;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSString* demo=@"hello";
-    NSLog(@"This is hello text :: %@   This is second text :: %@",demo, @"second hello");
     [rememberMeButton setSelected:NO];
-    //[[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"rememberMe"];
     
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(rememberMeButtonClicked)];
     tapGestureRecognizer.numberOfTapsRequired = 1;
     [remeberMeLabel addGestureRecognizer:tapGestureRecognizer];
-    Database *db=[Database shareddatabase];
+    
     NSLog(@"%@",NSHomeDirectory());
-   // [db insertData];
-   // [db updateData:@"myname"];
     usenameTextField.delegate=self;
     passwordTextField.delegate=self;
     
-    // Do any additional setup after loading the view, typically from a nib.
 
   
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-  //  [[self navigationController] setNavigationBarHidden:YES animated:NO];
-    //buttonColor.backgroundColor=[UIColor communicatorColor];
+  
+    [self setView];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(validateUserResponse:) name:NOTIFICATION_VALIDATE_USER
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(validateCounter:) name:NOTIFICATION_VALIDATE_COUNTER
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(getLatestRecords:) name:NOTIFICATION_GETLATEST_FEEDCOM
+                                               object:nil];
+}
 
+-(void)setView
+{
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"LoginViewBackgroundImage"]];
     self.navigationController.navigationBar.barTintColor = [UIColor communicatorColor];
     [self.navigationController.navigationBar setBarStyle:UIStatusBarStyleLightContent];// to set carrier,time and battery color in white color
-//    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName: [UIColor whiteColor]};
     NSDictionary *size = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"Source Sans Pro" size:20.0],NSFontAttributeName, nil];
     
     self.navigationController.navigationBar.titleTextAttributes = size;
@@ -78,28 +83,14 @@ NSMutableArray* webFeedTypeArray;
     passwordTextField.layer.masksToBounds=YES;
     passwordTextField.layer.borderColor=[[UIColor grayColor]CGColor];
     passwordTextField.layer.borderWidth= 1.0f;
-
-      
-    [rememberMeButton setSelected:NO];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(validateUserResponse:) name:NOTIFICATION_VALIDATE_USER
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(validateCounter:) name:NOTIFICATION_VALIDATE_COUNTER
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(getLatestRecords:) name:NOTIFICATION_GETLATEST_FEEDCOM
-                                               object:nil];
+    [rememberMeButton setSelected:NO];
+
 }
 
-- (void) viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:YES];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_VALIDATE_USER object:nil];
-}
 
-//--------Selector for NOTIFICATION_VALIDATE_USER-----//
+#pragma mark:notifications
+//--------notification for NOTIFICATION_VALIDATE_USER-----//
 
 - (void)validateUserResponse:(NSNotification *)notification
 {
@@ -123,7 +114,7 @@ NSMutableArray* webFeedTypeArray;
     }
 }
 
-//--------Selector for NOTIFICATION_VALIDATE_COUNTER -----//
+//--------notification for NOTIFICATION_VALIDATE_COUNTER -----//
 
 - (void)validateCounter:(NSNotification *)notification
 {
@@ -132,7 +123,6 @@ NSMutableArray* webFeedTypeArray;
     {
         Database *db=[Database shareddatabase];
         [db insertFeedQueryCounter:notification.object];
-        NSError* error;
         AppPreferences* app=[AppPreferences sharedAppPreferences];
        
        app.companynameOrIdArray= [db findPermittedCompaniesForUsername:self.usenameTextField.text Password:self.passwordTextField.text];
@@ -140,8 +130,6 @@ NSMutableArray* webFeedTypeArray;
         
         [[APIManager sharedManager]getLatestRecordsForUsername:self.usenameTextField.text andPassword:self.passwordTextField.text];
 
-        
-        
         if (app.companynameOrIdArray.count==1)
         {
             NSLog(@"%@",[app.companynameOrIdArray objectAtIndex:0]);
@@ -163,7 +151,7 @@ NSMutableArray* webFeedTypeArray;
     
 }
 
-//-------- Selector for NOTIFICATION_GETLATEST_RECORDS -----//
+//-------- notification for NOTIFICATION_GETLATEST_RECORDS -----//
 
 - (void)getLatestRecords:(NSNotification *)notificationData
 {
@@ -215,10 +203,6 @@ NSMutableArray* webFeedTypeArray;
     if ([rememberMeButton isSelected])
     {
         [rememberMeButton setSelected:NO];
-        
-        
-        
-        
     }
     
     else
@@ -235,7 +219,6 @@ NSMutableArray* webFeedTypeArray;
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Empty field"
                                                                                  message:@"Please enter valid username and password"
                                                                           preferredStyle:UIAlertControllerStyleAlert];
-        //We add buttons to the alert controller by creating UIAlertActions:
         UIAlertAction *actionOk = [UIAlertAction actionWithTitle:@"Ok"
                                                            style:UIAlertActionStyleDefault
                                                          handler:nil]; //You can use a block here to handle a press on this button
@@ -244,18 +227,12 @@ NSMutableArray* webFeedTypeArray;
     }
     else
     {
-        
-                // Set some text to show the initial status.
-                hud.label.text = NSLocalizedString(@"Please wait...", @"HUD Loading title");
-                // Will look best, if we set a minimum size.
-                hud.minSize = CGSizeMake(150.f, 100.f);
+        hud.label.text = NSLocalizedString(@"Please wait...", @"HUD Loading title");
+        hud.minSize = CGSizeMake(150.f, 100.f);
         
         NSUserDefaults* defaults=[NSUserDefaults standardUserDefaults];
         [defaults setValue:self.usenameTextField.text forKey:@"currentUser"];
         [defaults setValue:self.passwordTextField.text forKey:@"currentPassword"];
-
-        //Database* db=[Database shareddatabase];
-       // [db validateUserFromLocalDatabase:self.usenameTextField.text :self.passwordTextField.text];
         
         [[APIManager sharedManager] validateUser:self.usenameTextField.text Password:self.passwordTextField.text andDeviceId:@"21"];
 
@@ -349,7 +326,11 @@ NSMutableArray* webFeedTypeArray;
 
 
 
-
+- (void) viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:YES];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NOTIFICATION_VALIDATE_USER object:nil];
+}
 
 
 - (void)didReceiveMemoryWarning

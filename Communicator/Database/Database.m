@@ -1372,8 +1372,8 @@ NSString * query = @"SELECT ID FROM user";
                 
                 getFeedbackAndQueryMessages=[NSMutableArray arrayWithObject:SO_NumberString];
                 
-                NSString* query2=[NSString stringWithFormat:@"Select Feedback_text from feedback where SO_Number='%s' AND feedbackCounter=(Select MIN(feedbackCounter) from feedback where SO_Number='%s' AND feedBackType=(Select feedBackType from feedback where SO_Number='%s'))",SO_Number,SO_Number,SO_Number];
-                NSString* query3=[NSString stringWithFormat:@"Select Query_text from query where SO_Number='%s' AND QueryCounter=(Select MIN(QueryCounter) from query where SO_Number='%s' AND feedBackType=(Select feedBackType from query where SO_Number='%s'))",SO_Number,SO_Number,SO_Number];
+                NSString* query2=[NSString stringWithFormat:@"Select Feedback_text from feedback where SO_Number='%s' AND feedbackCounter=(Select MAX(feedbackCounter) from feedback where SO_Number='%s' AND feedBackType=(Select feedBackType from feedback where SO_Number='%s'))",SO_Number,SO_Number,SO_Number];
+                NSString* query3=[NSString stringWithFormat:@"Select Query_text from query where SO_Number='%s' AND QueryCounter=(Select MAX(QueryCounter) from query where SO_Number='%s' AND feedBackType=(Select feedBackType from query where SO_Number='%s'))",SO_Number,SO_Number,SO_Number];
                 NSString* query4;
                 if ([flag isEqual:@"0"])
                 {
@@ -1840,7 +1840,7 @@ NSString * query = @"SELECT ID FROM user";
     }
     
     
-    NSString* query1=[NSString stringWithFormat:@"SELECT distinct filedate FROM report Where userFrom=%@ or userTo=%@",userTo,userTo];
+    NSString* query1=[NSString stringWithFormat:@"SELECT distinct filedate FROM report Where userFrom=%@ or userTo=%@ Order by filedate DESC",userTo,userTo];
     
     if (sqlite3_open([dbPath UTF8String], &feedbackAndQueryTypesDB) == SQLITE_OK)// 1. Open The DataBase.
     {
@@ -1850,16 +1850,10 @@ NSString * query = @"SELECT ID FROM user";
             {
                 Report* reportObj=[[Report alloc]init];
                 NSMutableArray* bufferArr=[[NSMutableArray alloc]init];
-                // [app.feedOrQueryDetailMessageArray addObject:[NSString stringWithUTF8String:message]];
-                //momObj.Id=[[NSString stringWithUTF8String:(const char*)sqlite3_column_text(statement, 0)]intValue];
-                
-                reportObj.date=[NSString stringWithUTF8String:(const char*)sqlite3_column_text(statement, 0)];
-                
-                
-                //[app.allMomArray addObject:momObj];
-                NSString* que=[NSString stringWithFormat:@"SELECT name,userfeedback FROM report Where filedate='%@' and (userFrom=%@ or userTo=%@)",reportObj.date,userTo,userTo];
+                 reportObj.date=[NSString stringWithUTF8String:(const char*)sqlite3_column_text(statement, 0)];
+                 NSString* que=[NSString stringWithFormat:@"SELECT name,userfeedback FROM report Where filedate='%@' and (userFrom=%@ or userTo=%@)",reportObj.date,userTo,userTo];
+                NSLog(@"%@",reportObj.date);
 
-                
                 if (sqlite3_prepare_v2(feedbackAndQueryTypesDB, [que UTF8String], -1, &statement1, NULL) == SQLITE_OK)// 2. Prepare the query
                 {
                     while (sqlite3_step(statement1) == SQLITE_ROW)
@@ -1868,8 +1862,7 @@ NSString * query = @"SELECT ID FROM user";
 
                         reportObj1.name=[NSString stringWithUTF8String:(const char*)sqlite3_column_text(statement1, 0)];
                         reportObj1.userfeedback=[[NSString stringWithUTF8String:(const char*)sqlite3_column_text(statement1, 1)]intValue];
-                        //reportObj1.date=reportObj.date;
-                        
+                        reportObj1.date=reportObj.date;
                         NSLog(@"%@",reportObj1.name);
                         NSLog(@"%d",reportObj1.userfeedback);
                         

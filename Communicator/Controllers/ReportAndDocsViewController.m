@@ -16,10 +16,13 @@
 @end
 
 @implementation ReportAndDocsViewController
+@synthesize hud;
 @synthesize reportButton;
 @synthesize reportButtonUnderlineView;
 @synthesize documentButton;
 @synthesize documentButtonUnderlineView;
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -59,20 +62,6 @@
 //}
 -(void)viewWillAppear:(BOOL)animated
 {
-//    NSError* error;
-//    NSURL *url = [NSURL URLWithString:
-//    @"http://localhost:9090/coreflex/resources/CfsFiles/1466172700295Download-3X.png"];
-//    UIImage *image = [UIImage imageWithData: [NSData dataWithContentsOfURL:url]];
-//    NSString *folderpath=[NSHomeDirectory() stringByAppendingPathComponent:@"Documents/Images"];
-//    NSString *destpath=[NSHomeDirectory() stringByAppendingPathComponent:@"Documents/Images/1466172700295Download-3X.png"];
-//
-//       if (![[NSFileManager defaultManager] fileExistsAtPath:folderpath])
-//        [[NSFileManager defaultManager] createDirectoryAtPath:folderpath withIntermediateDirectories:NO attributes:nil error:&error]; //Create folder
-//    [UIImagePNGRepresentation(image) writeToFile:destpath atomically:YES];
-//
-    
-
-    
     self.tabBarController.navigationItem.title = @"Reports & Docs";
      //self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(popViewController1)] ;
     self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"SignOut"] style:UIBarButtonItemStylePlain target:self action:@selector(popViewController1)] ;
@@ -90,7 +79,7 @@
                                              selector:@selector(get50Documents:) name:NOTIFICATION_GET_50DOCUMENTS
                                                object:nil];
 
-    
+
     Database *db=[Database shareddatabase];
     [db setReportView];
     [self setFilesDateWise];
@@ -345,17 +334,17 @@
     
     destpath=[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@/%@",folderName,filenameString]];
     
-    NSString* filePath=[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@/%@",folderName,filenameString]];
+    NSString* filePath=[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@",folderName]];
     
-    if (![[NSFileManager defaultManager] fileExistsAtPath:filePath])
+    if (![[NSFileManager defaultManager] fileExistsAtPath:destpath])
     {
-        if (![[NSFileManager defaultManager] fileExistsAtPath:folderpath])
-            [[NSFileManager defaultManager] createDirectoryAtPath:folderpath withIntermediateDirectories:NO attributes:nil error:&error]; //Create folder
-        NSData * data = [NSData dataWithContentsOfURL:url];
-        [data writeToFile:destpath atomically:YES];
-        
+      if (![[NSFileManager defaultManager] fileExistsAtPath:filePath])
+            [[NSFileManager defaultManager] createDirectoryAtPath:filePath withIntermediateDirectories:NO attributes:nil error:&error]; //Create folder
+            NSData * data = [NSData dataWithContentsOfURL:url];
+            [data writeToFile:destpath atomically:YES];
+          
+      
     }
-    
     else
     {
         NSString* fileURL=[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/Reports/%@",filenameString]];

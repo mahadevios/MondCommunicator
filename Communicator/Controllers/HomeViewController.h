@@ -24,7 +24,6 @@
     long counter;
 }
 
-- (IBAction)changeType:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UILabel *chatTypeLabel;
 

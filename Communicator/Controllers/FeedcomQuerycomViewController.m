@@ -25,24 +25,15 @@
 @synthesize feedTypeSONoArray;
 @synthesize feedTypeSONoCopyForPredicate;
 @synthesize cerateNewFeedbackOrQueryButton;
+@synthesize window;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    [self createBarButtonItem];
-//    SWRevealViewController *revealViewController = self.revealViewController;
-//    if ( revealViewController )
-//    {
-//        [menuBarButton setTarget: self.revealViewController];
-//        [menuBarButton setAction: @selector( revealToggle: )];
-//       // [self.view addGestureRecognizer:self.revealViewController.panGestureRecognizer];
-//    }     // Do any additional setup after loading the view.
-//
     [[self navigationController] setNavigationBarHidden:NO animated:YES];
-
-    results=[NSArray arrayWithObjects:@"11",@"12",@"13",@"14",@"15",nil];
-    searchResults = (FeedcomQuerycomViewController *)self.searchController;
-
+    [self setSearchController];
+}
+-(void)setSearchController
+{
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
     self.searchController.searchResultsUpdater = self;
     searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
@@ -52,91 +43,62 @@
     self.definesPresentationContext = YES;
     self.searchController.obscuresBackgroundDuringPresentation = NO;
     self.searchController.hidesNavigationBarDuringPresentation=NO;
-    
     self.definesPresentationContext = YES;
-
-    NSLog(@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"flag"]);
-       // [self addObserver:searchResults forKeyPath:@"results" options:NSKeyValueObservingOptionNew context:nil];
-
 }
-
 -(void)viewWillAppear:(BOOL)animated
 {
-    
-   NSArray* arr= self.navigationController.viewControllers;
-    for (int i=0; i<arr.count; i++)
-    {
-        NSLog(@"%@",[arr objectAtIndex:i]);
-        
-    }
-    NSLog(@"%@",self.feedbackType);
+    [self setNavigationBar];
+    [self prepareForSearchBar];
+}
 
-//    self.tabBarController.navigationItem.hidesBackButton=NO;
+-(void)setNavigationBar
+{
     self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"BackArrow"] style:UIBarButtonItemStylePlain target:self action:@selector(popViewController)] ;
-    
     self.tabBarController.navigationItem.rightBarButtonItem = nil;
-
     self.tabBarController.navigationItem.leftBarButtonItem.tintColor=[UIColor whiteColor];
-
-   //self.navigationController.navigationItem.backBarButtonItem.image = [UIImage imageNamed:@"BackArrow"];
-   // self.tabBarController.navigationItem.title = @"FeedCom";
-  
     Database *db=[Database shareddatabase];
     NSString* username = [[NSUserDefaults standardUserDefaults] valueForKey:@"currentUser"];
     NSString* companyId=[db getCompanyId:username];
     if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"flag"] isEqual:@"0"])
     {
         self.tabBarController.navigationItem.title = @"FeedCom";
-
     }
+    
     if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"flag"] isEqual:@"1"])
     {
         self.tabBarController.navigationItem.title = @"QueryCom";
-        
     }
+    
     if ([companyId isEqual:@"1"] && [[[NSUserDefaults standardUserDefaults] valueForKey:@"flag"] isEqual:@"0"])
     {
-        
         [cerateNewFeedbackOrQueryButton setHidden:YES];
-
     }
     else
     {
         if (!([companyId isEqual:@"1"]) && [[[NSUserDefaults standardUserDefaults] valueForKey:@"flag"] isEqual:@"1"])
         {
-            
             [cerateNewFeedbackOrQueryButton setHidden:YES];
-
         }
-        
         else
-            [cerateNewFeedbackOrQueryButton setHidden:NO];
+        [cerateNewFeedbackOrQueryButton setHidden:NO];
     }
 
+}
+
+-(void)prepareForSearchBar
+{
     arrayOfSeperatedSOArray=[[NSMutableArray alloc]init];
     AppPreferences* app=[AppPreferences sharedAppPreferences];
     feedTypeSONoArray=[[NSMutableArray alloc]init];
     feedTypeSONoCopyForPredicate=[[NSMutableArray alloc]init];
     for (int i=0; i<app.feedQueryMessageHeaderArray.count; i++)
     {
-        NSLog(@"%lu",(unsigned long)app.feedQueryMessageHeaderArray.count);
         FeedOrQueryMessageHeader *headerObj=[app.feedQueryMessageHeaderArray objectAtIndex:i];
-        NSString* soNumber= headerObj.soNumber;
-        NSString* feedText=headerObj.feedText;
-        NSString* feeddate=headerObj.feedDate;
-        NSLog(@"%@,,,,%@,,,,,,%d",soNumber,feedText,headerObj.feedbackType);
-        
-        // NSArray* separatedSO=[soNumber componentsSeparatedByString:@"#@"];
-        
         [feedTypeSONoArray addObject:headerObj];
         [feedTypeSONoCopyForPredicate addObject:headerObj];
-        
-        NSLog(@"%lu",(unsigned long)arrayOfSeperatedSOArray.count);
-        
     }
-
+    
 }
-
 -(void)popViewController
 {
     UINavigationController *navController = self.navigationController;
@@ -144,18 +106,9 @@
     [navController popViewControllerAnimated:YES];
 }
 
--(void)createBarButtonItem
-{
-    //menuBarButton=    [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"SliderMenu"] style:NULL target:NULL action:NULL];
-   // self.navigationItem.leftBarButtonItem = menuBarButton;
-}
-
 
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
-   // NSPredicate *predicate =[NSPredicate predicateWithFormat:@"SELF contains [cd] %@", self.searchController.searchBar.text];
-    
-    
     if ([self.searchController.searchBar.text isEqual:@""])
     {
         FeedOrQueryMessageHeader *Obj1=[[FeedOrQueryMessageHeader alloc]init];
@@ -195,10 +148,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-//    AppPreferences* app=[AppPreferences sharedAppPreferences];
-//
     return feedTypeSONoArray.count;
-    //return 3;
 }
 - (nullable NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
@@ -208,36 +158,19 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
         
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-
-   // UILabel* soNoLabel=(UILabel*)[cell viewWithTag:12];
-   // soNoLabel.text=@"So No";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
         FeedOrQueryMessageHeader *headerObj1=[feedTypeSONoArray objectAtIndex:indexPath.row];
         NSString* soNumber= headerObj1.soNumber;
-        NSString* feedText=headerObj1.feedText;
-        NSLog(@"%@,,,,%@",soNumber,feedText);
         NSArray* separatedSO=[soNumber componentsSeparatedByString:@"#@"];
-   
-
         UILabel* soNoLabel=(UILabel*)[cell viewWithTag:12];
-
         soNoLabel.text=[NSString stringWithFormat:@"SO No.%@ \nAvaya Id:%@ \nDocument Id:%@",[separatedSO objectAtIndex:0],[separatedSO objectAtIndex:1],[separatedSO objectAtIndex:2]];
-    
         UILabel* feedbackLabel=(UILabel*)[cell viewWithTag:15];
         NSString *feedBackString =  [self stringByStrippingHTML:headerObj1.feedText];
-    feedbackLabel.text= feedBackString;
-        NSString* dateString= headerObj1.feedDate;
-        double da=[dateString doubleValue];
-        NSLog(@"%f",da);
-        NSString *dd = [NSString stringWithFormat:@"%@",[NSDate dateWithTimeIntervalSince1970:da/1000.0]];
-        NSArray *components = [dd componentsSeparatedByString:@" "];
-        NSString *date = components[0];
-        NSString *time = components[1];
-        NSLog(@"%@,,,,%@",date,time);
-    
+        feedbackLabel.text= feedBackString;
+        NSArray *components1 = [headerObj1.feedDate componentsSeparatedByString:@"+"];
+        NSArray* dateAndTimeArray= [components1[0] componentsSeparatedByString:@" "];
         UILabel* dateAndTimeLabel=(UILabel*)[cell viewWithTag:13];
-        //NSString* dateAndTimeLabelString=[NSString stringWithFormat:@"%@\n%@",date,time];
-        dateAndTimeLabel.text=headerObj1.feedDate;
+        dateAndTimeLabel.text=[NSString stringWithFormat:@"%@ \n%@",dateAndTimeArray[0],dateAndTimeArray[1]];
     
         return cell;
     
@@ -253,7 +186,6 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     Database *db=[Database shareddatabase];
-    UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
 
     FeedOrQueryMessageHeader *headerObj1=[feedTypeSONoArray objectAtIndex:indexPath.row];
     int feedType=headerObj1.feedbackType;
@@ -275,32 +207,18 @@
     return stringWithHtmlTags;
 }
 
-
-//- (void)dealloc
-//{
-//    [self removeObserver:searchResults forKeyPath:@"results"];
-//}
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
-//- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
-//{
-//    
-//    self.results = [(NSArray *)object valueForKey:@"results"];
-//    [self.tableView reloadData];
-//}
+
 - (IBAction)buttonClicked:(id)sender
 {
     UINavigationController * vc = [self.storyboard instantiateViewControllerWithIdentifier:@"CreateNewFeedbackNavigationController"];
- NSArray* arr=   vc.childViewControllers;
- CreateNewFeedbackViewController* vcc=   [arr objectAtIndex:0];
+    NSArray* arr=   vc.childViewControllers;
+    CreateNewFeedbackViewController* vcc=   [arr objectAtIndex:0];
     vcc.feedbackType=self.feedbackType;
-    //[self.navigationController pushViewController:vc animated:YES];
     [self.navigationController presentViewController:vc animated:YES completion:nil];
-    
 }
 @end

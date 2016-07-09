@@ -10,6 +10,7 @@
 
 @interface CompanyNamesViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UILabel *SelectComapnyHeaderLabel;
 
 
 @end

@@ -11,6 +11,7 @@
 #import "Feedback.h"
 #import "Database.h"
 #import "HomeViewController.h"
+#import "FeedQueryCounter.h"
 @interface CreateNewFeedbackViewController ()
 
 @end
@@ -23,7 +24,8 @@
 @synthesize SubjectTextView;
 @synthesize OperatorTextField;
 @synthesize DescriptionTextView;
-
+@synthesize scrollview;
+@synthesize insideView;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -78,6 +80,8 @@
 
     NSLog(@"%ld",(long)milliseconds);
     NSLog(@"%@",self.feedbackType);
+   // FeedQueryCounter* nn=[[FeedQueryCounter alloc]init];
+   // NSLog(@"%@",nn.feedbackType);
     NSLog(@"hello github");
 
 }
@@ -167,20 +171,55 @@
     return YES;
 }
 
-
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    if (textField==AvayaIdTextField)
+    {
+        [self moveViewUp:YES];
+    }
+    if (textField==DocumentIdTextField)
+    {
+        [self moveViewUp:YES];
+    }
+    if (textField==OperatorTextField)
+    {
+        [self moveViewUp:YES];
+    }
+}
+-(void)textFieldDidEndEditing:(UITextField *)textField
+{
+//    if (textField==AvayaIdTextField)
+//    {
+//        [self moveViewUp:NO];
+//    }
+//    if (textField==DocumentIdTextField)
+//    {
+//        [self moveViewUp:NO];
+//    }
+//    if (textField==OperatorTextField)
+//    {
+//        [self moveViewUp:NO];
+//    }
+}
 -(void)textViewDidBeginEditing:(UITextView *)textView
 {
    
-   // [self moveViewUp:YES];
+    [self moveViewUp:YES];
     
 }
 
 -(void)textViewDidEndEditing:(UITextView *)textView
 {
-    
-        [OperatorTextField becomeFirstResponder];
-    
-   // [self moveViewUp:YES];
+//    if (textView!=DescriptionTextView)
+//    {
+//[OperatorTextField becomeFirstResponder];
+//    }
+    if (textView==DescriptionTextView)
+    {
+        [DescriptionTextView resignFirstResponder];
+        [self moveViewUp:NO];
+
+    }
     NSLog(@"%ld",(long)[[UIDevice currentDevice] orientation]);
     
 }
@@ -188,19 +227,24 @@
 
 - (void) moveViewUp: (BOOL) isUp
 {
-    const int movementDistance = 80; // tweak as needed
+   const int movementDistance = 88; // tweak as needed
     const float movementDuration = 0.3f; // tweak as needed
     if (isUp)
     {
-        totalMovement=totalMovement+80;
+        totalMovement=totalMovement+70;
     }
-    
+//    if (!isUp)
+//    {
+//        movementDistance=totalMovement;
+//        totalMovement=0;
+//    }
+
     movement = (isUp ? -movementDistance : movementDistance);
     
     [UIView beginAnimations: @"anim" context: nil];
     [UIView setAnimationBeginsFromCurrentState: YES];
     [UIView setAnimationDuration: movementDuration];
-    self.view.frame = CGRectOffset(self.view.frame, 0, movement);
+    insideView.frame = CGRectOffset(insideView.frame, 0, movement);
     [UIView commitAnimations];
 }
 
@@ -214,6 +258,7 @@
 
 - (IBAction)sendNewFeedback:(id)sender
 {
+    NSLog(@"%@",self.feedbackType);
     [self sendNewFeedbackOrSaveResponse:nil];
 }
 
@@ -233,6 +278,7 @@
                 NSString* username = [[NSUserDefaults standardUserDefaults] valueForKey:@"currentUser"];
                 NSString* companyId=[db getCompanyId:username];
                 NSString* userFeedback=[db getUserIdFromUserName:username];
+                NSLog(@"%@",self.feedbackType);
                 NSMutableArray* feedidCounterAndFeedbackTypeArray=[db getFeedTypeIdAndMaxCounter:self.feedbackType];
                 
                 // NSString* selectedCompany = [[NSUserDefaults standardUserDefaults]valueForKey:@"selectedCompany"];

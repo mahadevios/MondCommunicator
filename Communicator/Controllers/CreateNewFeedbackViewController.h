@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CreateNewFeedbackViewController : UIViewController
+@interface CreateNewFeedbackViewController : UIViewController<UITextFieldDelegate,UITextViewDelegate>
 
 {
     int movement;
@@ -25,5 +25,7 @@
 
 - (IBAction)dismissViewController:(id)sender;
 - (IBAction)sendNewFeedback:(id)sender;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollview;
+@property (weak, nonatomic) IBOutlet UIView *insideView;
 
 @end

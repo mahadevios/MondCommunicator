@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MainMOMViewController : UIViewController
+@interface MainMOMViewController : UIViewController<UISearchBarDelegate,UISearchResultsUpdating>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end

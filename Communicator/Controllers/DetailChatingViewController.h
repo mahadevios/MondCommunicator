@@ -8,12 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DetailChatingViewController : UIViewController
+@interface DetailChatingViewController : UIViewController<UITextFieldDelegate>
 {
     AppPreferences* app;
+    int movement;
 }
 - (IBAction)sendFeedbackButtonClicked:(id)sender;
 @property (weak, nonatomic) IBOutlet UITextField *sendFeedbackTextfield;
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
+@property (weak, nonatomic) MBProgressHUD *hud;
 
 @end

@@ -36,7 +36,5 @@
 @property (weak, nonatomic) IBOutlet UINavigationItem *navigationBar;
 
 @property (weak, nonatomic) MBProgressHUD *hud;
--(void)findCounter;
--(void)insertFeedQueryCounter:(NSDictionary*)dic;
 @end
 

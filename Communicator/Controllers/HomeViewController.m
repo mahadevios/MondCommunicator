@@ -44,7 +44,6 @@
     [super viewDidLoad];
     [self setSelectedButton:feedComButton];
 
-   // [self createBarButtonItems];
    // [self createSWRevealView];
     [[self navigationController] setNavigationBarHidden:NO animated:YES];
     [self feedbackAndQuerySearch];
@@ -65,13 +64,6 @@
     [tableView reloadData];
     
 }
-//
-//-(void)setSelectedSegment
-//{
-//   NSUserDefaults* defaults=[NSUserDefaults standardUserDefaults];
-//    [defaults setValue:@"0" forKey:@"flag"];
-//    
-//}
 
 -(void)popViewController1
 {
@@ -85,12 +77,6 @@
 }
 
 
-//-(void)createBarButtonItems
-//{
-//    
-////    UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(flipview:)];
-////    self.navigationItem.rightBarButtonItem = btn;
-//}
 
 -(void)flipview:id
 {
@@ -186,7 +172,6 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    //[self feedbackAndQuerySearch];
    return 1;
 }
 
@@ -197,32 +182,23 @@
       return app.sampleFeedtypeArray.count;
     
 }
-//- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    // Remove the row from data model
-//    [labelArray removeObjectAtIndex:indexPath.row];
-//    
-//    // Request table view to reload
-//    [tableView reloadData];
-//}
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+
+- (UITableViewCell *)tableView:(UITableView *)tableview cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     AppPreferences *app=[AppPreferences sharedAppPreferences];
    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-   counterGraphLabel=[cell viewWithTag:111];
+    UITableViewCell *cell = [tableview dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    counterGraphLabel=[cell viewWithTag:111];
     referenceViewForCounterGraph=[cell viewWithTag:112];
     counterGraphLabel.textColor = [UIColor communicatorColor];
 
 
     UILabel* feedbackAndQueryTypeLabel=(UILabel*)[cell viewWithTag:12];
-    //feedbackAndQueryTypeLabel.text=[app.sampleFeedtypeArray objectAtIndex:indexPath.row];
     
     FeedQueryCounter* feedCounterObj = [app.sampleFeedtypeArray objectAtIndex:indexPath.row];
     feedbackAndQueryTypeLabel.text=feedCounterObj.feedbackType;
    
     NSUserDefaults* defaults=[NSUserDefaults standardUserDefaults];
-    //NSLog(@"%@",[defaults valueForKey:@"flag"]);
     int f=[[defaults valueForKey:@"flag"]intValue];
     if (f == 0)
     {
@@ -231,25 +207,10 @@
     else
     {
         counter = feedCounterObj.queryCounter;
-        
     }
-    
-    
-    
-    
     UILabel* countLabel=(UILabel*)[cell viewWithTag:113];
     countLabel.text=[NSString stringWithFormat:@"%ld", counter];
-    //FeedbackType* ff=[feedTypeArray objectAtIndex:indexPath.row];
-    
-
-   // NSLog(@"%d",feedCounterObj.queryCounter);
-   // NSLog(@"%d",feedCounterObj.feedCounter);
-
-        NSLog(@"%ld",indexPath.row);
- counterGraphLabel.text=[NSString stringWithFormat:@"%ld",counter];
-  float cellHeight=  [self tableView:tableView heightForRowAtIndexPath:indexPath];
-
-
+    counterGraphLabel.text=[NSString stringWithFormat:@"%ld",counter];
     CounterGraph* counterGraphObj=[[CounterGraph alloc]init];
     counterGraphObj.counterGraphlabel=counterGraphLabel;
     counterGraphObj.referenceForCounterGraphView=referenceViewForCounterGraph;
@@ -272,10 +233,9 @@
                           delay:0.001
                         options: UIViewAnimationCurveEaseOut
                      animations:^{
-[counterGraphObj.counterGraphlabel setFrame:CGRectMake(counterGraphObj.counterGraphlabel.frame.origin.x, counterGraphObj.counterGraphlabel.frame.origin.y, counterGraphObj.count * 10, counterGraphObj.counterGraphlabel.frame.size.height)];
+    [counterGraphObj.counterGraphlabel setFrame:CGRectMake(counterGraphObj.counterGraphlabel.frame.origin.x, counterGraphObj.counterGraphlabel.frame.origin.y, counterGraphObj.count * 10, counterGraphObj.counterGraphlabel.frame.size.height)];
                      }
                      completion:^(BOOL finished){
-//                         NSLog(@"Done!");
                      }];
     
 }
@@ -285,7 +245,7 @@
 
 -(void)createGraph:(long)count
 {
-counterGraphLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.tableView.frame.origin.x+([UIScreen mainScreen].bounds.size.width/2)+1,5,20*(count),25)];
+   counterGraphLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.tableView.frame.origin.x+([UIScreen mainScreen].bounds.size.width/2)+1,5,20*(count),25)];
 
 }
 
@@ -294,24 +254,21 @@ counterGraphLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.tableView.fra
     return 38;
 
 }
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableview didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"%ld",(long)indexPath.row);
     AppPreferences *app=[AppPreferences sharedAppPreferences];
     
-    UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
+    UITableViewCell *selectedCell = [tableview cellForRowAtIndexPath:indexPath];
     UILabel* feedbackTypeLabel=(UILabel*)[selectedCell viewWithTag:12];
-    NSLog(@"%@",feedbackTypeLabel.text);
 
     Database *db=[Database shareddatabase];
     [db setDatabaseToCompressAndShowTotalQueryOrFeedback:feedbackTypeLabel.text];
     
     FeedcomQuerycomViewController * vc = [self.storyboard instantiateViewControllerWithIdentifier:@"FeedcomQuerycomViewController"];
-    vc.feedbackType=[app.sampleFeedtypeArray objectAtIndex:indexPath.row];
-    //NSLog(@"%lu",(unsigned long)app.feedQueryMessageHeaderArray.count);
-//    NSLog(@"%@",vc.feedbackType);
+    FeedQueryCounter* obj=[app.sampleFeedtypeArray objectAtIndex:indexPath.row];
+    vc.feedbackType=obj.feedbackType;
+
   [self.navigationController pushViewController:vc animated:YES];
-    //self.selectedIndexPath=indexPath;
 }
 
 
@@ -323,17 +280,12 @@ counterGraphLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.tableView.fra
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 
 -(void)viewDidDisappear:(BOOL)animated
 {
-   // NSUserDefaults* defaults=[NSUserDefaults standardUserDefaults];
-  // [defaults setObject:@"0" forKey:@"flag"];
-   //[defaults synchronize];
-   // selectedFeedbackType = 0;
-    [self.tableView reloadData];
+      [self.tableView reloadData];
 }
 
 - (IBAction)buttonClicked:(id)sender

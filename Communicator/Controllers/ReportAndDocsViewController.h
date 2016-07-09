@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ReportAndDocsViewController : UIViewController<UIDocumentInteractionControllerDelegate>
+@interface ReportAndDocsViewController : UIViewController<UIDocumentInteractionControllerDelegate,UISearchBarDelegate,UISearchResultsUpdating>
 {
     NSMutableArray* arrayForBool;
     NSArray* sectionTitleArray;
@@ -22,5 +22,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *documentButton;
 @property (weak, nonatomic) IBOutlet UIView *reportButtonUnderlineView;
 @property (weak, nonatomic) IBOutlet UIView *documentButtonUnderlineView;
+@property (weak, nonatomic) MBProgressHUD *hud;
+
 - (IBAction)buttonClicked:(id)sender;
 @end

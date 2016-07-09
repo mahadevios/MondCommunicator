@@ -267,7 +267,7 @@ UIImageView* img=(UIImageView*)[cell viewWithTag:100];
     NSString* path = [NSHomeDirectory() stringByAppendingPathComponent:
                       [NSString stringWithFormat:@"Documents/Downloads/%@",[app.imageFileNamesArray objectAtIndex:i]] ];
     //--------------------------------------------------//
-   NSString* fileName = [app.imageFileNamesArray objectAtIndex:0];
+   NSString* fileName = [app.imageFileNamesArray objectAtIndex:i];
 
 
     // NSURL* url=[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", @"http://192.168.3.170:8080/coreflex/feedcom", @"uploadFileFromMobile"]];
@@ -328,7 +328,7 @@ UIImageView* img=(UIImageView*)[cell viewWithTag:100];
         if ([returnCode isEqual:@"1000"])
         {
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Upload message"
-                                                                                     message:@"Files uploaded successfully"
+                                                                                     message:@"File(s) uploaded successfully"
                                                                               preferredStyle:UIAlertControllerStyleAlert];
             //We add buttons to the alert controller by creating UIAlertActions:
             UIAlertAction *actionOk = [UIAlertAction actionWithTitle:@"Ok"

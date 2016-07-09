@@ -24,6 +24,8 @@
 @synthesize allMomArray;
 @synthesize reportFileNamesDict;
 @synthesize imageFilesArray, uploadedFileNamesArray;
+@synthesize sampleReportDateCopyForPredicate;
+@synthesize sampleReportDateDict;
 static AppPreferences *singleton = nil;
 
 // Shared method
