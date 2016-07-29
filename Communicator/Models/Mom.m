@@ -19,5 +19,5 @@
 @synthesize momDate;
 @synthesize dateTime;
 @synthesize userfeedback;
-
+@synthesize userIds;
 @end

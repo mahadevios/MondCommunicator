@@ -11,7 +11,7 @@
 @implementation FeedQueryCounter
 
 @synthesize feedbackType;
-@synthesize feedCounter;
-@synthesize queryCounter;
+@synthesize openCounter,closedCounter;
+@synthesize totalCounter;
 
 @end

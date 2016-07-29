@@ -12,6 +12,8 @@
 @property(nonatomic)int ID;
 @property(nonatomic)int feedTypeId;
 @property(nonatomic)int companyId;
-@property(nonatomic)int feedCounter;
-@property(nonatomic)int queryCounter;
+@property(nonatomic)long feedCounter;
+@property(nonatomic)long closedCounter;
+@property(nonatomic)long totalCounter;
+
 @end

@@ -19,5 +19,6 @@
 @property(nonatomic,strong)NSString* momDate;
 @property(nonatomic,strong)NSString* dateTime;
 @property(nonatomic)int userfeedback;
+@property(nonatomic,strong)NSMutableArray* userIds;
 
 @end

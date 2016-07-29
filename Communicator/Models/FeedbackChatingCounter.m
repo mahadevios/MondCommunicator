@@ -12,7 +12,7 @@
 
 @synthesize feedbackType;
 @synthesize feedbackCounter;
-@synthesize count;
+@synthesize count,statusId;
 @synthesize soNumber;
 @synthesize userTo;
 @synthesize userFrom;

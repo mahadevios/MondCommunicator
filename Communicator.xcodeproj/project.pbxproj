@@ -64,6 +64,7 @@
 		844D064D1CCCDE2600B17A1F /* SBJson4StreamWriterState.m in Sources */ = {isa = PBXBuildFile; fileRef = 844D06451CCCDE2600B17A1F /* SBJson4StreamWriterState.m */; };
 		844D064E1CCCDE2600B17A1F /* SBJson4Writer.m in Sources */ = {isa = PBXBuildFile; fileRef = 844D06471CCCDE2600B17A1F /* SBJson4Writer.m */; };
 		844D76E11CDCBD3900F65E55 /* FeedOrQueryMessageHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 844D76E01CDCBD3900F65E55 /* FeedOrQueryMessageHeader.m */; };
+		845062851D42231300D79AF8 /* NetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 845062841D42231300D79AF8 /* NetworkManager.m */; };
 		845B54351D192E0D009DEDCF /* UploadFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 845B54341D192E0D009DEDCF /* UploadFileViewController.m */; };
 		84657E451CCB6A9E00DC086E /* UIColor+CommunicatorColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 84657E441CCB6A9E00DC086E /* UIColor+CommunicatorColor.m */; };
 		846ACF771D0C13B60064803E /* AppIcon80x80.png in Resources */ = {isa = PBXBuildFile; fileRef = 846ACF761D0C13B60064803E /* AppIcon80x80.png */; };
@@ -217,6 +218,8 @@
 		844D06471CCCDE2600B17A1F /* SBJson4Writer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJson4Writer.m; sourceTree = "<group>"; };
 		844D76DF1CDCBD3900F65E55 /* FeedOrQueryMessageHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedOrQueryMessageHeader.h; sourceTree = "<group>"; };
 		844D76E01CDCBD3900F65E55 /* FeedOrQueryMessageHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedOrQueryMessageHeader.m; sourceTree = "<group>"; };
+		845062831D42230B00D79AF8 /* NetworkManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkManager.h; sourceTree = "<group>"; };
+		845062841D42231300D79AF8 /* NetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkManager.m; sourceTree = "<group>"; };
 		845B54331D192E0D009DEDCF /* UploadFileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadFileViewController.h; sourceTree = "<group>"; };
 		845B54341D192E0D009DEDCF /* UploadFileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadFileViewController.m; sourceTree = "<group>"; };
 		84657E431CCB6A9E00DC086E /* UIColor+CommunicatorColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+CommunicatorColor.h"; sourceTree = "<group>"; };
@@ -290,6 +293,7 @@
 			children = (
 				84FB37E21CAFC4F500DB098E /* CFNetwork.framework */,
 				8441772F1CA56D7900C850B0 /* libsqlite3.tbd */,
+				845062821D42229D00D79AF8 /* FTPNetwork */,
 				841F6D181C9D4BEC0082F7BE /* Communicator */,
 				841F6D321C9D4BEC0082F7BE /* CommunicatorTests */,
 				841F6D3D1C9D4BEC0082F7BE /* CommunicatorUITests */,
@@ -457,6 +461,16 @@
 				844D06471CCCDE2600B17A1F /* SBJson4Writer.m */,
 			);
 			path = SBJson;
+			sourceTree = "<group>";
+		};
+		845062821D42229D00D79AF8 /* FTPNetwork */ = {
+			isa = PBXGroup;
+			children = (
+				845062831D42230B00D79AF8 /* NetworkManager.h */,
+				845062841D42231300D79AF8 /* NetworkManager.m */,
+			);
+			name = FTPNetwork;
+			path = Communicator/Models/FTPNetwork;
 			sourceTree = "<group>";
 		};
 		84657E471CCB7BB900DC086E /* Constant */ = {
@@ -726,6 +740,7 @@
 				8472EA0D1CA6582400285776 /* Database.m in Sources */,
 				84196BA21CD630D400F46A42 /* Mom.m in Sources */,
 				84E003C91CC0BDCA00866CFF /* UIButton+buttonDesign.m in Sources */,
+				845062851D42231300D79AF8 /* NetworkManager.m in Sources */,
 				841F6D211C9D4BEC0082F7BE /* LoginViewController.m in Sources */,
 				84F141681C9EC13D0022FA4F /* User.m in Sources */,
 				844D76E11CDCBD3900F65E55 /* FeedOrQueryMessageHeader.m in Sources */,

@@ -11,7 +11,8 @@
 @interface FeedQueryCounter : NSObject
 
 @property(nonatomic,strong)NSString* feedbackType;
-@property(nonatomic)int feedCounter;
-@property(nonatomic)int queryCounter;
+@property(nonatomic)long openCounter;
+@property(nonatomic)int closedCounter;
+@property(nonatomic)long totalCounter;
 
 @end

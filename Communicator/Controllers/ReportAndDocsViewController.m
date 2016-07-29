@@ -275,16 +275,15 @@
     
         else
         filePath=[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/Documents/%@",obj.name]];
-  
+        UIImageView* fileDownloadImageView=(UIImageView*)[cell viewWithTag:102];
+        fileDownloadImageView.contentMode=UIViewContentModeScaleAspectFit;
         if (![[NSFileManager defaultManager] fileExistsAtPath:filePath])
        {
-        UIImageView* fileDownloadImageView=(UIImageView*)[cell viewWithTag:102];
         fileDownloadImageView.image=[UIImage imageNamed:@"FileDownload"];
        }
        else
        {
-         UIImageView* fileDownloadImageView=(UIImageView*)[cell viewWithTag:102];
-         fileDownloadImageView.image=nil;
+         fileDownloadImageView.image=[UIImage imageNamed:@"ViewAttachment"];
            
        }
        // cell.imageView.image=[UIImage imageNamed:@"point.png"];
@@ -321,7 +320,7 @@
 {
     NSString* folderName;
     NSError* error;
-    NSString *folderpath,*destpath;
+    NSString *destpath;
     NSString* stringURL = [NSString stringWithFormat:@"http://localhost:9090/coreflex/resources/CfsFiles/%@",filenameString];
     NSString* webStringURL = [stringURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSURL* url = [NSURL URLWithString:webStringURL];
@@ -332,6 +331,7 @@
     else
         folderName=@"Documents";
     
+    filenameString=@"1469363039819Untitled.png";
     destpath=[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@/%@",folderName,filenameString]];
     
     NSString* filePath=[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@",folderName]];
@@ -340,14 +340,12 @@
     {
       if (![[NSFileManager defaultManager] fileExistsAtPath:filePath])
             [[NSFileManager defaultManager] createDirectoryAtPath:filePath withIntermediateDirectories:NO attributes:nil error:&error]; //Create folder
-            NSData * data = [NSData dataWithContentsOfURL:url];
-            [data writeToFile:destpath atomically:YES];
-          
+        [self startReceive:filenameString];
       
     }
     else
     {
-        NSString* fileURL=[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/Reports/%@",filenameString]];
+        NSString* fileURL=[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@/%@",folderName,filenameString]];
         NSURL* file = [NSURL fileURLWithPath:fileURL];
         
         UIDocumentInteractionController* documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:file];
@@ -362,9 +360,91 @@
         
     }
 
-
-
 }
+
+-(void)startReceive:(NSString*)filename
+{
+    //   NSURL *url = [NSURL URLWithString:@"ftp://ftp.funet.fi/pub/standards/RFC/rfc959.txt"];
+       NSString* fileName=@"1469363039819Untitled.png";
+    //NSString* fileName=sender.titleLabel.text;
+    
+    NSString* username = [FTPUsername stringByReplacingOccurrencesOfString:@"@"
+                                                                withString:@"%40"];
+    
+    NSString* password = [FTPPassword stringByReplacingOccurrencesOfString:@"@"
+                                                                withString:@"%40"];
+    
+    
+    
+    NSString* urlString=[NSString stringWithFormat:@"ftp://%@:%@%@%@%@",username,password,FTPHostName,FTPFilesFolderName,fileName];
+    
+    // NSURL *url = [NSURL URLWithString:@"ftp://demoFtp%40pantudantukids.com:asdf123@pantudantukids.com:21/TEST/1469363039819Untitled.png"];
+    NSURL *url = [NSURL URLWithString:urlString];
+    
+    
+    NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    //sessionConfiguration.URLCredentialStorage = cred_storage;
+    sessionConfiguration.allowsCellularAccess = YES;
+    
+    
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration delegate:self delegateQueue:nil];
+    NSLog(@"viewdidload");
+    
+    NSURLSessionDownloadTask *downloadTask = [session downloadTaskWithURL:url];
+    [downloadTask resume];
+    
+}
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
+didCompleteWithError:(nullable NSError *)error
+{
+    NSLog(@"errors %@",error.debugDescription);
+}
+- (void)URLSession:(nonnull NSURLSession *)session task:(nonnull NSURLSessionTask *)task didReceiveChallenge:(nonnull NSURLAuthenticationChallenge *)challenge completionHandler:(nonnull void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential * __nullable))completionHandler
+{
+    
+}
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location
+{
+    NSString* folderName;
+    if ([[[NSUserDefaults standardUserDefaults]valueForKey:@"flag1"]isEqualToString:@"0"])
+    {
+        folderName=@"Reports";
+    }
+    else
+        folderName=@"Documents";
+
+    NSData *data = [NSData dataWithContentsOfURL:location];
+    NSString* destpath=[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@/%@",folderName,@"1469363039819Untitled.png"]];
+    
+    [data writeToFile:destpath atomically:YES];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableView reloadData];
+        [hud setHidden:YES];
+        //[self.progressView setHidden:YES];
+        //[self.imageView setImage:[UIImage imageWithData:data]];
+    });
+}
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didResumeAtOffset:(int64_t)fileOffset expectedTotalBytes:(int64_t)expectedTotalBytes
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+}
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
+{
+    float progress = (double)totalBytesWritten / (double)totalBytesExpectedToWrite;
+    NSLog(@"progress %f",progress);
+    NSString* progressPercent= [NSString stringWithFormat:@"Downloading..%f",progress*100];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        [hud hideAnimated:YES];
+        
+        hud.label.text = NSLocalizedString(progressPercent, @"HUD Loading title");
+        hud.minSize = CGSizeMake(150.f, 100.f);
+        //[self.progressView setProgress:progress];
+    });
+}
+
 - (UIViewController *) documentInteractionControllerViewControllerForPreview: (UIDocumentInteractionController *) controller
 {
     return self;
@@ -520,7 +600,7 @@
         
         Database *db=[Database shareddatabase];
         [db setDocumentView];
-       [self setFilesDateWise];
+        [self setFilesDateWise];
 
         reportButtonUnderlineView.hidden=YES;
         documentButtonUnderlineView.hidden=NO;

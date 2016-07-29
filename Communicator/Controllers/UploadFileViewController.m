@@ -10,11 +10,21 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "UIColor+CommunicatorColor.h"
 #import <MobileCoreServices/MobileCoreServices.h>
+#import "NetworkManager.h"
+#import <CFNetwork/CFNetwork.h>
+enum {
+    kSendBufferSize = 32768
+};
+
 @interface UploadFileViewController ()
 
 @end
 
 @implementation UploadFileViewController
+//{
+//    uint8_t                     _buffer[kSendBufferSize];
+//}
+
 @synthesize rightBarButton;
 - (void)viewDidLoad
 {
@@ -50,7 +60,6 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    AppPreferences* app=[AppPreferences sharedAppPreferences];
     self.navigationController.navigationBar.barTintColor = [UIColor communicatorColor];
     [self.navigationController.navigationBar setBarStyle:UIStatusBarStyleLightContent];//
     
@@ -274,8 +283,9 @@ UIImageView* img=(UIImageView*)[cell viewWithTag:100];
     
    // NSString *folderpath=[NSHomeDirectory() stringByAppendingPathComponent:@"Documents/Downloads/test.png"];
 
-
-    NSURL* url=[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", @"http://localhost:9090/coreflex/feedcom", @"uploadFileFromMobile"]];
+//"http://115.249.195.23:8080/Communicator/feedcom/
+   // NSURL* url=[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", @"http://localhost:9090/coreflex/feedcom", @"uploadFileFromMobile"]];
+        NSURL* url=[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", @"http://115.249.195.23:8080/Communicator/feedcom/", @"uploadFileFromMobile"]];
 
 
     NSString *boundary = [self generateBoundaryString];
@@ -422,20 +432,227 @@ UIImageView* img=(UIImageView*)[cell viewWithTag:100];
 }
 
 
+
 - (IBAction)barbuttonClicked:(id)sender
 {
-    
+    NSLog(@"in bar button");
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         //Do background work
         
-        [self uploadFileToServer:@""];
-       
-        dispatch_async(dispatch_get_main_queue(), ^{
-            //Update UI
-                   });
-    });
+        //[self uploadFileToServer:@""];
+       //[self startSend:@""];
+           });
     
 
     
 }
+
+
+//---------for FTP use only-----------------//
+
+
+//- (void)sendDidStart
+//{
+//    //self.statusLabel.text = @"Sending";
+//   // self.cancelButton.enabled = YES;
+//   // [self.activityIndicator startAnimating];
+//    [[NetworkManager sharedInstance] didStartNetworkOperation];
+//}
+//
+//- (void)updateStatus:(NSString *)statusString
+//{
+//   // assert(statusString != nil);
+//   // self.statusLabel.text = statusString;
+//}
+//
+//- (void)sendDidStopWithStatus:(NSString *)statusString
+//{
+//    if (statusString == nil) {
+//        statusString = @"Put succeeded";
+//    }
+//    //self.statusLabel.text = statusString;
+//    //self.cancelButton.enabled = NO;
+//    //[self.activityIndicator stopAnimating];
+//    [[NetworkManager sharedInstance] didStopNetworkOperation];
+//}
+//
+//#pragma mark * Core transfer code
+//
+//// This is the code that actually does the networking.
+//
+//// Because buffer is declared as an array, you have to use a custom getter.
+//// A synthesised getter doesn't compile.
+//
+//- (uint8_t *)buffer
+//{
+//    return self->_buffer;
+//}
+//
+//- (BOOL)isSending
+//{
+//    return (self.networkStream != nil);
+//}
+//
+//- (void)startSend:(NSString *)filePath
+//{
+//    AppPreferences* app=[AppPreferences sharedAppPreferences];
+//    NSError* error;
+//        NSData * data = UIImagePNGRepresentation([app.imageFilesArray objectAtIndex:0]);
+//        NSString *folderpath=[NSHomeDirectory() stringByAppendingPathComponent:@"Documents/Downloads"];
+//    
+//        NSString *destpath=[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/Downloads/%@",[app.imageFileNamesArray objectAtIndex:0]]];
+//    
+//        if (![[NSFileManager defaultManager] fileExistsAtPath:folderpath])
+//            [[NSFileManager defaultManager] createDirectoryAtPath:folderpath withIntermediateDirectories:NO attributes:nil error:&error]; //Create folder
+//        [data writeToFile:destpath atomically:YES];
+//    
+//       filePath = [NSHomeDirectory() stringByAppendingPathComponent:
+//                          [NSString stringWithFormat:@"Documents/Downloads/%@",[app.imageFileNamesArray objectAtIndex:0]] ];
+//        //--------------------------------------------------//
+//       NSString* fileName = [app.imageFileNamesArray objectAtIndex:0];
+//    //filePath=@"";
+//    BOOL                    success;
+//    NSURL *                 url;
+//    
+//    assert(filePath != nil);
+//    assert([[NSFileManager defaultManager] fileExistsAtPath:filePath]);
+//    assert( [filePath.pathExtension isEqual:@"png"] || [filePath.pathExtension isEqual:@"jpg"] );
+//    
+//    assert(self.networkStream == nil);      // don't tap send twice in a row!
+//    assert(self.fileStream == nil);         // ditto
+//    
+//    // First get and check the URL.
+//    
+//    url = [[NetworkManager sharedInstance] smartURLForString:@"ftp.pantudantukids.com"];
+//    success = (url != nil);
+//    
+//    if (success) {
+//        // Add the last part of the file name to the end of the URL to form the final
+//        // URL that we're going to put to.
+//        
+//        url = CFBridgingRelease(
+//                                CFURLCreateCopyAppendingPathComponent(NULL, (__bridge CFURLRef) url, (__bridge CFStringRef) [filePath lastPathComponent], false)
+//                                );
+//        success = (url != nil);
+//    }
+//    
+//    // If the URL is bogus, let the user know.  Otherwise kick off the connection.
+//    
+//    if ( ! success) {
+//       // self.statusLabel.text = @"Invalid URL";
+//    } else {
+//        
+//        // Open a stream for the file we're going to send.  We do not open this stream;
+//        // NSURLConnection will do it for us.
+//        
+//        self.fileStream = [NSInputStream inputStreamWithFileAtPath:filePath];
+//        assert(self.fileStream != nil);
+//        
+//        [self.fileStream open];
+//        
+//        // Open a CFFTPStream for the URL.
+//        
+//        self.networkStream = CFBridgingRelease(
+//                                               CFWriteStreamCreateWithFTPURL(NULL, (__bridge CFURLRef) url)
+//                                               );
+//        assert(self.networkStream != nil);
+//        
+//        if ([@"demoFtp@pantudantukids.com" length] != 0) {
+//            success = [self.networkStream setProperty:@"demoFtp@pantudantukids.com" forKey:(id)kCFStreamPropertyFTPUserName];
+//            assert(success);
+//            success = [self.networkStream setProperty:@"asdf@123" forKey:(id)kCFStreamPropertyFTPPassword];
+//            assert(success);
+//        }
+//        
+//        self.networkStream.delegate = self;
+//        [self.networkStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+//        [self.networkStream open];
+//        
+//        // Tell the UI we're sending.
+//        
+//        [self sendDidStart];
+//    }
+//}
+//
+//- (void)stopSendWithStatus:(NSString *)statusString
+//{
+//    if (self.networkStream != nil) {
+//        [self.networkStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+//        self.networkStream.delegate = nil;
+//        [self.networkStream close];
+//        self.networkStream = nil;
+//    }
+//    if (self.fileStream != nil) {
+//        [self.fileStream close];
+//        self.fileStream = nil;
+//    }
+//    [self sendDidStopWithStatus:statusString];
+//}
+//
+//- (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode
+//// An NSStream delegate callback that's called when events happen on our
+//// network stream.
+//{
+//#pragma unused(aStream)
+//    assert(aStream == self.networkStream);
+//    
+//    switch (eventCode) {
+//        case NSStreamEventOpenCompleted: {
+//            [self updateStatus:@"Opened connection"];
+//        } break;
+//        case NSStreamEventHasBytesAvailable: {
+//            assert(NO);     // should never happen for the output stream
+//        } break;
+//        case NSStreamEventHasSpaceAvailable: {
+//            [self updateStatus:@"Sending"];
+//            
+//            // If we don't have any data buffered, go read the next chunk of data.
+//            
+//            if (self.bufferOffset == self.bufferLimit) {
+//                NSInteger   bytesRead;
+//                
+//                bytesRead = [self.fileStream read:self.buffer maxLength:kSendBufferSize];
+//                
+//                if (bytesRead == -1) {
+//                    [self stopSendWithStatus:@"File read error"];
+//                } else if (bytesRead == 0) {
+//                    [self stopSendWithStatus:nil];
+//                } else {
+//                    self.bufferOffset = 0;
+//                    self.bufferLimit  = bytesRead;
+//                }
+//            }
+//            
+//            // If we're not out of data completely, send the next chunk.
+//            
+//            if (self.bufferOffset != self.bufferLimit) {
+//                NSInteger   bytesWritten;
+//                bytesWritten = [self.networkStream write:&self.buffer[self.bufferOffset] maxLength:self.bufferLimit - self.bufferOffset];
+//                assert(bytesWritten != 0);
+//                if (bytesWritten == -1) {
+//                    [self stopSendWithStatus:@"Network write error"];
+//                } else {
+//                    self.bufferOffset += bytesWritten;
+//                }
+//            }
+//        } break;
+//        case NSStreamEventErrorOccurred: {
+//            [self stopSendWithStatus:@"Stream open error"];
+//        } break;
+//        case NSStreamEventEndEncountered: {
+//            // ignore
+//        } break;
+//        default: {
+//            assert(NO);
+//        } break;
+//    }
+//}
+//
+
+
+
+
+
+
+
 @end

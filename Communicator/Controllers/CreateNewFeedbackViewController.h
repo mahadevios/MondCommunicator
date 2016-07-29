@@ -8,12 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CreateNewFeedbackViewController : UIViewController<UITextFieldDelegate,UITextViewDelegate>
+@interface CreateNewFeedbackViewController : UIViewController<UITextFieldDelegate,UITextViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource>
 
 {
     int movement;
     int totalMovement;
     BOOL gotResponse;
+    NSMutableDictionary* allOperatorUsernamesDict;
+    UIPickerView* picker;
 }
 @property (weak, nonatomic) IBOutlet UITextField *SONumberTextField;
 @property (weak, nonatomic) IBOutlet UITextField *AvayaIdTextField;
@@ -22,6 +24,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *OperatorTextField;
 @property (weak, nonatomic) IBOutlet UITextView *DescriptionTextView;
 @property (nonatomic,strong)NSString* feedbackType;
+
 
 - (IBAction)dismissViewController:(id)sender;
 - (IBAction)sendNewFeedback:(id)sender;

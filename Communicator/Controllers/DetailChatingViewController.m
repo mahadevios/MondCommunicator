@@ -15,6 +15,11 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "CounterGraph.h"
 #import "MBProgressHUD.h"
+#include <CFNetwork/CFNetwork.h>
+#import "NetworkManager.h"
+enum {
+    kSendBufferSize = 32768
+};
 @interface DetailChatingViewController ()
 
 @end
@@ -35,7 +40,7 @@ DetailChatingViewController
 -(void)viewWillAppear:(BOOL)animated
 {
    
-    [self setNavigationItems];
+    [self setNavigationItems:@"Close"];
     [self setHeaderForTableView];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -44,11 +49,11 @@ DetailChatingViewController
 
 }
 
--(void)setNavigationItems
+-(void)setNavigationItems:(NSString*)rightBarItemTitle
 {
     self.tabBarController.navigationItem.title = @"Feedback Communication";
     self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"BackArrow"] style:UIBarButtonItemStylePlain target:self action:@selector(popViewController)] ;
-    self.tabBarController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Attachment"] style:UIBarButtonItemStylePlain target:self action:@selector(selectFileToUpload:)] ;
+    self.tabBarController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:rightBarItemTitle style:UIBarButtonItemStylePlain target:self action:@selector(closeIssue)];
     self.tabBarController.navigationItem.rightBarButtonItem.tintColor=[UIColor whiteColor];
     self.tabBarController.navigationItem.leftBarButtonItem.tintColor=[UIColor whiteColor];
 
@@ -59,11 +64,95 @@ DetailChatingViewController
     
     [navController popViewControllerAnimated:YES];
 }
--(void)selectFileToUpload:(NSString*)para
+-(void)closeIssue
 {
-    UIViewController* vc= [self.storyboard instantiateViewControllerWithIdentifier:@"UploadFileViewController"];
-    [self.navigationController pushViewController:vc animated:YES];
+           UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Close Issue?"
+                                                                                 message:@"Are you sure to close this issue"
+                                                                          preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *actionOk = [UIAlertAction actionWithTitle:@"Ok"
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:^(UIAlertAction * action)
+                                   {
+                                       [self closeIssueConfirmed];
+                                       
+                                   }];
+    
+    UIAlertAction *actionCancel = [UIAlertAction actionWithTitle:@"Cancel"
+                                                       style:UIAlertActionStyleDefault
+                                                         handler:nil];
+        [alertController addAction:actionOk];
+        [alertController addAction:actionCancel];
+
+        [self presentViewController:alertController animated:YES completion:nil];
+  
 }
+
+-(void)closeIssueConfirmed
+{
+    NSString* userFrom,* userTo;
+
+    Database* db=[Database shareddatabase];
+    FeedbackChatingCounter* feedObject= [app.FeedbackOrQueryDetailChatingObjectsArray objectAtIndex:0];
+    
+    NSString* username = [[NSUserDefaults standardUserDefaults] valueForKey:@"currentUser"];
+    NSString* companyId=[db getCompanyId:username];
+    NSString* userFeedback=[db getUserIdFromUserName:username];
+    NSMutableArray* maxFeedIdAndCounterArray=[db getMaxFeedIdAndCounter:feedObject.soNumber :feedObject.feedbackType];
+    if ([companyId isEqual:@"1"])
+    {
+        userFrom=@"1";
+        username=[db getUserNameFromCompanyname:[[NSUserDefaults standardUserDefaults]valueForKey:@"selectedCompany"]];
+        userTo=[db getUserIdFromUserNameWithRoll1:username];
+        
+    }
+    
+    else
+    {
+        userTo=@"1";
+        userFrom= [db getUserIdFromUserNameWithRoll1:username];
+    }
+    
+    Feedback* feedObj=[[Feedback alloc]init];
+    feedObj.soNumber = feedObject.soNumber;
+    feedObj.emailSubject = feedObject.emailSubject;
+    feedObj.feedbackType = feedObject.feedbackType;
+    feedObj.userFrom=[userFrom intValue];
+    feedObj.userTo=[userTo intValue];
+    feedObj.userFeedback=[userFeedback intValue];
+    feedObj.feedbackText = sendFeedbackTextfield.text;
+    feedObj.dateOfFeed=[NSString stringWithFormat:@"%@",[NSDate date]];
+    feedObj.feedbackText=@"Issue closed";
+    feedObj.feedbackCounter=[[NSString stringWithFormat:@"%@",[maxFeedIdAndCounterArray objectAtIndex:1]]intValue];
+    feedObj.feedbackId=[[NSString stringWithFormat:@"%@",[maxFeedIdAndCounterArray objectAtIndex:0]]intValue];
+    feedObj.attachment=@"";
+
+   
+    feedObj.statusId=[[NSString stringWithFormat:@"%@",[maxFeedIdAndCounterArray objectAtIndex:2]]intValue];
+    feedObj.operatorId=[[NSString stringWithFormat:@"%@",[maxFeedIdAndCounterArray objectAtIndex:3]]intValue];
+    NSLog(@"%@,%@,%d,%@,%@,%ld,%ld,%d,%d",feedObj.soNumber,feedObj.emailSubject, feedObj.feedbackType,feedObj.feedbackText,feedObj.dateOfFeed,feedObj.feedbackCounter,feedObj.feedbackId,feedObj.operatorId,feedObj.statusId);
+    
+    NSArray* keys=[NSArray arrayWithObjects:@"soNumber",@"userFrom",@"userTo",@"userFeedback",@"feedText",@"feedbackType",@"statusId",@"operatorId",@"emailSubject",@"attachment", nil];
+    
+    
+    NSArray* values=@[feedObj.soNumber,[NSString stringWithFormat:@"%d",feedObj.userFrom],[NSString stringWithFormat:@"%d",feedObj.userTo],[NSString stringWithFormat:@"%d",feedObj.userFeedback],feedObj.feedbackText,[NSString stringWithFormat:@"%d",feedObj.feedbackType],[NSString stringWithFormat:@"%d",2],[NSString stringWithFormat:@"%d",feedObj.operatorId],feedObj.emailSubject,feedObj.attachment];
+    
+    NSDictionary* dic=[NSDictionary dictionaryWithObjects:values forKeys:keys];
+    
+    NSLog(@"%@",[dic valueForKey:@"userFeedback"]);
+    
+    
+    
+    
+    NSLog(@"%@",dic);
+    
+    [[NSUserDefaults standardUserDefaults] valueForKey:@"currentUser"];
+    [[NSUserDefaults standardUserDefaults] valueForKey:@"currentPassword"];
+    
+    
+    
+    [[APIManager sharedManager] sendUpdatedRecords:[[NSUserDefaults standardUserDefaults] valueForKey:@"flag"] Dict:dic username:[[NSUserDefaults standardUserDefaults] valueForKey:@"currentUser"] password:[[NSUserDefaults standardUserDefaults] valueForKey:@"currentPassword"]];
+}
+
 
 -(void)setHeaderForTableView
 {
@@ -108,22 +197,22 @@ DetailChatingViewController
         FeedbackChatingCounter* feedObject= [app.FeedbackOrQueryDetailChatingObjectsArray objectAtIndex:0];
 
         
-        NSString* str=[[NSUserDefaults standardUserDefaults] valueForKey:@"flag"] ;
-        if ([str isEqualToString:@"0"])
-        {
+//        NSString* str=[[NSUserDefaults standardUserDefaults] valueForKey:@"flag"] ;
+//        if ([str isEqualToString:@"0"])
+//        {
             [db insertUpdatedRecordsForFeedcom:notificationData.object];                          //insert response date
             [db getDetailMessagesofFeedbackOrQuery:feedObject.feedbackType :feedObject.soNumber]; //fetch updated data after inserting response data
             sendFeedbackTextfield.text=@"";
             [tableview reloadData];
-        }
-        else
-        {
-            [db insertUpdatedRecordsForQueryCom:notificationData.object];
-            [db getDetailMessagesofFeedbackOrQuery:feedObject.feedbackType :feedObject.soNumber];
-            sendFeedbackTextfield.text=@"";
-
-            [tableview reloadData];
-         }
+//        }
+//        else
+//        {
+//            [db insertUpdatedRecordsForQueryCom:notificationData.object];
+//            [db getDetailMessagesofFeedbackOrQuery:feedObject.feedbackType :feedObject.soNumber];
+//            sendFeedbackTextfield.text=@"";
+//
+//            [tableview reloadData];
+//         }
     
         
     }
@@ -150,7 +239,7 @@ DetailChatingViewController
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     FeedbackChatingCounter* feedObject= [app.FeedbackOrQueryDetailChatingObjectsArray objectAtIndex:indexPath.row];
     Database* db=[Database shareddatabase];
-    NSString* userRole=[db getUserIdFromUserNameWithRoll1:feedObject.userFrom];
+    NSString* userRole=[db getUserIdFromUserNameWithRoll1:feedObject.userTo];
     if (cell!=nil)
     {
         cell.contentView.backgroundColor=[UIColor grayColor];
@@ -161,6 +250,10 @@ DetailChatingViewController
         }
     }
     
+    if (feedObject.statusId==2)
+    {
+        [self setNavigationItems:@""];
+    }
     UILabel* userName= (UILabel*)[cell viewWithTag:50];
     userName.text=feedObject.userFrom;
     
@@ -272,7 +365,8 @@ DetailChatingViewController
                              NSString* filePath=[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/Attachments/%@",[counterGraphObj.attachmentArray objectAtIndex:i]]];
                              
                              UIImageView* attachmentDownloadImageView=[[UIImageView alloc]init];
-
+//attachmentDownloadImageView.
+                             attachmentDownloadImageView.contentMode = UIViewContentModeScaleAspectFit;
                              if (![[NSFileManager defaultManager] fileExistsAtPath:filePath])
                              {
                                  attachmentDownloadImageView.image=[UIImage imageNamed:@"FileDownload"];
@@ -280,7 +374,7 @@ DetailChatingViewController
                              }
                              else
                              {
-                                 attachmentDownloadImageView.image=nil;
+                                 attachmentDownloadImageView.image=[UIImage imageNamed:@"ViewAttachment"];
                                  [attachmentDownloadImageView setFrame:CGRectMake(205, (yPosOfLbl*i*4),20, 20)];
                              }
 
@@ -293,7 +387,7 @@ DetailChatingViewController
                              attachmentDownloadButton.titleLabel.text=[counterGraphObj.attachmentArray objectAtIndex:i];
                              hud.label.text = NSLocalizedString(@"Please wait...", @"HUD Loading title");
                              hud.minSize = CGSizeMake(150.f, 100.f);
-                             [attachmentDownloadButton addTarget:self action:@selector(showFilePreviewOrDownload:) forControlEvents:UIControlEventTouchUpInside];
+                             [attachmentDownloadButton addTarget:self action:@selector(downloadFileUsingFTP:) forControlEvents:UIControlEventTouchUpInside];
 
                              
                              
@@ -321,12 +415,15 @@ DetailChatingViewController
     
     NSLog(@"%@",sender.titleLabel.text);
     NSError* error;
-    NSString *folderpath,*destpath;
+    NSString *destpath;
     NSString* stringURL = [NSString stringWithFormat:@"http://localhost:9090/coreflex/resources/CfsFiles/%@",sender.titleLabel.text];
     NSString* webStringURL = [stringURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSURL* url = [NSURL URLWithString:webStringURL];
-    
-    
+    hud.label.text = NSLocalizedString(@"Please wait...", @"HUD Loading title");
+    hud.minSize = CGSizeMake(150.f, 100.f);
+    hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    [hud hideAnimated:YES];
+
     destpath=[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/Attachments/%@",sender.titleLabel.text]];
     
     NSString* filePath=[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/Attachments"]];
@@ -336,12 +433,10 @@ DetailChatingViewController
         if (![[NSFileManager defaultManager] fileExistsAtPath:filePath])
             [[NSFileManager defaultManager] createDirectoryAtPath:filePath withIntermediateDirectories:NO attributes:nil error:&error]; //Create folder
         
-            hud.label.text = NSLocalizedString(@"Please wait...", @"HUD Loading title");
-            // Will look best, if we set a minimum size.
-            hud.minSize = CGSizeMake(150.f, 100.f);
+        
             NSData * data = [NSData dataWithContentsOfURL:url];
             [data writeToFile:destpath atomically:YES];
-       
+            [self.tableview reloadData];
         
         
     }
@@ -461,15 +556,12 @@ DetailChatingViewController
         
         else
         {
-           
             userTo=@"1";
            userFrom= [db getUserIdFromUserNameWithRoll1:username];
-
-           
         }
         
         Feedback* feedObj=[[Feedback alloc]init];
-       feedObj.soNumber = feedObject.soNumber;
+        feedObj.soNumber = feedObject.soNumber;
         feedObj.emailSubject = feedObject.emailSubject;
         feedObj.feedbackType = feedObject.feedbackType;
         feedObj.userFrom=[userFrom intValue];
@@ -478,7 +570,7 @@ DetailChatingViewController
         feedObj.feedbackText = sendFeedbackTextfield.text;
         feedObj.dateOfFeed=[NSString stringWithFormat:@"%@",[NSDate date]];
         feedObj.feedbackText=sendFeedbackTextfield.text;
-       feedObj.feedbackCounter=[[NSString stringWithFormat:@"%@",[maxFeedIdAndCounterArray objectAtIndex:1]]longLongValue];
+        feedObj.feedbackCounter=[[NSString stringWithFormat:@"%@",[maxFeedIdAndCounterArray objectAtIndex:1]]longLongValue];
         feedObj.feedbackId=[[NSString stringWithFormat:@"%@",[maxFeedIdAndCounterArray objectAtIndex:0]]longLongValue];
         
         
@@ -581,6 +673,138 @@ DetailChatingViewController
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+- (IBAction)sendAttachment:(id)sender
+{
+    
+    UIViewController* vc= [self.storyboard instantiateViewControllerWithIdentifier:@"UploadFileViewController"];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+
+
+//----------------------for FTP use only-----------
+
+-(void)downloadFileUsingFTP:(UIButton*)sender
+{
+    NSString* folderName;
+    NSError* error;
+    NSString *destpath;
+    
+    folderName=@"Attachments";
+    destpath=[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@/%@",folderName,@"1469363039819Untitled.png"]];
+    //destpath=[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@/%@",folderName,sender.titleLabel.text]];
+
+    NSString* filePath=[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@",folderName]];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:destpath])
+    {
+        if (![[NSFileManager defaultManager] fileExistsAtPath:filePath])
+            [[NSFileManager defaultManager] createDirectoryAtPath:filePath withIntermediateDirectories:NO attributes:nil error:&error]; //Create folder
+        [self startReceive:sender];
+
+    }
+    else
+    {
+        
+        NSString* fileURL=[NSHomeDirectory() stringByAppendingPathComponent:@"Documents/Attachments/1469363039819Untitled.png"];
+        //NSString* fileURL=[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/Attachments/%@",sender.titleLabel.text]];
+
+        NSURL* file = [NSURL fileURLWithPath:fileURL];
+        
+        UIDocumentInteractionController* documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:file];
+        
+        
+        [documentInteractionController setDelegate:self];
+        [documentInteractionController presentOpenInMenuFromRect:self.view.frame inView:self.view animated:YES];
+        
+        
+        //documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:file];
+        [documentInteractionController presentPreviewAnimated:YES];
+        
+    }
+
+
+}
+
+
+-(void)startReceive:(UIButton*)sender
+{
+//   NSURL *url = [NSURL URLWithString:@"ftp://ftp.funet.fi/pub/standards/RFC/rfc959.txt"];
+
+    NSString* fileName=@"1469363039819Untitled.png";
+    //NSString* fileName=sender.titleLabel.text;
+
+   NSString* username = [FTPUsername stringByReplacingOccurrencesOfString:@"@"
+                                         withString:@"%40"];
+    
+   NSString* password = [FTPPassword stringByReplacingOccurrencesOfString:@"@"
+                                                   withString:@"%40"];
+    
+    
+    
+    NSString* urlString=[NSString stringWithFormat:@"ftp://%@:%@%@%@%@",username,password,FTPHostName,FTPFilesFolderName,fileName];
+    
+   // NSURL *url = [NSURL URLWithString:@"ftp://demoFtp%40pantudantukids.com:asdf123@pantudantukids.com:21/TEST/1469363039819Untitled.png"];
+    NSURL *url = [NSURL URLWithString:urlString];
+
+    
+    NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    //sessionConfiguration.URLCredentialStorage = cred_storage;
+    sessionConfiguration.allowsCellularAccess = YES;
+  
+    
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration delegate:self delegateQueue:nil];
+    NSLog(@"viewdidload");
+    
+    NSURLSessionDownloadTask *downloadTask = [session downloadTaskWithURL:url];
+    [downloadTask resume];
+
+}
+
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
+didCompleteWithError:(nullable NSError *)error
+{
+    NSLog(@"errors %@",error.debugDescription);
+}
+- (void)URLSession:(nonnull NSURLSession *)session task:(nonnull NSURLSessionTask *)task didReceiveChallenge:(nonnull NSURLAuthenticationChallenge *)challenge completionHandler:(nonnull void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential * __nullable))completionHandler
+{
+   
+}
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location
+{
+    NSData *data = [NSData dataWithContentsOfURL:location];
+    NSString* destpath=[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/Attachments/%@",@"1469363039819Untitled.png"]];
+
+    [data writeToFile:destpath atomically:YES];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableview reloadData];
+        [hud setHidden:YES];
+        //[self.progressView setHidden:YES];
+        //[self.imageView setImage:[UIImage imageWithData:data]];
+    });
+}
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didResumeAtOffset:(int64_t)fileOffset expectedTotalBytes:(int64_t)expectedTotalBytes
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+}
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
+{
+    float progress = (double)totalBytesWritten / (double)totalBytesExpectedToWrite;
+    NSLog(@"progress %f",progress);
+    NSString* progressPercent= [NSString stringWithFormat:@"Downloading..%f",progress*100];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        [hud hideAnimated:YES];
+        
+        hud.label.text = NSLocalizedString(progressPercent, @"HUD Loading title");
+        hud.minSize = CGSizeMake(150.f, 100.f);
+        //[self.progressView setProgress:progress];
+    });
 }
 
 

@@ -11,8 +11,12 @@
 @interface CounterGraph : NSObject
 
 @property(nonatomic,strong)UILabel* counterGraphlabel;
+@property(nonatomic,strong)UILabel* counterGraphlabel1;
 @property(nonatomic,strong)UIView* referenceForCounterGraphView;
 @property(nonatomic)long count;
+@property(nonatomic)long count1;
+@property(nonatomic,strong)UIButton* selectAttendeeButton;
+
 @property(nonatomic,strong)NSArray* attachmentArray;
 @property(nonatomic,strong)UITableViewCell* cell;
 @property(nonatomic)int selectedIndex;

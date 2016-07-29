@@ -26,23 +26,17 @@
 
 @implementation HomeViewController
 
-@synthesize chatTypeLabel;
 @synthesize feedTypeArray;
 @synthesize feedTypeCopyForPredicate;
 @synthesize searchController;
-@synthesize feedAndQueryComSegment;
-@synthesize feedComButton;
-@synthesize queryComButton;
 @synthesize demoCountArray;
-@synthesize counterGraphLabel;
-@synthesize feedcomButtonUndelineView;
-@synthesize querycomButtonUnderlineView;
+@synthesize counterGraphLabel,counterGraphLabel1;
 @synthesize referenceViewForCounterGraph;
 @synthesize tableView;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self setSelectedButton:feedComButton];
+   // [self setSelectedButton:feedComButton];
 
    // [self createSWRevealView];
     [[self navigationController] setNavigationBarHidden:NO animated:YES];
@@ -63,6 +57,7 @@
 
     [tableView reloadData];
     
+   
 }
 
 -(void)popViewController1
@@ -188,37 +183,64 @@
     AppPreferences *app=[AppPreferences sharedAppPreferences];
    
     UITableViewCell *cell = [tableview dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-    counterGraphLabel=[cell viewWithTag:111];
     referenceViewForCounterGraph=[cell viewWithTag:112];
-    counterGraphLabel.textColor = [UIColor communicatorColor];
+    NSLog(@"%d",indexPath.row);
 
+    NSLog(@"%@",cell);
 
     UILabel* feedbackAndQueryTypeLabel=(UILabel*)[cell viewWithTag:12];
-    
     FeedQueryCounter* feedCounterObj = [app.sampleFeedtypeArray objectAtIndex:indexPath.row];
     feedbackAndQueryTypeLabel.text=feedCounterObj.feedbackType;
-   
-    NSUserDefaults* defaults=[NSUserDefaults standardUserDefaults];
-    int f=[[defaults valueForKey:@"flag"]intValue];
-    if (f == 0)
+    
+    counter = feedCounterObj.openCounter;
+    totalCounter = feedCounterObj.totalCounter;
+    closedCounter=feedCounterObj.closedCounter;
+
+    UILabel* countLabel=(UILabel*)[cell viewWithTag:113];
+    if (counter>12)
     {
-        counter = feedCounterObj.feedCounter;
+        countLabel.text=@"12+";
     }
     else
-    {
-        counter = feedCounterObj.queryCounter;
-    }
-    UILabel* countLabel=(UILabel*)[cell viewWithTag:113];
     countLabel.text=[NSString stringWithFormat:@"%ld", counter];
-    counterGraphLabel.text=[NSString stringWithFormat:@"%ld",counter];
+   
+    counterGraphLabel=[cell viewWithTag:111];
+
+       
+    if (counter>6)
+    {
+        counterGraphLabel.text=@"6+";
+    }
+    else
+    counterGraphLabel.text=[NSString stringWithFormat:@"%ld",totalCounter];
+    counterGraphLabel.backgroundColor = [UIColor communicatorColor];
+    counterGraphLabel.textColor = [UIColor communicatorColor];
+    
+    counterGraphLabel1=[cell viewWithTag:120];
+    if (closedCounter>6)
+    {
+        counterGraphLabel.text=@"6+";
+    }
+    else
+    counterGraphLabel1.text=[NSString stringWithFormat:@"%ld",totalCounter];
+    counterGraphLabel1.backgroundColor = [UIColor redColor];
+    counterGraphLabel1.textColor = [UIColor redColor];
+    
     CounterGraph* counterGraphObj=[[CounterGraph alloc]init];
     counterGraphObj.counterGraphlabel=counterGraphLabel;
-    counterGraphObj.referenceForCounterGraphView=referenceViewForCounterGraph;
+    counterGraphObj.counterGraphlabel1=counterGraphLabel1;
+
+    //counterGraphObj.referenceForCounterGraphView=referenceViewForCounterGraph;
     counterGraphObj.count=counter;
-    counterGraphLabel.backgroundColor = [UIColor communicatorColor];
+    counterGraphObj.count1=closedCounter;
+    
     [counterGraphLabel setFrame:CGRectMake(counterGraphLabel.frame.origin.x, counterGraphLabel.frame.origin.y, 0.0f, counterGraphLabel.frame.size.height)];
+    [counterGraphLabel1 setFrame:CGRectMake(counterGraphLabel1.frame.origin.x, counterGraphLabel1.frame.origin.y, 0.0f, counterGraphLabel1.frame.size.height)];
 
     [self performSelector:@selector(setCounterGraphLabel:) withObject:counterGraphObj afterDelay:0.000001];
+    
+    
+    
     return cell;
     
 }
@@ -229,11 +251,29 @@
 {
     counterGraphObj.counterGraphlabel.adjustsFontSizeToFitWidth = false;
 
+    
     [UIView animateWithDuration:0.5
                           delay:0.001
                         options: UIViewAnimationCurveEaseOut
                      animations:^{
-    [counterGraphObj.counterGraphlabel setFrame:CGRectMake(counterGraphObj.counterGraphlabel.frame.origin.x, counterGraphObj.counterGraphlabel.frame.origin.y, counterGraphObj.count * 10, counterGraphObj.counterGraphlabel.frame.size.height)];
+                         //counterGraphLabel.text=[NSString stringWithFormat:@"%ld",counter];
+                         //counterGraphObj.count=7;
+                         //counterGraphObj.count1=10;
+                         long activeCountermaxWidth=counterGraphObj.count*10;
+                         long closedCountermaxWidth=counterGraphObj.count1*10;
+
+                         if ((counterGraphObj.count * 10+counterGraphObj.count * 10)>120)
+                         {
+                            activeCountermaxWidth= ((counterGraphObj.count * 10.0)/ (counterGraphObj.count * 10+counterGraphObj.count1 * 10))*120;
+                            closedCountermaxWidth= ((counterGraphObj.count1 * 10.0)/ (counterGraphObj.count * 10+counterGraphObj.count1 * 10))*120;
+                             NSLog(@"a=%ld c=%ld",activeCountermaxWidth,closedCountermaxWidth);
+
+                         }
+    [counterGraphObj.counterGraphlabel setFrame:CGRectMake(counterGraphObj.counterGraphlabel.frame.origin.x, counterGraphObj.counterGraphlabel.frame.origin.y, activeCountermaxWidth, counterGraphObj.counterGraphlabel.frame.size.height)];
+                         
+                         [counterGraphObj.counterGraphlabel1 setFrame:CGRectMake(counterGraphObj.counterGraphlabel.frame.origin.x+activeCountermaxWidth, counterGraphObj.counterGraphlabel1.frame.origin.y, closedCountermaxWidth, counterGraphObj.counterGraphlabel1.frame.size.height)];
+                         
+                        
                      }
                      completion:^(BOOL finished){
                      }];
@@ -243,11 +283,11 @@
 
 
 
--(void)createGraph:(long)count
-{
-   counterGraphLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.tableView.frame.origin.x+([UIScreen mainScreen].bounds.size.width/2)+1,5,20*(count),25)];
-
-}
+//-(void)createGraph:(long)count
+//{
+//   counterGraphLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.tableView.frame.origin.x+([UIScreen mainScreen].bounds.size.width/2)+1,5,20*(count),25)];
+//
+//}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -288,71 +328,16 @@
       [self.tableView reloadData];
 }
 
-- (IBAction)buttonClicked:(id)sender
-{
-       [self setSelectedButton:sender];
-}
 
--(void)setSelectedButton:(id)sender
-{
-
-    if (sender==feedComButton)
-    {
-
-        for (int i=0; i<labelArray.count; i++)
-        {
-            UILabel* lab=  (UILabel*)[labelArray objectAtIndex:i];
-            [lab removeFromSuperview];
-           
-        }
-        querycomButtonUnderlineView.hidden=YES;
-        feedcomButtonUndelineView.hidden=NO;
-
-        [queryComButton setSelected:NO];
-        [sender setSelected: YES];
-        [sender setTitleColor:[UIColor colorWithRed:10/255.0 green:32/255.0 blue:47/255.0 alpha:1] forState:UIControlStateSelected];
-        
-        NSUserDefaults* defaults=[NSUserDefaults standardUserDefaults];
-        [defaults setValue:@"0" forKey:@"flag"];
-        [self.tableView reloadData];
-        
-    }
-    
-    if (sender==queryComButton)
-    {
-
-        for (int i=0; i<labelArray.count; i++)
-        {
-            UILabel* lab=  (UILabel*)[labelArray objectAtIndex:i];
-            [lab removeFromSuperview];
-            
-        }
-        feedcomButtonUndelineView.hidden=YES;
-        querycomButtonUnderlineView.hidden=NO;
-
-        [feedComButton setSelected:NO];
-        [sender setSelected: YES];
-        [sender setTitleColor:[UIColor colorWithRed:9/255.0 green:45/255.0 blue:61/255.0 alpha:1] forState:UIControlStateSelected];
-        
-        NSUserDefaults* defaults=[NSUserDefaults standardUserDefaults];
-        [defaults setValue:@"1" forKey:@"flag"];
-        [self.tableView reloadData];
-        
-        
-    }
-
-}
-
-
--(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    for (int i=0; i<labelArray.count; i++)
-    {
-        UILabel* lab=  (UILabel*)[labelArray objectAtIndex:i];
-        [lab removeFromSuperview];
-        [self.tableView reloadData];
-    }
-}
+//-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+//{
+//    for (int i=0; i<labelArray.count; i++)
+//    {
+//        UILabel* lab=  (UILabel*)[labelArray objectAtIndex:i];
+//        [lab removeFromSuperview];
+//        [self.tableView reloadData];
+//    }
+//}
 
 
 @end

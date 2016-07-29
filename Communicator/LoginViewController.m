@@ -94,11 +94,17 @@ NSMutableArray* webFeedTypeArray;
 
 - (void)validateUserResponse:(NSNotification *)notification
 {
+    hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    [hud hideAnimated:YES];
+    hud.label.text = NSLocalizedString(@"Please wait...", @"HUD Loading title");
+    hud.minSize = CGSizeMake(150.f, 100.f);
+
     if ([[notification.object objectForKey:@"code"] isEqualToString:SUCCESS])
     {
         Database *db=[Database shareddatabase];
         [db insertCompanyRelatedFeedbackTypeAndUsers:notification.object];
-        
+       
+       
         [[APIManager sharedManager] findCountForUsername:self.usenameTextField.text andPassword:self.passwordTextField.text];
         AppPreferences *app=[AppPreferences sharedAppPreferences];
         
@@ -109,16 +115,18 @@ NSMutableArray* webFeedTypeArray;
         NSLog(@"%lu",(unsigned long)app.feedQueryCounterArray.count);
         
         
-        hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        [hud hideAnimated:YES];
-    }
+            }
 }
 
 //--------notification for NOTIFICATION_VALIDATE_COUNTER -----//
 
 - (void)validateCounter:(NSNotification *)notification
 {
-    
+    hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    [hud hideAnimated:YES];
+    hud.label.text = NSLocalizedString(@"Please wait...", @"HUD Loading title");
+    hud.minSize = CGSizeMake(150.f, 100.f);
+
     if ([[notification.object objectForKey:@"code"] isEqualToString:SUCCESS])
     {
         Database *db=[Database shareddatabase];
@@ -126,11 +134,14 @@ NSMutableArray* webFeedTypeArray;
         AppPreferences* app=[AppPreferences sharedAppPreferences];
        
        app.companynameOrIdArray= [db findPermittedCompaniesForUsername:self.usenameTextField.text Password:self.passwordTextField.text];
-        NSLog(@"%ld",app.companynameOrIdArray.count);
+       NSString* companyId= [db getCompanyId:self.usenameTextField.text];
+        NSLog(@"%ld",(unsigned long)app.companynameOrIdArray.count);
         
+        
+
         [[APIManager sharedManager]getLatestRecordsForUsername:self.usenameTextField.text andPassword:self.passwordTextField.text];
 
-        if (app.companynameOrIdArray.count==1)
+        if (!([companyId isEqual:@"1"]))
         {
             NSLog(@"%@",[app.companynameOrIdArray objectAtIndex:0]);
             Database* db=[Database shareddatabase];
@@ -168,8 +179,8 @@ NSMutableArray* webFeedTypeArray;
         NSLog(@"%lu",(unsigned long)app.feedQueryCounterArray.count);
         
         
-        hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        [hud hideAnimated:YES];
+//        hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+//        [hud hideAnimated:YES];
     }
 }
 
@@ -214,6 +225,11 @@ NSMutableArray* webFeedTypeArray;
 
 - (IBAction)loginButtonTapped:(id)sender
 {
+    hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    [hud hideAnimated:YES];
+    
+    hud.label.text = NSLocalizedString(@"Please wait...", @"HUD Loading title");
+    hud.minSize = CGSizeMake(150.f, 100.f);
     if ([self.usenameTextField.text length] <= 0 || [self.passwordTextField.text length] <= 0)
     {
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Empty field"
@@ -227,8 +243,7 @@ NSMutableArray* webFeedTypeArray;
     }
     else
     {
-        hud.label.text = NSLocalizedString(@"Please wait...", @"HUD Loading title");
-        hud.minSize = CGSizeMake(150.f, 100.f);
+        
         
         NSUserDefaults* defaults=[NSUserDefaults standardUserDefaults];
         [defaults setValue:self.usenameTextField.text forKey:@"currentUser"];
@@ -238,13 +253,12 @@ NSMutableArray* webFeedTypeArray;
 
 
     }
-
+  
 }
 
 
 -(void)pushToHomeView
 {
-    AppPreferences* app=[AppPreferences sharedAppPreferences];
     if ([rememberMeButton isSelected])
     {
         //[[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"rememberMe"];

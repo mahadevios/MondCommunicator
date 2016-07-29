@@ -58,7 +58,7 @@ UINavigationController *navigationController;
        
         [db getFeedbackAndQueryCounterForCompany:company];
         
-        if (app.companynameOrIdArray.count==1)
+        if (!(userObj.comanyId==1))
         {
             
         mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];

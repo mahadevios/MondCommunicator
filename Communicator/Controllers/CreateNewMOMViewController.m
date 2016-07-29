@@ -22,17 +22,20 @@
 @synthesize attendiesTextview;
 @synthesize keyPointstextView;
 @synthesize insideView;
+@synthesize popupTableView;
+@synthesize attendeeButton;
 
 - (void) viewDidLoad
 {
     [super viewDidLoad];
+self.cellSelected=[NSMutableArray new];
     // Do any additional setup after loading the view.
 }
 
 
 - (void) viewWillAppear:(BOOL)animated
 {
-    NSLog(@"%@",[NSString stringWithFormat:@"%@",[[APIManager sharedManager] getDate]]);
+    j=0;
     self.navigationController.navigationBar.barTintColor = [UIColor communicatorColor];
     [self.navigationController.navigationBar setBarStyle:UIStatusBarStyleLightContent];// to set carrier,time and battery color in white color
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -46,7 +49,12 @@
     [dateTextField setInputView:datePicker];
     subjectTextField.delegate=self;
     attendiesTextview.delegate=self;
+    attendiesTextview.editable=NO;
     keyPointstextView.delegate=self;
+    popupTableView.dataSource=self;
+    popupTableView.delegate=self;
+    [popupTableView setHidden:YES];
+    self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
 -(void)updateTextField:(id)sender
@@ -98,16 +106,45 @@
     [self saveNewMOM:nil];
 }
 
+- (IBAction)selectAttendeeButtonClicked:(id)sender
+{
+    [self setselctedAttendee];
+    
+}
+
+-(void)setselctedAttendee
+{
+    if ([attendeeButton isSelected])
+    {
+        [attendeeButton setSelected:NO];
+    }
+    else
+        [attendeeButton setSelected:YES];
+
+}
 -(void)saveNewMOM:(NSDictionary*)momResponseDict
 {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Alert"
+                                                                             message:@"Please select the operator"
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
     
-    if (subjectTextField.text!=nil)
+    //We add buttons to the alert controller by creating UIAlertActions:
+    UIAlertAction *actionOk = [UIAlertAction actionWithTitle:@"Ok"
+                                                       style:UIAlertActionStyleDefault
+                                                     handler:^(UIAlertAction *action)
+                               {
+                                   
+                                   [self.tabBarController.navigationController dismissViewControllerAnimated:YES completion:nil];
+                               }]; //You can use a block here to handle a press on this button
+    
+
+    if (subjectTextField.text.length!=0)
     {
-        if (dateTextField.text!=nil)
+        if (dateTextField.text.length!=0)
         {
-            if (attendiesTextview.text!=nil)
+            if (attendiesTextview.text.length!=0)
             {
-                if (keyPointstextView.text!=nil)
+                if (keyPointstextView.text.length!=0)
                 {
                     
                     NSString* userFrom;
@@ -118,6 +155,7 @@
                     NSString* companyId=[db getCompanyId:username];
                     NSString* userFeedback=[db getUserIdFromUserName:username];
                     
+                   // NSMutableArray* userIdsArray=[[NSMutableArray alloc]init];
                     // NSString* selectedCompany = [[NSUserDefaults standardUserDefaults]valueForKey:@"selectedCompany"];
                     if ([companyId isEqual:@"1"])
                     {
@@ -125,6 +163,8 @@
                         username=[db getUserNameFromCompanyname:[[NSUserDefaults standardUserDefaults]valueForKey:@"selectedCompany"]];
                         userTo=[db getUserIdFromUserNameWithRoll1:username];
                         
+                        NSString* companyId=[db getCompanyId:username];
+                      //userIdsArray=  [db getAllUsersOfCompany:@"1" andCompany:companyId];
                         //userTo=[db getCompanyId: [[NSUserDefaults standardUserDefaults]valueForKey:@"selectedCompany"]];
                         
                     }
@@ -134,7 +174,8 @@
                         
                         userTo=@"1";
                         userFrom= [db getUserIdFromUserNameWithRoll1:username];
-                        
+                     //userIdsArray=   [db getAllUsersOfCompany:@"1" andCompany:companyId];
+
                         
                     }
                     
@@ -147,14 +188,26 @@
                     momObj.userfeedback=[userFeedback intValue];
                     momObj.userFrom=[userFrom intValue];
                     momObj.userTo=[userTo intValue];
+                    
                     momObj.dateTime=[NSString stringWithFormat:@"%@",[[APIManager sharedManager] getDate]];
-                    
-                    NSLog(@"%@,%@,%@,%@,%d,%d,%d,%@",momObj.subject,momObj.momDate, momObj.attendee,momObj.keyPoints,momObj.userfeedback,momObj.userFrom,momObj.userTo,momObj.dateTime);
-                    
-                    
-                    NSArray* keys=[NSArray arrayWithObjects:@"subject",@"createdDate",@"attendee",@"keyPoints",@"userFrom",@"userTo",@"userFeedback",@"submittedDateTime",@"momId",nil];
+                    NSArray* dt= [momObj.dateTime componentsSeparatedByString:@" "];
+                    momObj.dateTime=[NSString stringWithFormat:@"%@"@" "@"%@",[dt objectAtIndex:0],[dt objectAtIndex:1]];
                    
-                    NSArray* values=@[momObj.subject,momObj.momDate, momObj.attendee,momObj.keyPoints,[NSString stringWithFormat:@"%d",momObj.userFrom],[NSString stringWithFormat:@"%d",momObj.userTo],[NSString stringWithFormat:@"%d",momObj.userfeedback],momObj.dateTime,[NSString stringWithFormat:@"%ld",momObj.Id]];
+                    momObj.userIds=[NSMutableArray arrayWithArray:userIdsArray];
+                    
+//                    NSMutableString* userIdsString=[[NSMutableString alloc]init];
+//                    for (int i=0; i<userIdsArray.count; i++)
+//                    {
+//                        userIdsString =[NSMutableString stringWithFormat:@"%@,%@",userIdsString,[userIdsArray objectAtIndex:i]];
+//                    }
+//                    NSLog(@"%@",userIdsString);
+
+                    NSLog(@"%@,%@,%@,%@,%d,%d,%d,%@,%@",momObj.subject,momObj.momDate, momObj.attendee,momObj.keyPoints,momObj.userfeedback,momObj.userFrom,momObj.userTo,momObj.dateTime,momObj.userIds);
+                    
+                    
+                    NSArray* keys=[NSArray arrayWithObjects:@"subject",@"createdDate",@"attendee",@"keyPoints",@"userFrom",@"userTo",@"userFeedback",@"submittedDateTime",@"momId",@"userIds",nil];
+                   
+                    NSArray* values=@[momObj.subject,momObj.momDate, momObj.attendee,momObj.keyPoints,[NSString stringWithFormat:@"%d",momObj.userFrom],[NSString stringWithFormat:@"%d",momObj.userTo],[NSString stringWithFormat:@"%d",momObj.userfeedback],momObj.dateTime,[NSString stringWithFormat:@"%ld",momObj.Id],[NSString stringWithFormat:@"%@",momObj.userIds]];
                     
                     NSDictionary* dic=[NSDictionary dictionaryWithObjects:values forKeys:keys];
                     NSLog(@"%@",[dic valueForKey:@"userFeedback"]);
@@ -174,7 +227,7 @@
                         [db insertNewMOM:dic];
                         gotResponse=FALSE;
                         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Alert"
-                                                                                                 message:@"MOM generated sucessfully"
+                                                                                                 message:@"MOM generated successfully"
                                                                                           preferredStyle:UIAlertControllerStyleAlert];
                         UIAlertAction *actionOk = [UIAlertAction actionWithTitle:@"Ok"
                                                                            style:UIAlertActionStyleDefault
@@ -194,11 +247,44 @@
                     
                     
                 }
+                else
+                {
+                   alertController.message=@"Please enter the keypoints";
+                    [alertController addAction:actionOk];
+                    [self presentViewController:alertController animated:YES completion:nil];
+
+                
+                }
             }
+            else
+            {
+               alertController.message=@"Plesae select the attendies";
+                [alertController addAction:actionOk];
+                [self presentViewController:alertController animated:YES completion:nil];
+                
+                
+            }
+
+        }
+        else
+        {
+            alertController.message=@"Please select the date";
+            [alertController addAction:actionOk];
+            [self presentViewController:alertController animated:YES completion:nil];
+            
             
         }
+
     }
 
+    else
+    {
+        alertController.message=@"Please enter the subject";
+        [alertController addAction:actionOk];
+        [self presentViewController:alertController animated:YES completion:nil];
+        
+        
+    }
 
 }
 
@@ -214,6 +300,7 @@
     {
         [self moveViewUp:YES];
     }
+    
     
 }
 
@@ -276,6 +363,11 @@
 
 -(void)textViewDidBeginEditing:(UITextView *)textView
 {
+    if (textView==attendiesTextview)
+    {
+        
+    }
+    else
     [self moveViewUp:YES];
 }
 
@@ -301,4 +393,176 @@
     [UIView commitAnimations];
 }
 
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    
+   UIView* sectionView=[[UIView alloc]initWithFrame:CGRectMake(0, 0,self.tableView.frame.size.width,80)];
+    sectionView.backgroundColor=[UIColor grayColor];
+    UIButton* doneButton=[[UIButton alloc]initWithFrame:CGRectMake(tableView.frame.size.width-80, 10, 70,30)];
+    [doneButton setTitle:@"Done" forState:UIControlStateNormal];
+    doneButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+    [doneButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [sectionView addSubview:doneButton];
+    [doneButton addTarget:self action:@selector(setAttendeeList:) forControlEvents:UIControlEventTouchUpInside];
+
+    
+    UIButton* cancelButton=[[UIButton alloc]initWithFrame:CGRectMake(10, 10, 70,30)];
+    [cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
+    cancelButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    
+    [cancelButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [sectionView addSubview:cancelButton];
+    [cancelButton addTarget:self action:@selector(cancelAttendeeList:) forControlEvents:UIControlEventTouchUpInside];
+
+//    setAttendeeList
+    
+    //UILabel *fileCountLabel=[[UILabel alloc]initWithFrame:CGRectMake(self.tableView.frame.size.width-60, 5, 50, 40)];
+           return  sectionView;
+    
+    
+}
+
+-(void)setAttendeeList:(UIButton*)doneButton
+{
+    self.scrollView.userInteractionEnabled = YES;
+    
+    
+   
+    userIdsArray=[NSMutableArray new];
+    userNamesArray=[NSMutableArray new];
+    for (int i=0; i<self.cellSelected.count; i++)
+    {
+        NSString* k=[self.cellSelected objectAtIndex:i];
+        User* userobject= [userObjectsArray objectAtIndex:[k intValue]];
+        [userNamesArray addObject:[NSString stringWithFormat:@"%@ %@",userobject.firstName,userobject.lastName]];
+        [userIdsArray addObject:[NSString stringWithFormat:@"%d",userobject.Id]];
+       
+    }
+    
+    [popupTableView setHidden:YES];
+    for (j=0; j<userNamesArray.count; j++)
+    {
+        if (j==0)
+        {
+            attendiesTextview.text=[userNamesArray objectAtIndex:j];
+
+        }
+        else
+        attendiesTextview.text=[NSString stringWithFormat:@"%@,%@",attendiesTextview.text,[userNamesArray objectAtIndex:j]];
+    }
+    if (userNamesArray.count==0)
+    {
+        attendiesTextview.text=@"";
+    }
+}
+
+-(void)cancelAttendeeList:(UIButton*)sender
+{
+   self.cellSelected=nil;
+    self.attendiesTextview.text=nil;
+    userIdsArray=nil;
+    userNamesArray=nil;
+    self.cellSelected=[[NSMutableArray alloc]init];
+    [self.tableView reloadData];
+//    userNamesArray=nil;
+//    userIdsArray=nil;
+    self.scrollView.userInteractionEnabled = YES;
+    [popupTableView setHidden:YES];
+
+}
+
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 50;
+    
+}
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    Database* db=[Database shareddatabase];
+    userObjectsArray= [db getAllUsersFirstnameLastname];
+            return userObjectsArray.count;
+}
+
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    if ([self.cellSelected containsObject:[NSString stringWithFormat:@"%ld",indexPath.row]])
+    {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
+    else
+    {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        
+    }
+    cell.tag=indexPath.row;
+    UILabel* attendeeNameLabel= [cell viewWithTag:97];
+
+   
+    User* userObject= [userObjectsArray objectAtIndex:indexPath.row];
+    attendeeNameLabel.text=[NSString stringWithFormat:@"%@ %@",userObject.firstName,userObject.lastName];
+          return cell;
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
+    if ([self.cellSelected containsObject:[NSString stringWithFormat:@"%ld",indexPath.row]])
+    {
+        
+        [self.cellSelected removeObject:[NSString stringWithFormat:@"%ld",indexPath.row]];
+    }
+    else
+    {
+        [self.cellSelected addObject:[NSString stringWithFormat:@"%ld",indexPath.row]];
+    }
+    [self.tableView reloadData];
+    
+}
+
+
+-(void)setAttende:(UIButton*)selectAttendeeButton
+{
+        if([selectAttendeeButton isSelected])
+        {
+            [selectAttendeeButton setSelected:NO];
+            [isSelectedDict setObject:[NSNumber numberWithBool:FALSE] forKey:[NSString stringWithFormat:@"%ld",(long)selectAttendeeButton.tag]];
+
+    
+        }
+        else
+        {
+            [isSelectedDict setObject:[NSNumber numberWithBool:TRUE] forKey:[NSString stringWithFormat:@"%ld",(long)selectAttendeeButton.tag]];
+
+            [selectAttendeeButton setSelected:YES];
+        }
+
+}
+//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    
+//    return 0;
+//    
+//}
+
+
+
+- (IBAction)addAttendees:(id)sender
+{
+    [dateTextField resignFirstResponder];
+    [popupTableView setHidden:NO];
+    self.scrollView.userInteractionEnabled = NO;
+
+    
+   // self.scrollView.alpha = 0.3f;
+    [self.view addSubview:popupTableView];
+   // self.scrollView.backgroundColor = [UIColor grayColor];
+}
 @end

@@ -10,7 +10,6 @@
 #include <sys/xattr.h>
 #import "AppDelegate.h"
 #import "LoginViewController.h"
-
 /*================================================================================================================================================*/
 
 @implementation DownloadMetaDataJob
@@ -394,6 +393,7 @@
             
             if ([[response objectForKey:@"code"] isEqualToString:SUCCESS])
             {
+                
                 [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_VALIDATE_USER object:response];
                 
                 

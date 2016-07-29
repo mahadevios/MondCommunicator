@@ -10,9 +10,9 @@
 
 @implementation CounterGraph
 
-@synthesize count;
+@synthesize count,count1;
 @synthesize referenceForCounterGraphView;
-@synthesize counterGraphlabel;
+@synthesize counterGraphlabel,counterGraphlabel1;
 @synthesize attachmentArray;
-@synthesize cell;
+@synthesize cell,selectAttendeeButton;
 @end

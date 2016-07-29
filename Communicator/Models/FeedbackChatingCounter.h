@@ -14,6 +14,7 @@
 @property(nonatomic)long count;
 @property(nonatomic,strong)NSString* soNumber;
 @property(nonatomic)int feedbackType;
+@property(nonatomic)int statusId;
 @property(nonatomic,strong)NSString* userFrom;
 @property(nonatomic,strong)NSString* userTo;
 @property(nonatomic,strong)NSString* emailSubject;

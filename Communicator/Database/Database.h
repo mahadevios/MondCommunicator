@@ -30,9 +30,9 @@
 @property (strong, nonatomic) NSMutableDictionary *getFeedbackAndQueryCounter;
 
 
--(void)insertFeedbackData:(NSDictionary*)dic;
--(void)insertQueryData:(NSDictionary*)dic;
--(void)updateData:(NSString*)data;
+//-(void)insertFeedbackData:(NSDictionary*)dic;
+//-(void)insertQueryData:(NSDictionary*)dic;
+//-(void)updateData:(NSString*)data;
 
 -(void)getDetailMessagesofFeedbackOrQuery:(int)feedType :(NSString*)SONumber;
 -(void)validateUserFromLocalDatabase:(NSString*)usernameString :(NSString*)passwordString;
@@ -53,8 +53,15 @@
 -(NSString*)getUserIdFromUserNameWithRoll1:(NSString*)username;
 -(NSString*)getUserIdFromUserName:(NSString*)username;
 -(NSString*)getUserNameFromUserId:(int)userId;
+-(NSString*)getuserNameFromCompanyId:(NSString*)companyId;
 -(NSMutableArray*)getMaxFeedIdAndCounter:(NSString*)soNumber :(int)feedtype;
 -(NSMutableArray*)getFeedTypeIdAndMaxCounter:(NSString*)feedbackType;
+-(NSMutableArray*)getAllUsersOfCompany:(NSString*)companyId andCompany:(NSString*)companyId1;
+-(NSString*)getClosedByUserName:(int)feedbackType andsoNumber:(NSString*)soNumber;
+-(NSMutableDictionary*)getAllOperaotorUsernames;
+-(NSString*)getCompanyIdFromCompanyName1:(NSString*)CompanyName;
+-(NSMutableArray*)getAllUsersFirstnameLastname;
+
 -(long)getFeedbackCounterFromSONumberAndFeedbackType:(NSString*)sonumber :(int)feedtype;
 -(void)insertUpdatedRecordsForFeedcom:(NSDictionary*)recordDict;
 -(void)insertUpdatedRecordsForQueryCom:(NSDictionary*)recordDict;

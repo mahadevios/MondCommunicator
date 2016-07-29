@@ -13,5 +13,5 @@
 @synthesize feedTypeId;
 @synthesize companyId;
 @synthesize feedCounter;
-@synthesize queryCounter;
+@synthesize closedCounter,totalCounter;
 @end

@@ -21,11 +21,10 @@
        UILabel* label1;
     CGFloat width;
     int selectedFeedbackType;
-    long counter;
+    long counter,totalCounter,closedCounter;
 }
 
 
-@property (weak, nonatomic) IBOutlet UILabel *chatTypeLabel;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
@@ -33,25 +32,20 @@
 
 @property (strong, nonatomic)NSMutableArray *feedTypeCopyForPredicate;
 
-@property (weak, nonatomic) IBOutlet UISegmentedControl *feedAndQueryComSegment;
 
 @property (strong, nonatomic) NSIndexPath *data;
 @property (strong, nonatomic)NSMutableArray *demoCountArray;
 @property (nonatomic) UILabel* counterGraphLabel;
+@property (nonatomic) UILabel* counterGraphLabel1;
+
 @property (nonatomic) UIView* referenceViewForCounterGraph;
 
 
 
 
-@property (weak, nonatomic) IBOutlet UIButton *feedComButton;
 
-@property (weak, nonatomic) IBOutlet UIButton *queryComButton;
 -(void)feedbackAndQuerySearch;
 
-- (IBAction)buttonClicked:(id)sender;
--(void)setSelectedButton:(id)sender;
-@property (weak, nonatomic) IBOutlet UIView *feedcomButtonUndelineView;
 
-@property (weak, nonatomic) IBOutlet UIView *querycomButtonUnderlineView;
 
 @end

@@ -37,10 +37,11 @@
     AppPreferences* app=[AppPreferences sharedAppPreferences];
   // UINavigationController* navVC= [self.tabBarController.navigationController initWithRootViewController:vc];
    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
-
-    NSString* companyname;
+    Database* db=[Database shareddatabase];
+    //[[NSUserDefaults standardUserDefaults] valueForKey:@"currentUser"];
+    NSString* companyId=[db getCompanyId:[[NSUserDefaults standardUserDefaults] valueForKey:@"currentUser"]];
    
-    if (app.companynameOrIdArray.count>1)
+    if (!([companyId isEqual:@"1"]))
     {
        
         NSMutableArray *tabViewControllers = [[NSMutableArray alloc] init];

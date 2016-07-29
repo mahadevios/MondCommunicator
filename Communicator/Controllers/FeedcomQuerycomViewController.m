@@ -49,6 +49,13 @@
 {
     [self setNavigationBar];
     [self prepareForSearchBar];
+    
+//    
+//    UIWindow *window2 = [[UIWindow alloc] initWithFrame:CGRectMake(self.view.bounds.size.width-60, self.view.bounds.size.height-100, 50, 50)];
+//    window2.backgroundColor = [UIColor redColor];
+//    window2.windowLevel = UIWindowLevelAlert;
+//    self.window = window2;
+//    [window2 makeKeyAndVisible];
 }
 
 -(void)setNavigationBar
@@ -56,32 +63,32 @@
     self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"BackArrow"] style:UIBarButtonItemStylePlain target:self action:@selector(popViewController)] ;
     self.tabBarController.navigationItem.rightBarButtonItem = nil;
     self.tabBarController.navigationItem.leftBarButtonItem.tintColor=[UIColor whiteColor];
-    Database *db=[Database shareddatabase];
-    NSString* username = [[NSUserDefaults standardUserDefaults] valueForKey:@"currentUser"];
-    NSString* companyId=[db getCompanyId:username];
-    if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"flag"] isEqual:@"0"])
-    {
+   // Database *db=[Database shareddatabase];
+    //NSString* username = [[NSUserDefaults standardUserDefaults] valueForKey:@"currentUser"];
+   // NSString* companyId=[db getCompanyId:username];
+//    if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"flag"] isEqual:@"0"])
+//    {
         self.tabBarController.navigationItem.title = @"FeedCom";
-    }
-    
-    if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"flag"] isEqual:@"1"])
-    {
-        self.tabBarController.navigationItem.title = @"QueryCom";
-    }
-    
-    if ([companyId isEqual:@"1"] && [[[NSUserDefaults standardUserDefaults] valueForKey:@"flag"] isEqual:@"0"])
-    {
-        [cerateNewFeedbackOrQueryButton setHidden:YES];
-    }
-    else
-    {
-        if (!([companyId isEqual:@"1"]) && [[[NSUserDefaults standardUserDefaults] valueForKey:@"flag"] isEqual:@"1"])
-        {
-            [cerateNewFeedbackOrQueryButton setHidden:YES];
-        }
-        else
-        [cerateNewFeedbackOrQueryButton setHidden:NO];
-    }
+   // }
+//    
+//    if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"flag"] isEqual:@"1"])
+//    {
+//        self.tabBarController.navigationItem.title = @"QueryCom";
+//    }
+//    
+//    if ([companyId isEqual:@"1"] && [[[NSUserDefaults standardUserDefaults] valueForKey:@"flag"] isEqual:@"0"])
+//    {
+//        [cerateNewFeedbackOrQueryButton setHidden:YES];
+//    }
+//    else
+//    {
+//        if (!([companyId isEqual:@"1"]) && [[[NSUserDefaults standardUserDefaults] valueForKey:@"flag"] isEqual:@"1"])
+//        {
+//            [cerateNewFeedbackOrQueryButton setHidden:YES];
+//        }
+//        else
+//        [cerateNewFeedbackOrQueryButton setHidden:NO];
+//    }
 
 }
 
@@ -170,7 +177,22 @@
         NSArray *components1 = [headerObj1.feedDate componentsSeparatedByString:@"+"];
         NSArray* dateAndTimeArray= [components1[0] componentsSeparatedByString:@" "];
         UILabel* dateAndTimeLabel=(UILabel*)[cell viewWithTag:13];
-        dateAndTimeLabel.text=[NSString stringWithFormat:@"%@ \n%@",dateAndTimeArray[0],dateAndTimeArray[1]];
+        dateAndTimeLabel.text=[NSString stringWithFormat:@"%@ %@",dateAndTimeArray[0],dateAndTimeArray[1]];
+    
+        UILabel* createdByLabel=(UILabel*)[cell viewWithTag:16];
+        createdByLabel.text=[NSString stringWithFormat:@"Initiated by: %@ %@",headerObj1.firstname,headerObj1.lastname];
+
+        UILabel* closedByLabel=(UILabel*)[cell viewWithTag:17];
+
+    if (headerObj1.statusId==2)
+    {
+        closedByLabel.text=[NSString stringWithFormat:@"Closed by: %@ %@",headerObj1.firstname,headerObj1.lastname];
+        //Database* db=[Database shareddatabase];
+      // NSString* firstNameLastName =[db getClosedByUserName:headerObj1.feedbackType andsoNumber:headerObj1.soNumber];
+    }
+    else
+        closedByLabel.text=@"";
+  
     
         return cell;
     
@@ -221,4 +243,21 @@
     vcc.feedbackType=self.feedbackType;
     [self.navigationController presentViewController:vc animated:YES completion:nil];
 }
+
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    //CGSize size = [UIScreen mainScreen].bounds.size;
+   // NSLog(@"width=%f height=%f",size.width,size.height);
+    //UIInterfaceOrientationPortrait
+// if(fromInterfaceOrientation ==UIInterfaceOrientationPortrait)
+//    {
+//        UIWindow *window2 = [[UIWindow alloc] initWithFrame:CGRectMake(size.width-60, size.height-100, 50, 50)];
+//        window2.backgroundColor = [UIColor redColor];
+//        window2.windowLevel = UIWindowLevelAlert;
+//        window2.hidden=NO;
+//        self.window = window2;
+//        [window2 makeKeyAndVisible];
+//
+//    }
+   }
 @end
