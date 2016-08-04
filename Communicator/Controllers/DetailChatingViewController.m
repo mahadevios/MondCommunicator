@@ -357,7 +357,12 @@ DetailChatingViewController
                              label.font=[UIFont systemFontOfSize:12];
                              [label setFrame:CGRectMake(counterGraphObj.counterGraphlabel.frame.origin.x, (yPosOfLbl*i*4), 200, counterGraphObj.counterGraphlabel.frame.size.height)];
                              label.text=[counterGraphObj.attachmentArray objectAtIndex:i];
-                             
+                             if (label.text.length>12)
+                             {
+                                 label.text= [label.text substringFromIndex:13];
+                                 
+                             }
+
                              NSLog(@"%f,%f",counterGraphObj.counterGraphlabel.frame.origin.x,counterGraphObj.counterGraphlabel.frame.origin.y);
                              
 
@@ -532,7 +537,7 @@ DetailChatingViewController
     NSString* userFrom,* userTo;
     if ([sendFeedbackTextfield.text length] <= 0)
     {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Empty message!" message:@"Please enter some messag and try again" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:@"Cancel", nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Empty message!" message:@"Please enter some message and try again" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:@"Cancel", nil];
         [alertView show];
     }
     
@@ -694,7 +699,9 @@ DetailChatingViewController
     NSString *destpath;
     
     folderName=@"Attachments";
-    destpath=[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@/%@",folderName,@"1469363039819Untitled.png"]];
+    NSLog(@"%@",NSHomeDirectory());
+    NSLog(@"%@",sender.titleLabel.text);
+    destpath=[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@/%@",folderName,sender.titleLabel.text]];
     //destpath=[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@/%@",folderName,sender.titleLabel.text]];
 
     NSString* filePath=[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@",folderName]];
@@ -733,8 +740,8 @@ DetailChatingViewController
 -(void)startReceive:(UIButton*)sender
 {
 //   NSURL *url = [NSURL URLWithString:@"ftp://ftp.funet.fi/pub/standards/RFC/rfc959.txt"];
-
-    NSString* fileName=@"1469363039819Untitled.png";
+    downloadableAttachmentName=sender.titleLabel.text;
+   // NSString* fileName=sender.titleLabel.text;
     //NSString* fileName=sender.titleLabel.text;
 
    NSString* username = [FTPUsername stringByReplacingOccurrencesOfString:@"@"
@@ -745,7 +752,7 @@ DetailChatingViewController
     
     
     
-    NSString* urlString=[NSString stringWithFormat:@"ftp://%@:%@%@%@%@",username,password,FTPHostName,FTPFilesFolderName,fileName];
+    NSString* urlString=[NSString stringWithFormat:@"ftp://%@:%@%@%@%@",username,password,FTPHostName,FTPFilesFolderName,downloadableAttachmentName];
     
    // NSURL *url = [NSURL URLWithString:@"ftp://demoFtp%40pantudantukids.com:asdf123@pantudantukids.com:21/TEST/1469363039819Untitled.png"];
     NSURL *url = [NSURL URLWithString:urlString];
@@ -777,7 +784,7 @@ didCompleteWithError:(nullable NSError *)error
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location
 {
     NSData *data = [NSData dataWithContentsOfURL:location];
-    NSString* destpath=[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/Attachments/%@",@"1469363039819Untitled.png"]];
+    NSString* destpath=[NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/Attachments/%@",downloadableAttachmentName]];
 
     [data writeToFile:destpath atomically:YES];
     dispatch_async(dispatch_get_main_queue(), ^{

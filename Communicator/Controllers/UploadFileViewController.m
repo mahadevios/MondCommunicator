@@ -279,13 +279,13 @@ UIImageView* img=(UIImageView*)[cell viewWithTag:100];
    NSString* fileName = [app.imageFileNamesArray objectAtIndex:i];
 
 
-    // NSURL* url=[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", @"http://192.168.3.170:8080/coreflex/feedcom", @"uploadFileFromMobile"]];
+     NSURL* url=[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", @"http://192.168.3.170:8080/coreflex/feedcom", @"uploadFileFromMobile"]];
     
    // NSString *folderpath=[NSHomeDirectory() stringByAppendingPathComponent:@"Documents/Downloads/test.png"];
 
 //"http://115.249.195.23:8080/Communicator/feedcom/
    // NSURL* url=[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", @"http://localhost:9090/coreflex/feedcom", @"uploadFileFromMobile"]];
-        NSURL* url=[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", @"http://115.249.195.23:8080/Communicator/feedcom/", @"uploadFileFromMobile"]];
+       // NSURL* url=[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", @"http://115.249.195.23:8080/Communicator/feedcom/", @"uploadFileFromMobile"]];
 
 
     NSString *boundary = [self generateBoundaryString];
@@ -327,7 +327,7 @@ UIImageView* img=(UIImageView*)[cell viewWithTag:100];
             app.uploadedFileNamesArray = [[NSMutableArray alloc] init];
         }
         NSString *uploadedFileNameString = [result valueForKey:@"fileName"];
-        uploadedFileNameString = [uploadedFileNameString stringByReplacingOccurrencesOfString:@"/" withString:@""];
+       // uploadedFileNameString = [uploadedFileNameString stringByReplacingOccurrencesOfString:@"/" withString:@""];
         uploadedFileNameString = [uploadedFileNameString stringByReplacingOccurrencesOfString:@"\"" withString:@""];
 
      [app.uploadedFileNamesArray addObject:[result valueForKey:@"fileName"]];//add the uploaded file names to uploaded file names array to display on detail chating view controller

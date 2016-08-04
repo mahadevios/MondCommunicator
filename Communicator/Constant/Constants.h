@@ -11,9 +11,9 @@
 
 //#define  BASE_URL_PATH                  @"http://localhost:9090/coreflex/feedcom"
 
-#define  BASE_URL_PATH                  @"http://115.249.195.23:8080/Communicator/feedcom/"
+//#define  BASE_URL_PATH                  @"http://115.249.195.23:8080/Communicator/feedcom/"
 
-//#define  BASE_URL_PATH                  @"http://192.168.3.170:8080/coreflex/feedcom"
+#define  BASE_URL_PATH                  @"http://192.168.3.170:8080/coreflex/feedcom"
 #define FTPHostName    @"@pantudantukids.com"
 #define FTPFilesFolderName  @"/TEST/"
 #define FTPUsername  @"demoFtp%40pantudantukids.com"

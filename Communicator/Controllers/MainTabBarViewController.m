@@ -41,7 +41,7 @@
     //[[NSUserDefaults standardUserDefaults] valueForKey:@"currentUser"];
     NSString* companyId=[db getCompanyId:[[NSUserDefaults standardUserDefaults] valueForKey:@"currentUser"]];
    
-    if (!([companyId isEqual:@"1"]))
+    if ([companyId isEqual:@"1"])
     {
        
         NSMutableArray *tabViewControllers = [[NSMutableArray alloc] init];
