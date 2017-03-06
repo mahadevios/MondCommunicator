@@ -1,0 +1,1 @@
+/Users/admin/Documents/MondCommunicator/Build/Intermediates/ArchiveIntermediates/Communicator/InstallationBuildProductsLocation/Applications/MondCommunicator.app
