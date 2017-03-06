@@ -55,7 +55,7 @@
             BlueprintIdentifier = "841F6D151C9D4BEC0082F7BE"
             BuildableName = "MondCommunicator.app"
             BlueprintName = "MondCommunicator"
-            ReferencedContainer = "container:MondCommunicator.temp_caseinsensitive_rename.xcodeproj">
+            ReferencedContainer = "container:MondCommunicator.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -78,7 +78,7 @@
             BlueprintIdentifier = "841F6D151C9D4BEC0082F7BE"
             BuildableName = "MondCommunicator.app"
             BlueprintName = "MondCommunicator"
-            ReferencedContainer = "container:MondCommunicator.temp_caseinsensitive_rename.xcodeproj">
+            ReferencedContainer = "container:MondCommunicator.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
