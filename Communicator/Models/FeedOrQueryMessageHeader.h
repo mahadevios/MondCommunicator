@@ -16,7 +16,14 @@
 @property(nonatomic,strong)NSString* feedDate;
 @property(nonatomic,strong)NSString* firstname;
 @property(nonatomic,strong)NSString* lastname;
+
+@property(nonatomic,strong)NSString* assigneeFirstname;
+@property(nonatomic,strong)NSString* assigneeLastname;
+
+@property(nonatomic,strong)NSString* closeByFirstname;
+@property(nonatomic,strong)NSString* lcloseByLastname;
 @property(nonatomic)int statusId;
+@property(nonatomic)int readStatus;
 
 
 

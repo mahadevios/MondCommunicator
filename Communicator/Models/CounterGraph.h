@@ -12,9 +12,13 @@
 
 @property(nonatomic,strong)UILabel* counterGraphlabel;
 @property(nonatomic,strong)UILabel* counterGraphlabel1;
+@property(nonatomic,strong)UILabel* counterGraphlabel2;
+
 @property(nonatomic,strong)UIView* referenceForCounterGraphView;
 @property(nonatomic)long count;
 @property(nonatomic)long count1;
+@property(nonatomic)long count2;
+
 @property(nonatomic,strong)UIButton* selectAttendeeButton;
 
 @property(nonatomic,strong)NSArray* attachmentArray;

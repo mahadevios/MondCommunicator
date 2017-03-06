@@ -11,11 +11,19 @@
 @interface ReportAndDocsViewController : UIViewController<UIDocumentInteractionControllerDelegate,UISearchBarDelegate,UISearchResultsUpdating>
 {
     NSMutableArray* arrayForBool;
-    NSArray* sectionTitleArray;
+    NSMutableArray* sectionTitleArray;
     UIView *sectionView;
     NSMutableArray * fileNameUserArray;
     NSMutableData* responseData;
     int statusCode;
+    NSString* downloadableAttachmentName;
+    UIRefreshControl* refreshControl;
+    NSMutableArray* sampleSectionTitleArray;
+    NSMutableArray* samplePredicateSectionTitleArray;
+    UIAlertController *alertController;
+    UIAlertAction *actionDelete;
+    UIAlertAction *actionCancel;
+
 }
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *reportButton;
@@ -25,4 +33,9 @@
 @property (weak, nonatomic) MBProgressHUD *hud;
 
 - (IBAction)buttonClicked:(id)sender;
+
+@property (strong, nonatomic) UISearchController *searchController;
+@property (nonatomic, strong) NSArray *search;
+@property(nonatomic, weak) id< UISearchControllerDelegate > delegate;
+@property (strong, nonatomic) NSString *indexPath;
 @end

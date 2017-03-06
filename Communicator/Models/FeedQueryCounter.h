@@ -13,6 +13,8 @@
 @property(nonatomic,strong)NSString* feedbackType;
 @property(nonatomic)long openCounter;
 @property(nonatomic)int closedCounter;
-@property(nonatomic)long totalCounter;
+@property(nonatomic)long inprogressCounter;
 
+@property(nonatomic)long totalCounter;
+@property(nonatomic)int readStatus;
 @end

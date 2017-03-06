@@ -14,6 +14,8 @@
 @property(nonatomic)int companyId;
 @property(nonatomic)long feedCounter;
 @property(nonatomic)long closedCounter;
+@property(nonatomic)long inProgressCounter;
+
 @property(nonatomic)long totalCounter;
 
 @end

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface UIButton (buttonDesign)
+
 -(UIColor*)getButtonColor;
 -(UIButton *)getButtonBorderWidthAndColor;
 @end

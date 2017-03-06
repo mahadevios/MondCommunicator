@@ -33,7 +33,7 @@
 - (IBAction)rememberMeButtonTapped:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UIButton *buttonColor;
-@property (weak, nonatomic) IBOutlet UINavigationItem *navigationBar;
+@property (weak, nonatomic) IBOutlet UIView *navigationView;
 
 @property (weak, nonatomic) MBProgressHUD *hud;
 @end

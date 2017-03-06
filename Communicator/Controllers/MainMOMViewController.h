@@ -9,6 +9,12 @@
 #import <UIKit/UIKit.h>
 
 @interface MainMOMViewController : UIViewController<UISearchBarDelegate,UISearchResultsUpdating>
+{
+    UIRefreshControl* refreshControl;
+    UIAlertController *alertController;
+    UIAlertAction *actionDelete;
+    UIAlertAction *actionCancel;
+}
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end

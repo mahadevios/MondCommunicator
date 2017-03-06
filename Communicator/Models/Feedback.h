@@ -23,6 +23,7 @@
 @property(nonatomic)int userFeedback;
 @property(nonatomic,strong)NSString* attachment;
 @property(nonatomic,strong)NSString* emailSubject;
-
+@property(nonatomic)int assignBy;
+@property(nonatomic)int closeBy;
 
 @end
