@@ -35,6 +35,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *buttonColor;
 @property (weak, nonatomic) IBOutlet UIView *navigationView;
 
+@property (weak, nonatomic) IBOutlet UIButton *loginButton;
+@property (weak, nonatomic) IBOutlet UIView *separatorLineView;
 @property (weak, nonatomic) MBProgressHUD *hud;
 @end
 

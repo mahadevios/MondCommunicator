@@ -1346,8 +1346,18 @@ int i=3;
                                     
                                 }
                             }
+                            else
+                            {
+                                NSLog(@"Can't preapre query due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                            }
+
+                            if (sqlite3_finalize(statement10) == SQLITE_OK)
+                            {
+                            }
+                            else
+                                NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
                             
-                            
+
                             
                             
                         }
@@ -1356,7 +1366,11 @@ int i=3;
                     {
                         NSLog(@"Can't preapre query due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
                     }
-                    
+                    if (sqlite3_finalize(statement1) == SQLITE_OK)
+                    {
+                    }
+                    else
+                        NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
                 }
                 
                 
@@ -1380,7 +1394,11 @@ int i=3;
                         NSLog(@"Can't preapre query due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
                     }
                     
-                    
+                    if (sqlite3_finalize(statement2) == SQLITE_OK)
+                    {
+                    }
+                    else
+                        NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
                     
                     
                 }
@@ -1391,30 +1409,21 @@ int i=3;
         {
             NSLog(@"Can't preapre query due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
         }
+        if (sqlite3_finalize(statement) == SQLITE_OK)
+        {
+        }
+        else
+            NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
     }
     else
     {
         NSLog(@"can't open db due error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
     }
     
-    if (sqlite3_finalize(statement) == SQLITE_OK)
-    {
-    }
-    else
-        NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
-    
-    if (sqlite3_finalize(statement1) == SQLITE_OK)
-    {
-    }
-    else
-        NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
     
     
-    if (sqlite3_finalize(statement2) == SQLITE_OK)
-    {
-    }
-    else
-        NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+    
+   
     
     
     
@@ -1502,7 +1511,16 @@ int i=3;
                                 [readStatusArray addObject:[NSString stringWithFormat:@"%d",readStatus]];
                             }
                         }
-                        
+                        else
+                        {
+                            NSLog(@"Can't preapre query due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+                        }
+                        if (sqlite3_finalize(statement2) == SQLITE_OK)
+                        {
+                        }
+                        else
+                            NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+
                         if ([readStatusArray containsObject:@"1"])
                         {
                             obj.readStatus=1;
@@ -2188,9 +2206,7 @@ int i=3;
     // NSMutableArray* uniqueUserIdArray=[[NSMutableArray alloc]init];
     NSString* query3=[NSString stringWithFormat:@"SELECT Feedback_text,userFeedBack,statusId,EmailSubject,dateoffeed,Attachments,Feedback_id FROM feedback where feedBackType=%d AND SO_Number='%@'",feedType,SONumber];
     //    NSString* query2=[NSString stringWithFormat:@"SELECT Query_text,userQuery,userTo,subject,dateofquery,attachment FROM query where feedBackType=%d AND SO_Number='%@'",feedType,SONumber];
-    // NSString* query3;
-    NSUserDefaults* defaults=[NSUserDefaults standardUserDefaults];
-    
+    // NSString* query3;    
     FeedbackChatingCounter *allMessageObj;
     //    if ([str isEqualToString:@"0"])
     //    {
@@ -5522,23 +5538,22 @@ int i=3;
     sqlite3_stmt *statement,*statement1;
     sqlite3* feedbackAndQueryTypesDB;
     NSString* feedid,*counter,*feedTypeId;
-    NSString* query1;
     NSMutableArray* feedIdAndCounterArray=[[NSMutableArray alloc]init];
-    NSString *query3=[NSString stringWithFormat:@"Select MAX(Feedback_id),MAX(feedbackCounter) from feedback"];
-    NSString *query4=[NSString stringWithFormat:@"Select MAX(Query_id),MAX(QueryCounter) from query"];
+    NSString *query1=[NSString stringWithFormat:@"Select MAX(Feedback_id),MAX(feedbackCounter) from feedback"];
+    //NSString *query4=[NSString stringWithFormat:@"Select MAX(Query_id),MAX(QueryCounter) from query"];
     NSString *query2=[NSString stringWithFormat:@"Select ID from feedbacktype Where Feedback_Type='%@'",feedbackType];
     
-    NSString* str=[[NSUserDefaults standardUserDefaults] valueForKey:@"flag"] ;
-    if ([str isEqualToString:@"0"])
-    {
-        query1=[NSString stringWithFormat:@"%@",query3];
+//    NSString* str=[[NSUserDefaults standardUserDefaults] valueForKey:@"flag"] ;
+//    if ([str isEqualToString:@"0"])
+//    {
+ //       query1=[NSString stringWithFormat:@"%@",query3];
         
-    }
-    else
-    {
-        query1=[NSString stringWithFormat:@"%@",query4];
-        
-    }
+//    }
+//    else
+//    {
+//        query1=[NSString stringWithFormat:@"%@",query4];
+//        
+//    }
     if (sqlite3_open([dbPath UTF8String], &feedbackAndQueryTypesDB) == SQLITE_OK)// 1. Open The DataBase.
     {
         if (sqlite3_prepare_v2(feedbackAndQueryTypesDB, [query1 UTF8String], -1, &statement, NULL) == SQLITE_OK)// 2. Prepare the query
@@ -5674,7 +5689,7 @@ int i=3;
     NSString* InprogressCount=[recordDict valueForKey:@"inprogress"];
 
     //t0 increase close counter if status is closed
-    BOOL closeStatus = false;
+   // [AppPreferences sharedAppPreferences].totalRecordInserted= 0;
     int feedbackTypeId = 0,statusID=0;
     NSString* SONumberString,*SONumberStringCopy;
     Database *db=[Database shareddatabase];
@@ -5805,7 +5820,7 @@ int i=3;
             sqlite3_prepare_v2(feedbackAndQueryTypesDB, queryi1, -1, &statement, NULL);
             if(sqlite3_step(statement)==SQLITE_DONE)
             {
-                
+                //[AppPreferences sharedAppPreferences].totalRecordInserted++;
                 sqlite3_reset(statement);
             }
             else
@@ -5912,20 +5927,20 @@ int i=3;
             NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
         
         
-        if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
-        {
-        }
-        else
-        {
-            NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
-        }
+//        if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+//        {
+//        }
+//        else
+//        {
+//            NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+//        }
     
     
     NSString *assigneeQuery=[NSString stringWithFormat:@"Update feedback set assignBy=%d,closeBy=%d Where feedBackType=%d and SO_Number='%@'",[assignByString intValue],[closedByString intValue],feedbackTypeId,SONumberStringCopy];
     
     const char * assigneeQuery123=[assigneeQuery UTF8String];
-    if (sqlite3_open([dbPath UTF8String], &feedbackAndQueryTypesDB)==SQLITE_OK)
-    {
+//    if (sqlite3_open([dbPath UTF8String], &feedbackAndQueryTypesDB)==SQLITE_OK)
+//    {
         sqlite3_prepare_v2(feedbackAndQueryTypesDB, assigneeQuery123, -1, &statement, NULL);
         if(sqlite3_step(statement)==SQLITE_DONE)
         {
@@ -5936,11 +5951,11 @@ int i=3;
         {
             NSLog(@"%s",sqlite3_errmsg(feedbackAndQueryTypesDB));
         }
-    }
-    else
-    {
-        NSLog(@"errormsg=%s",sqlite3_errmsg(feedbackAndQueryTypesDB));
-    }
+//    }
+//    else
+//    {
+//        NSLog(@"errormsg=%s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+//    }
     
     if (sqlite3_finalize(statement) == SQLITE_OK)
     {
@@ -5948,14 +5963,14 @@ int i=3;
     else
         NSLog(@"Can't finalize due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
     
-    
-    if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
-    {
-    }
-    else
-    {
-        NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
-    }
+//    
+//    if (sqlite3_close(feedbackAndQueryTypesDB) == SQLITE_OK)
+//    {
+//    }
+//    else
+//    {
+//        NSLog(@"Db is not closed due to error = %s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+//    }
 
 
 //    if (closeStatus)
@@ -5980,8 +5995,8 @@ int i=3;
     NSString *chatingCounterQuery12=[NSString stringWithFormat:@"Update CompanyFeedTypeAndCounter set feedCounter=%d,closedCounter=%d,totalCounter=%d,inProgressCounter=%d Where feedbackTypeId=%d and CompanyId='%@'",[openCount intValue] ,[closeCount intValue],[totalCount intValue],[InprogressCount intValue],feedbackTypeId,companyId];
     
     const char * chatingCounterQuery123=[chatingCounterQuery12 UTF8String];
-    if (sqlite3_open([dbPath UTF8String], &feedbackAndQueryTypesDB)==SQLITE_OK)
-    {
+//    if (sqlite3_open([dbPath UTF8String], &feedbackAndQueryTypesDB)==SQLITE_OK)
+//    {
         sqlite3_prepare_v2(feedbackAndQueryTypesDB, chatingCounterQuery123, -1, &chatingCounterStatement, NULL);
         if(sqlite3_step(chatingCounterStatement)==SQLITE_DONE)
         {
@@ -5992,11 +6007,11 @@ int i=3;
         {
             NSLog(@"%s",sqlite3_errmsg(feedbackAndQueryTypesDB));
         }
-    }
-    else
-    {
-        NSLog(@"errormsg=%s",sqlite3_errmsg(feedbackAndQueryTypesDB));
-    }
+//    }
+//    else
+//    {
+//        NSLog(@"errormsg=%s",sqlite3_errmsg(feedbackAndQueryTypesDB));
+//    }
     
     if (sqlite3_finalize(chatingCounterStatement) == SQLITE_OK)
     {

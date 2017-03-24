@@ -10,4 +10,6 @@
 
 @interface UIColor (CommunicatorColor)
 +(UIColor*)communicatorColor;
++(UIColor*)buttonColor;
+
 @end

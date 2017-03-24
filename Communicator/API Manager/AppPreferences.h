@@ -61,6 +61,7 @@
 @property(nonatomic)BOOL dateWiseSearch;
 @property(nonatomic,strong)NSString* fromDate;
 @property(nonatomic,strong)NSString* toDate;
+//@property(nonatomic)int totalRecordInserted;
 
 
 

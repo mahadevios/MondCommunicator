@@ -14,7 +14,7 @@ UIButton* button;
 
 -(UIColor *)getButtonColor
 {
-  buttonColor= [UIColor colorWithRed:41/255.0 green:97/255.0 blue:142/255.0 alpha:1];
+  buttonColor= [UIColor colorWithRed:118/255.0 green:74/255.0 blue:46/255.0 alpha:1];
    return buttonColor;
 }
 

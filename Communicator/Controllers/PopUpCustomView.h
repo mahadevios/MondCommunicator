@@ -12,12 +12,12 @@
 @interface PopUpCustomView : UIView
 {
     UIView* overlay;
-    UITapGestureRecognizer* tap;
 }
 - (UIView*)initWithFrame:(CGRect)frame andSubViews:(NSArray*)subViewNamesArray :(id)sender;
 - (UIView*)initWithFrame:(CGRect)frame  sender:(id)sender;
 -(UITableView*)tableView:(id)sender frame:(CGRect)frame;
 - (UIView*)initWithFrame:(CGRect)frame senderNameForSlider :(id)sender player:(AVAudioPlayer*)player;
 - (UIView*)initWithFrame:(CGRect)frame senderForInternetMessage :(id)sender;
+@property(nonatomic,strong)UITapGestureRecognizer* tap;
 
 @end

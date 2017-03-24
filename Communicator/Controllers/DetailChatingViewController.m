@@ -96,7 +96,24 @@ enum {
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    
     [super viewWillAppear:YES];
+
+    [self.tableview setHidden:YES];
+    [[self.view viewWithTag:4001] setHidden:YES];
+    
+    dispatch_async(dispatch_get_main_queue(), ^
+                   {
+                           indicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+                           indicator.frame = CGRectMake(0.0, 0.0, 200.0, 200.0);
+                           indicator.center = self.view.center;
+                       NSLog(@"Reachable");
+                       
+                       [self.view addSubview:indicator];
+                       [indicator bringSubviewToFront:self.view];
+                       [indicator startAnimating];
+                      // [self showHud];
+                   });
     [[self.view viewWithTag:2001] setHidden:YES];
     
     [[self.view viewWithTag:2001] setBackgroundColor:[[UIColor blackColor] colorWithAlphaComponent:0.2]];
@@ -109,7 +126,7 @@ enum {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(getLatestRecord:) name:NOTIFICATION_SEND_UPDATED_RECORDS
                                                object:nil];
-    [tableview reloadData];
+    [tableview reloadData];//2
     
     FeedbackChatingCounter* feedObject= [app.FeedbackOrQueryDetailChatingObjectsArray objectAtIndex:0];
     [[Database shareddatabase] updateReadStatus:feedObject.soNumber feedbackType:[NSString stringWithFormat:@"%d",feedObject.feedbackType]];
@@ -140,8 +157,11 @@ enum {
             statusLabel.text=@"Inprogress";
             statusLabel.textColor=[UIColor communicatorColor];
         }
+    
+    NSMutableArray* arr =  app.FeedbackOrQueryDetailChatingObjectsArray;
     [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_NEW_DATA_UPDATE object:nil];//messages read,now update prev 2 views
     
+//    [super viewWillAppear:YES];
     
 }
 
@@ -209,6 +229,15 @@ enum {
     
     FeedbackChatingCounter* feedObject= [app.FeedbackOrQueryDetailChatingObjectsArray lastObject];
     
+   // long totalOldRows = app.FeedbackOrQueryDetailChatingObjectsArray.count;
+    
+   // NSMutableArray* addedIndexPathArray = [NSMutableArray new];
+//    for (long i=app.FeedbackOrQueryDetailChatingObjectsArray.count; i<app.FeedbackOrQueryDetailChatingObjectsArray.count+app.totalRecordInserted; i++)
+//    {
+//      [addedIndexPathArray addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+//        i++;
+//    }
+    //app.totalRecordInserted = 0;
     if (feedObject.statusId==2)
     {
         
@@ -238,7 +267,9 @@ enum {
     // sendTextView.textColor=[UIColor lightGrayColor];
     //[self keyboardWillShow:nil];
     
-    [self.tableview reloadData];
+    [self.tableview reloadData];//3
+   // [self.tableview insertRowsAtIndexPaths:addedIndexPathArray withRowAnimation:UITableViewRowAnimationNone];
+
     
     if (loadedFirstTime)
     {
@@ -262,12 +293,26 @@ enum {
 }
 -(void)viewDidAppear:(BOOL)animated
 {
-    [self.tableview reloadData];//reload for proper webview
+    [self.tableview reloadData];// 4 reload for proper webview
     [self performSelector:@selector(keyboardWillShow:) withObject:nil afterDelay:0.3];//goto the botom of table after loading WV
-    
+    [self performSelector:@selector(showView) withObject:nil afterDelay:0.6];//goto the botom of table after loading WV
+
+
     //    [self keyboardWillShow:nil];
 }
+-(void)showView
+{
+   
+    dispatch_async(dispatch_get_main_queue(), ^
+                   {
+                       [indicator stopAnimating];
 
+                       // [self showHud];
+                   });
+     [self.tableview setHidden:NO];
+    [[self.view viewWithTag:4001] setHidden:NO];
+
+}
 
 //insert fetched data into db after getting response
 -(void)insertLoadMoreData:(NSNotification*)data
@@ -311,10 +356,6 @@ enum {
     return UIStatusBarStyleLightContent;
 }
 
--(void)popViewController
-{
-    [self.navigationController popViewControllerAnimated:YES];
-}
 
 
 
@@ -393,8 +434,11 @@ enum {
     
     if (tableView==self.tableview)
     {
+     
         
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+        
+    
         FeedbackChatingCounter* feedObject= [app.FeedbackOrQueryDetailChatingObjectsArray objectAtIndex:indexPath.row];
         
         
@@ -454,7 +498,7 @@ enum {
         NSData *dataa = [valueUnicode dataUsingEncoding:NSUTF8StringEncoding];
         NSString *valueEmoj = [[NSString alloc] initWithData:dataa encoding:NSNonLossyASCIIStringEncoding];
         
-        NSLog(@"%f",self.tableview.frame.size.width);
+      //  NSLog(@"%f",self.tableview.frame.size.width);
         //         NSString* htmlString=[NSString stringWithFormat:@"<html><head></head><body><p>%@</p></body></html>",valueEmoj];
         NSString *htmlString = [NSString stringWithFormat:@"<html><head><style type='text/css'>html,body {margin: 0;padding: 0;height: 100%;}html {display: table;}body {display: table-cell;vertical-align: left;padding: 0px;text-align: left;-webkit-text-size-adjust: none; }</style></head><body><p>%@</p></body></html>​",valueEmoj];
         // div {max-width: %fpx;}
@@ -605,7 +649,7 @@ enum {
     if ([scrollView.superview isKindOfClass:[UIWebView class]])
     {
         CGFloat width = [UIScreen mainScreen].bounds.size.width;
-        NSLog(@"%f",width);
+        //NSLog(@"%f",width);
         
         if (scrollView.frame.size.width<[UIScreen mainScreen].bounds.size.width)
         {
@@ -616,9 +660,9 @@ enum {
         {
             if (scrollView.contentOffset.x > 0)
             {
-                NSLog(@"offset more %f",scrollView.contentOffset.x);
-                NSLog(@"width more %f",scrollView.frame.size.width);
-                NSLog(@"x more %f",scrollView.frame.origin.x);
+              //  NSLog(@"offset more %f",scrollView.contentOffset.x);
+                //NSLog(@"width more %f",scrollView.frame.size.width);
+                //NSLog(@"x more %f",scrollView.frame.origin.x);
                 
                 scrollView.frame=CGRectMake(scrollView.frame.origin.x- scrollView.contentOffset.x, scrollView.frame.origin.y, scrollView.frame.size.width, scrollView.frame.size.height);
                 
@@ -632,9 +676,9 @@ enum {
         {
             if (scrollView.contentOffset.x < 0)
             {
-                NSLog(@"offset less %f",scrollView.contentOffset.x);
-                NSLog(@"width less %f",scrollView.frame.size.width);
-                NSLog(@"x less %f",scrollView.frame.origin.x);
+                //NSLog(@"offset less %f",scrollView.contentOffset.x);
+                //NSLog(@"width less %f",scrollView.frame.size.width);
+                //NSLog(@"x less %f",scrollView.frame.origin.x);
                 
                 // scrollView.contentOffset = CGPointMake(scrollView.frame.origin.x+ scrollView.contentOffset.x, scrollView.contentOffset.y);
                 scrollView.frame=CGRectMake(scrollView.frame.origin.x- scrollView.contentOffset.x, scrollView.frame.origin.y, scrollView.frame.size.width, scrollView.frame.size.height);
@@ -773,7 +817,7 @@ enum {
         return;
     }
 
-    NSLog(@"%f", sourcesWebViewHeight);
+   // NSLog(@"%f", sourcesWebViewHeight);
     // [self performSelector:@selector(web:) withObject:aWebView afterDelay:1.0];
     
 }
@@ -918,6 +962,8 @@ enum {
 //
 //
 //}
+
+
 
 - (UIViewController *) documentInteractionControllerViewControllerForPreview: (UIDocumentInteractionController *) controller
 {
@@ -1362,8 +1408,23 @@ enum {
     }
     else
     {
+//        [[NSNotificationCenter defaultCenter] removeObserver:self];
+        
+        loadedFirstTime=NO;
+//        // [[[UIApplication sharedApplication].keyWindow viewWithTag:901] removeFromSuperview];
+//        // [[[UIApplication sharedApplication].keyWindow viewWithTag:902] removeFromSuperview];
+//        
+        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_ADD_FEEDBACK_BUTTON object:nil];
+        FeedbackChatingCounter* feedObject= [app.FeedbackOrQueryDetailChatingObjectsArray objectAtIndex:0];
+        [[Database shareddatabase] updateReadStatus:feedObject.soNumber feedbackType:[NSString stringWithFormat:@"%d",feedObject.feedbackType]];
+        [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_NEW_DATA_UPDATE object:nil];
+//        
+        [[NSNotificationCenter defaultCenter] removeObserver:self];
+//        
+//        [AppPreferences sharedAppPreferences].FeedbackOrQueryDetailChatingObjectsArray = nil;
+
         [self dismissViewControllerAnimated:YES completion:nil];
-        [AppPreferences sharedAppPreferences].FeedbackOrQueryDetailChatingObjectsArray = nil;
+        
     }
     }
 
@@ -1574,7 +1635,7 @@ didCompleteWithError:(nullable NSError *)error
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
 {
     float progress = (double)totalBytesWritten / (double)totalBytesExpectedToWrite;
-    NSLog(@"progress %f",progress);
+   // NSLog(@"progress %f",progress);
     
     NSString* progressPercent= [NSString stringWithFormat:@"%f",progress*100];
     
@@ -1609,7 +1670,7 @@ didCompleteWithError:(nullable NSError *)error
 }
 -(void)hideHud
 {
-    [self.tableview reloadData];
+   // [self.tableview reloadData];//1
     [hud hideAnimated:YES];
 }
 -(void)showHud
@@ -1742,16 +1803,7 @@ popUpView=[[PopUpCustomView alloc]initWithFrame:CGRectMake(self.view.frame.origi
     //[vc prepareForSearchBar];
     //[vc reloadData];
     //
-    loadedFirstTime=NO;
-    [[[UIApplication sharedApplication].keyWindow viewWithTag:901] removeFromSuperview];
-    [[[UIApplication sharedApplication].keyWindow viewWithTag:902] removeFromSuperview];
-
-    [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_ADD_FEEDBACK_BUTTON object:nil];
-    
-    FeedbackChatingCounter* feedObject= [app.FeedbackOrQueryDetailChatingObjectsArray objectAtIndex:0];
-    [[Database shareddatabase] updateReadStatus:feedObject.soNumber feedbackType:[NSString stringWithFormat:@"%d",feedObject.feedbackType]];
-    [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_NEW_DATA_UPDATE object:nil];
-    
+  
     
 }
 

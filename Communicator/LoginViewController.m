@@ -21,7 +21,9 @@
 
 
 // UIBezierPath tp draw a custom shape http://stackoverflow.com/documentation/ios/3186/uibezierpath#t=201703031327322342709
+// firebase content available https://firebase.googleblog.com/2017/01/debugging-firebase-cloud-messaging-on.html
 
+// stack overflow 1st answer http://stackoverflow.com/questions/31450403/didreceiveremotenotification-not-working-in-the-background/42948505#42948505
 @interface LoginViewController ()
 
 @end
@@ -34,7 +36,7 @@
 @synthesize passwordTextField;
 //@synthesize buttonColor;
 @synthesize hud;
-@synthesize navigationView;
+@synthesize navigationView,separatorLineView,loginButton;
 BOOL check;
 UIAlertController *alertController1;
 NSMutableArray* webFeedCountArray;
@@ -78,7 +80,7 @@ NSMutableArray* webFeedTypeArray;
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    
+    NSLog(@"%@",NSHomeDirectory());
     [self setView];
     [self setNeedsStatusBarAppearanceUpdate];
     
@@ -145,6 +147,10 @@ NSMutableArray* webFeedTypeArray;
     passwordTextField.layer.borderWidth= 1.0f;
     navigationView.backgroundColor=[UIColor communicatorColor];
     [rememberMeButton setSelected:NO];
+    separatorLineView.backgroundColor = [UIColor buttonColor];
+    loginButton.backgroundColor = [UIColor buttonColor];
+    
+    
     
 }
 

@@ -24,6 +24,7 @@
     NSMutableArray* indexPathArray;
     BOOL reloaded;
     BOOL loadedFirstTime;
+    UIActivityIndicatorView *indicator;
     
 }
 

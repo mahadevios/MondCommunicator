@@ -8,7 +8,7 @@
 
 #import "FeedcomQuerycomViewController.h"
 #import "FeedOrQueryMessageHeader.h"
-//#import "CreateNewFeedbackViewController.h"
+#import "CreateNewFeedbackViewController.h"
 #import "NSString+HTML.h"
 #import "GTMNSString+HTML.h"
 #import "UIColor+CommunicatorColor.h"
@@ -180,16 +180,17 @@
 - (void) viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:YES];
-    [[[UIApplication sharedApplication].keyWindow viewWithTag:901] removeFromSuperview];
-    [[[UIApplication sharedApplication].keyWindow viewWithTag:902] removeFromSuperview];
+    [[[UIApplication sharedApplication].keyWindow viewWithTag:901] setHidden:YES];
+    [[[UIApplication sharedApplication].keyWindow viewWithTag:902] setHidden:YES];
    // [[NSNotificationCenter defaultCenter] removeObserver:self];
     
 }
 
 -(void)addFeedbackButton
 {
-    if (([[UIApplication sharedApplication].keyWindow viewWithTag:901] == NULL))
-    {
+    [[[UIApplication sharedApplication].keyWindow viewWithTag:901] removeFromSuperview];
+//    if (([[UIApplication sharedApplication].keyWindow viewWithTag:901] == NULL))
+//    {
         UIButton* addFeedbackButton=[[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.origin.x+self.view.frame.size.width-50, self.view.frame.origin.y+self.view.frame.size.height-110, 40, 40)];
         [addFeedbackButton setBackgroundImage:[UIImage imageNamed:@"NewFeedbackOrQuery"] forState:UIControlStateNormal];
         addFeedbackButton.tag=901;
@@ -198,25 +199,28 @@
         checkBoxSelectedArray=[NSMutableArray new];
         [addFeedbackButton addTarget:self action:@selector(addNewFeedbackView) forControlEvents:UIControlEventTouchUpInside];
         [[UIApplication sharedApplication].keyWindow addSubview:addFeedbackButton];
-    }
-    else
-    {
-        [[[UIApplication sharedApplication].keyWindow viewWithTag:901] setHidden:NO];
-    }
+//    }
+//    else
+//    {
+//        [[UIApplication sharedApplication].keyWindow viewWithTag:901].userInteractionEnabled = YES;
+//        [[[UIApplication sharedApplication].keyWindow viewWithTag:901] setHidden:NO];
+//    }
    
     
-    if (([[UIApplication sharedApplication].keyWindow viewWithTag:902] == NULL))
-    {
+//    if (([[UIApplication sharedApplication].keyWindow viewWithTag:902] == NULL))
+//    {
+    [[[UIApplication sharedApplication].keyWindow viewWithTag:902] removeFromSuperview];
+
         UIButton* changeStatusButton=[[UIButton alloc]initWithFrame:CGRectMake(10, self.view.frame.origin.y+self.view.frame.size.height-110, 42, 42)];
         [changeStatusButton setBackgroundImage:[UIImage imageNamed:@"StatusChange"] forState:UIControlStateNormal];
         changeStatusButton.tag=902;
         [changeStatusButton addTarget:self action:@selector(changeStatus) forControlEvents:UIControlEventTouchUpInside];
         [[UIApplication sharedApplication].keyWindow addSubview:changeStatusButton];
-    }
-    else
-    {
-        [[[UIApplication sharedApplication].keyWindow viewWithTag:902] setHidden:NO];
-    }
+//    }
+//    else
+//    {
+//        [[[UIApplication sharedApplication].keyWindow viewWithTag:902] setHidden:NO];
+//    }
     
     
    
@@ -224,10 +228,10 @@
 }
 -(void)addNewFeedbackView
 {
-    UIViewController * vc = [self.storyboard instantiateViewControllerWithIdentifier:@"CreateNewFeedbackViewController"];
+    CreateNewFeedbackViewController * vc = [self.storyboard instantiateViewControllerWithIdentifier:@"CreateNewFeedbackViewController"];
     // NSArray* arr=   vc.childViewControllers;
-    //CreateNewFeedbackViewController* vcc=   [arr objectAtIndex:0];
-    //vc.feedbackType=self.feedbackType;
+   // CreateNewFeedbackViewController* vcc=   [arr objectAtIndex:0];
+    vc.feedbackType=self.feedbackType;
     [self.navigationController presentViewController:vc animated:YES completion:nil];
 }
 
@@ -243,7 +247,7 @@
         [[AppPreferences sharedAppPreferences] showAlertViewWithTitle:@"" withMessage:@"Please select the issue to change the status" withCancelText:@"Cancel" withOkText:@"Ok" withAlertTag:1000];
     }
     
-    NSLog(@"%ld",checkBoxSelectedArray.count);
+   /// NSLog(@"%ld",checkBoxSelectedArray.count);
 }
 -(void)reloadData
 {
@@ -328,6 +332,8 @@
 //    self.overlay= nil;
 //    refreshControl = nil;
 //    self.feedTypeSONoCopyForPredicate= nil;
+   
+        NSLog(@"deallocated");
     [AppPreferences sharedAppPreferences].feedQueryMessageHeaderArray = nil;
    
 }

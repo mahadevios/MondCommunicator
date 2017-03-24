@@ -54,7 +54,8 @@
     issueStatusArray=[[NSMutableArray alloc]initWithObjects:[NSString stringWithFormat:@"Open"],[NSString stringWithFormat:@"Closed"],[NSString stringWithFormat:@"Inprogress"],[NSString stringWithFormat:@"Total"], nil];
     
     selectedCellArray=[NSMutableArray new];
-    
+
+   
     NSLog(@"%@",NSHomeDirectory());
    
 }
@@ -69,12 +70,14 @@
 
     
     [[self.view viewWithTag:612] setHidden:YES];
-    [self addFeedbackButton];
-//    [self.navigationItem setHidesBackButton:NO];
+   
+     //    [self.navigationItem setHidesBackButton:NO];
 //    self.navigationController.navigationBar.barTintColor = [UIColor communicatorColor];
 //    self.tabBarController.navigationItem.leftBarButtonItem.tintColor=[UIColor whiteColor];
 //    self.tabBarController.navigationItem.rightBarButtonItem=nil;
 //    self.navigationController.navigationBar.tintColor=[UIColor whiteColor];
+    [self addFeedbackButton];
+
     [AppPreferences sharedAppPreferences].dateWiseSearch=NO;
        [tableView reloadData];
     
@@ -83,7 +86,7 @@
 
 -(void)viewWillDisappear:(BOOL)animated
 {
-    [[[UIApplication sharedApplication].keyWindow viewWithTag:911] removeFromSuperview];
+    [[[UIApplication sharedApplication].keyWindow viewWithTag:911] setHidden:YES];
     [self reloadData];//to get the original counter without datesearch
 
 }
@@ -473,7 +476,7 @@
         [db setDatabaseToCompressAndShowTotalQueryOrFeedback:feedbackTypeLabel.text fromDate:app.fromDate toDate:app.toDate];
         //CompanyNamesViewController* vc1= [self.storyboard instantiateViewControllerWithIdentifier:@"CompanyNamesViewController"];
     
-        FeedcomQuerycomViewController * vc = [self.storyboard instantiateViewControllerWithIdentifier:@"FeedcomQuerycomViewController"];
+       FeedcomQuerycomViewController * vc = [self.storyboard instantiateViewControllerWithIdentifier:@"FeedcomQuerycomViewController"];
         FeedQueryCounter* obj=[app.sampleFeedtypeArray objectAtIndex:indexPathFoRow.row];
         vc.feedbackType=obj.feedbackType;
         [[NSUserDefaults standardUserDefaults] setValue:feedbackTypeLabel.text forKey:@"currentFeedbackType"];
@@ -530,13 +533,20 @@
 
 -(void)addFeedbackButton
 {
+    if (([[UIApplication sharedApplication].keyWindow viewWithTag:911] == NULL))
+    {
     UIButton* addFeedbackButton=[[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.origin.x+self.view.frame.size.width-50, self.view.frame.origin.y+self.view.frame.size.height-110, 50, 50)];
     [addFeedbackButton setBackgroundImage:[UIImage imageNamed:@"Calendar"] forState:UIControlStateNormal];
     addFeedbackButton.tag=911;
     [addFeedbackButton addTarget:self action:@selector(addNewCalendarView) forControlEvents:UIControlEventTouchUpInside];
     
     [[UIApplication sharedApplication].keyWindow addSubview:addFeedbackButton];
-    
+    }
+    else
+    {
+        [[[UIApplication sharedApplication].keyWindow viewWithTag:911] setHidden:NO];
+
+    }
 }
 -(void)addNewCalendarView
 {
