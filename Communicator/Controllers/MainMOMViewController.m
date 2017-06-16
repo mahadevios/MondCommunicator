@@ -130,7 +130,9 @@
     //[[Database shareddatabase] setMOMView];
     [self.tableView reloadData];
     [self addMOMButton];
-        
+    [self.tabBarController.tabBar setHidden:NO];
+
+    
 }
 
 -(void)prepareSearchBar

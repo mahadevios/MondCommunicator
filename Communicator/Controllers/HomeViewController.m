@@ -81,7 +81,7 @@
     [AppPreferences sharedAppPreferences].dateWiseSearch=NO;
        [tableView reloadData];
     
-   
+    [self.tabBarController.tabBar setHidden:NO];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -481,7 +481,7 @@
         vc.feedbackType=obj.feedbackType;
         [[NSUserDefaults standardUserDefaults] setValue:feedbackTypeLabel.text forKey:@"currentFeedbackType"];
     
-    
+   vc.hidesBottomBarWhenPushed = YES;
       [self.navigationController pushViewController:vc animated:YES];
 
     
@@ -514,7 +514,7 @@
         vc.feedbackType=obj.feedbackType;
         [[NSUserDefaults standardUserDefaults] setValue:feedbackTypeLabel.text forKey:@"currentFeedbackType"];
         
-        
+      //  vc.hidesBottomBarWhenPushed = YES;
         //[[self.view viewWithTag:612] removeFromSuperview];
          [[self.view viewWithTag:612] setHidden:YES];
  
@@ -698,15 +698,15 @@
                          //counterGraphLabel.text=[NSString stringWithFormat:@"%ld",counter];
                          //counterGraphObj.count=7;
                          //counterGraphObj.count1=10;
-                         float activeCountermaxWidth=counterGraphObj.count*5;//openCount
-                         float closedCountermaxWidth=counterGraphObj.count1*5;//closeCount
-                         float inProgressCountermaxWidth=counterGraphObj.count2*5;//closeCount
+                         float activeCountermaxWidth=counterGraphObj.count*1;//openCount
+                         float closedCountermaxWidth=counterGraphObj.count1*1;//closeCount
+                         float inProgressCountermaxWidth=counterGraphObj.count2*1;//closeCount
 
                          if ((activeCountermaxWidth+closedCountermaxWidth+inProgressCountermaxWidth)>100)
                          {
-                            activeCountermaxWidth= ((counterGraphObj.count * 5.0)/ (counterGraphObj.count * 5+counterGraphObj.count1 * 5+counterGraphObj.count2 * 5))*100;
-                            closedCountermaxWidth= ((counterGraphObj.count1 * 5.0)/ (counterGraphObj.count * 5+counterGraphObj.count1 * 5+counterGraphObj.count2 * 5))*100;
-                              inProgressCountermaxWidth= ((counterGraphObj.count2 * 5.0)/ (counterGraphObj.count * 5+counterGraphObj.count1 * 5+counterGraphObj.count2 * 5))*100;
+                            activeCountermaxWidth= ((counterGraphObj.count * 1.0)/ (counterGraphObj.count * 1+counterGraphObj.count1 * 1+counterGraphObj.count2 * 1))*100;
+                            closedCountermaxWidth= ((counterGraphObj.count1 * 1.0)/ (counterGraphObj.count * 1+counterGraphObj.count1 * 1+counterGraphObj.count2 * 1))*100;
+                              inProgressCountermaxWidth= ((counterGraphObj.count2 * 1.0)/ (counterGraphObj.count * 1+counterGraphObj.count1 * 1+counterGraphObj.count2 * 1))*100;
                            
                              NSLog(@"a=%f c=%f",activeCountermaxWidth,closedCountermaxWidth);
 

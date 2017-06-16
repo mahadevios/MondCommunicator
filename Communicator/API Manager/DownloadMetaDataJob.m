@@ -105,6 +105,8 @@
     
     NSArray *params = [self.requestParameter objectForKey:REQUEST_PARAMETER];
     
+    //  NSDictionary *parameterDictionary = dictionary;
+    
     NSMutableString *parameter = [[NSMutableString alloc] init];
     for(NSString *strng in params)
     {
@@ -115,22 +117,19 @@
         }
     }
     
-    NSString *webservicePath = [NSString stringWithFormat:@"%@/%@?%@",BASE_URL_PATH,resourcePath,parameter];
-    
-   // NSURL* url = [NSURL URLWithString:webservicePath];
+    NSString *webservicePath = [NSString stringWithFormat:@"%@/%@",BASE_URL_PATH,resourcePath];
     
     NSURL *url = [[NSURL alloc] initWithString:[webservicePath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     
-    NSMutableCharacterSet *_alnum = [NSMutableCharacterSet characterSetWithCharactersInString:@"@"];
-    [_alnum formUnionWithCharacterSet:[NSCharacterSet alphanumericCharacterSet]];
-    
- //   NSURL *url = [[NSURL alloc] initWithString:[webservicePath stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]]];
-
-    
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:120];
+    
+    
+    request.HTTPBody = [parameter dataUsingEncoding:NSUTF8StringEncoding];
+    
     [request setHTTPMethod:httpMethodParameter];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    //[request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    // [request setValue:@"multipart/form-data" forHTTPHeaderField:@"Content-Type"];
     
     
     NSURLConnection *urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];

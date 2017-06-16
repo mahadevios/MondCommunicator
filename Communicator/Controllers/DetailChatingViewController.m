@@ -158,7 +158,7 @@ enum {
             statusLabel.textColor=[UIColor communicatorColor];
         }
     
-    NSMutableArray* arr =  app.FeedbackOrQueryDetailChatingObjectsArray;
+ //   NSMutableArray* arr =  app.FeedbackOrQueryDetailChatingObjectsArray;
     [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_NEW_DATA_UPDATE object:nil];//messages read,now update prev 2 views
     
 //    [super viewWillAppear:YES];
@@ -185,7 +185,7 @@ enum {
     NSString* avaya=[separatedSO objectAtIndex:1];
     NSString* Doc=[separatedSO objectAtIndex:2];
     
-    SONumberLabel.text=[NSString stringWithFormat:@"SO No:%@\nAvaya Id:%@\nDocument Id:%@",soNumr,avaya,Doc];
+    SONumberLabel.text=[NSString stringWithFormat:@"Error Code:%@\nMessage Type:%@\nDoc. No.:%@",soNumr,avaya,Doc];
     
     //------setDate----------------//
     
@@ -362,6 +362,7 @@ enum {
 //get latest records and insert in db after sending our text
 - (void)getLatestRecord:(NSNotification *)notificationData
 {
+    [self hideHud];
     if ([[notificationData.object objectForKey:@"code"] isEqualToString:SUCCESS])
     {
         Database *db=[Database shareddatabase];
@@ -1266,6 +1267,13 @@ enum {
         
         sendTextView.text=@"";
         [self cancelReceipients];
+        hud.minSize = CGSizeMake(150.f, 100.f);
+        hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.mode = MBProgressHUDModeIndeterminate;
+        //hud.label.text = [NSString stringWithFormat:@"Downloading(%f%%)",progress*100];
+        hud.label.text = [NSString stringWithFormat:@"Please wait.."];
+        
+        hud.detailsLabel.text = @"";
         [[APIManager sharedManager] sendUpdatedRecords:@"0" Dict:dic username:[[NSUserDefaults standardUserDefaults] valueForKey:@"currentUser"] password:[[NSUserDefaults standardUserDefaults] valueForKey:@"currentPassword"]];
         // [db insertUserReply:feedObj];
         
@@ -1413,13 +1421,14 @@ enum {
         loadedFirstTime=NO;
 //        // [[[UIApplication sharedApplication].keyWindow viewWithTag:901] removeFromSuperview];
 //        // [[[UIApplication sharedApplication].keyWindow viewWithTag:902] removeFromSuperview];
-//        
+//
+         [[NSNotificationCenter defaultCenter] removeObserver:self];
         [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_ADD_FEEDBACK_BUTTON object:nil];
         FeedbackChatingCounter* feedObject= [app.FeedbackOrQueryDetailChatingObjectsArray objectAtIndex:0];
         [[Database shareddatabase] updateReadStatus:feedObject.soNumber feedbackType:[NSString stringWithFormat:@"%d",feedObject.feedbackType]];
         [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_NEW_DATA_UPDATE object:nil];
 //        
-        [[NSNotificationCenter defaultCenter] removeObserver:self];
+       
 //        
 //        [AppPreferences sharedAppPreferences].FeedbackOrQueryDetailChatingObjectsArray = nil;
 
@@ -1817,6 +1826,12 @@ popUpView=[[PopUpCustomView alloc]initWithFrame:CGRectMake(self.view.frame.origi
 //
 //    }
 //}
+
+-(void)dealloc
+{
+    NSLog(@"deallocated");
+
+}
 @end
 
 

@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Communicator/API Manager/DownloadMetaDataJob.m"
-            timestampString = "509867475.687293"
+            timestampString = "519320688.382722"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "695"
-            endingLineNumber = "695"
+            startingLineNumber = "694"
+            endingLineNumber = "694"
             landmarkName = "-connectionDidFinishLoading:"
             landmarkType = "7">
          </BreakpointContent>
@@ -138,11 +138,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Communicator/API Manager/DownloadMetaDataJob.m"
-            timestampString = "509867475.687293"
+            timestampString = "519320688.382722"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "779"
-            endingLineNumber = "779"
+            startingLineNumber = "778"
+            endingLineNumber = "778"
             landmarkName = "-connectionDidFinishLoading:"
             landmarkType = "7">
          </BreakpointContent>
@@ -170,11 +170,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Communicator/API Manager/DownloadMetaDataJob.m"
-            timestampString = "509867475.687293"
+            timestampString = "519320688.382722"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "799"
-            endingLineNumber = "799"
+            startingLineNumber = "798"
+            endingLineNumber = "798"
             landmarkName = "-connectionDidFinishLoading:"
             landmarkType = "7">
          </BreakpointContent>
@@ -202,11 +202,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Communicator/API Manager/DownloadMetaDataJob.m"
-            timestampString = "509867475.687293"
+            timestampString = "519320688.382722"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "630"
-            endingLineNumber = "630"
+            startingLineNumber = "629"
+            endingLineNumber = "629"
             landmarkName = "-connectionDidFinishLoading:"
             landmarkType = "7">
          </BreakpointContent>
@@ -218,13 +218,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Communicator/Controllers/CreateNewMOMViewController.m"
-            timestampString = "500366145.117842"
+            timestampString = "512898288.378079"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "658"
-            endingLineNumber = "658"
+            startingLineNumber = "676"
+            endingLineNumber = "676"
             landmarkName = "-tableView:didSelectRowAtIndexPath:"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -234,13 +234,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Communicator/Controllers/CreateNewMOMViewController.m"
-            timestampString = "500366145.117842"
+            timestampString = "512898288.378079"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "645"
-            endingLineNumber = "645"
+            startingLineNumber = "663"
+            endingLineNumber = "663"
             landmarkName = "-tableView:didSelectRowAtIndexPath:"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -282,13 +282,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Communicator/Controllers/CreateNewMOMViewController.m"
-            timestampString = "498810789.626655"
+            timestampString = "512898288.378079"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "220"
-            endingLineNumber = "220"
+            startingLineNumber = "236"
+            endingLineNumber = "236"
             landmarkName = "-saveNewMOM:"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -298,13 +298,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Communicator/Controllers/CreateNewMOMViewController.m"
-            timestampString = "498810789.626655"
+            timestampString = "512898288.378079"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "238"
-            endingLineNumber = "238"
+            startingLineNumber = "254"
+            endingLineNumber = "254"
             landmarkName = "-saveNewMOM:"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -314,13 +314,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Communicator/Controllers/CreateNewMOMViewController.m"
-            timestampString = "498810838.602673"
+            timestampString = "512898288.378079"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "221"
-            endingLineNumber = "221"
+            startingLineNumber = "237"
+            endingLineNumber = "237"
             landmarkName = "-saveNewMOM:"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -330,13 +330,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Communicator/Controllers/CreateNewMOMViewController.m"
-            timestampString = "498810847.17868"
+            timestampString = "512898288.378079"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "234"
-            endingLineNumber = "234"
+            startingLineNumber = "250"
+            endingLineNumber = "250"
             landmarkName = "-saveNewMOM:"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -346,13 +346,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Communicator/Controllers/CreateNewMOMViewController.m"
-            timestampString = "498812799.338676"
+            timestampString = "512898288.378079"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "463"
-            endingLineNumber = "463"
+            startingLineNumber = "481"
+            endingLineNumber = "481"
             landmarkName = "-setAttendeeList:"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -362,13 +362,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Communicator/Controllers/CreateNewMOMViewController.m"
-            timestampString = "498813374.434626"
+            timestampString = "512898288.378079"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "257"
-            endingLineNumber = "257"
+            startingLineNumber = "273"
+            endingLineNumber = "273"
             landmarkName = "-saveNewMOM:"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -378,13 +378,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Communicator/Controllers/CreateNewMOMViewController.m"
-            timestampString = "498814183.362607"
+            timestampString = "512898288.378079"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "479"
-            endingLineNumber = "479"
+            startingLineNumber = "497"
+            endingLineNumber = "497"
             landmarkName = "-setAttendeeList:"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -394,11 +394,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Communicator/LoginViewController.m"
-            timestampString = "512043029.710377"
+            timestampString = "514104688.71191"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "198"
-            endingLineNumber = "198"
+            startingLineNumber = "204"
+            endingLineNumber = "204"
             landmarkName = "-validateCounter:"
             landmarkType = "7">
          </BreakpointContent>
@@ -431,7 +431,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "7524"
             endingLineNumber = "7524"
-            landmarkName = "-updateCounter:selectedSONoArray:selectedStatus:"
+            landmarkName = "-getLoadMoreData:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -458,11 +458,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Communicator/API Manager/DownloadMetaDataJob.m"
-            timestampString = "509867475.687293"
+            timestampString = "519320688.382722"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "611"
-            endingLineNumber = "611"
+            startingLineNumber = "610"
+            endingLineNumber = "610"
             landmarkName = "-connectionDidFinishLoading:"
             landmarkType = "7">
          </BreakpointContent>
@@ -495,7 +495,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "7539"
             endingLineNumber = "7539"
-            landmarkName = "-updateCounter:selectedSONoArray:selectedStatus:"
+            landmarkName = "-getLoadMoreData:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -506,11 +506,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Communicator/Controllers/FeedcomQuerycomViewController.m"
-            timestampString = "511876389.758471"
+            timestampString = "512482696.50724"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "903"
-            endingLineNumber = "903"
+            startingLineNumber = "915"
+            endingLineNumber = "915"
             landmarkName = "-okStatusButtonClicked:"
             landmarkType = "7">
          </BreakpointContent>
@@ -522,11 +522,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Communicator/Controllers/FeedcomQuerycomViewController.m"
-            timestampString = "511876389.758471"
+            timestampString = "512482696.50724"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "891"
-            endingLineNumber = "891"
+            startingLineNumber = "903"
+            endingLineNumber = "903"
             landmarkName = "-okStatusButtonClicked:"
             landmarkType = "7">
          </BreakpointContent>
@@ -749,38 +749,6 @@
             timestampString = "511866552.269313"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6013"
-            endingLineNumber = "6013"
-            landmarkName = "-insertUpdatedRecordsForFeedcom:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Communicator/Database/Database.m"
-            timestampString = "511866552.269313"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6008"
-            endingLineNumber = "6008"
-            landmarkName = "-insertUpdatedRecordsForFeedcom:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Communicator/Database/Database.m"
-            timestampString = "511866552.269313"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
             startingLineNumber = "6063"
             endingLineNumber = "6063"
             landmarkName = "-insertNewFeedback::"
@@ -810,11 +778,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Communicator/Controllers/CreateNewFeedbackViewController.m"
-            timestampString = "503821125.275"
+            timestampString = "512894113.649761"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "569"
-            endingLineNumber = "569"
+            startingLineNumber = "582"
+            endingLineNumber = "582"
             landmarkName = "-sendNewFeedbackOrSaveResponse:"
             landmarkType = "7">
          </BreakpointContent>
@@ -922,11 +890,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Communicator/LoginViewController.m"
-            timestampString = "512043029.710377"
+            timestampString = "514104688.71191"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "272"
-            endingLineNumber = "272"
+            startingLineNumber = "278"
+            endingLineNumber = "278"
             landmarkName = "-getLatestRecords:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1049,60 +1017,12 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Communicator/Database/Database.m"
-            timestampString = "511866552.269313"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2946"
-            endingLineNumber = "2946"
-            landmarkName = "-insertLatestRecordsForFeedcom:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Communicator/Controllers/CreateNewFeedbackViewController.m"
-            timestampString = "511771770.194473"
+            timestampString = "512894113.649761"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "503"
-            endingLineNumber = "503"
-            landmarkName = "-sendNewFeedbackOrSaveResponse:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Communicator/Controllers/CreateNewFeedbackViewController.m"
-            timestampString = "511771771.474669"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "499"
-            endingLineNumber = "499"
-            landmarkName = "-sendNewFeedbackOrSaveResponse:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Communicator/Controllers/CreateNewFeedbackViewController.m"
-            timestampString = "511771843.642677"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "430"
-            endingLineNumber = "430"
+            startingLineNumber = "443"
+            endingLineNumber = "443"
             landmarkName = "-sendNewFeedbackOrSaveResponse:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1114,7 +1034,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Communicator/API Manager/APIManager.m"
-            timestampString = "511771894.706559"
+            timestampString = "519320484.547459"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "195"
@@ -1146,11 +1066,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Communicator/Controllers/CreateNewFeedbackViewController.m"
-            timestampString = "511771954.027637"
+            timestampString = "512894113.649761"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "441"
-            endingLineNumber = "441"
+            startingLineNumber = "454"
+            endingLineNumber = "454"
             landmarkName = "-sendNewFeedbackOrSaveResponse:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1162,11 +1082,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Communicator/Controllers/DetailChatingViewController.m"
-            timestampString = "512033891.936666"
+            timestampString = "512896247.555332"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1263"
-            endingLineNumber = "1263"
+            startingLineNumber = "1264"
+            endingLineNumber = "1264"
             landmarkName = "-sendFeedbackButtonClicked:"
             landmarkType = "7">
          </BreakpointContent>
@@ -1200,22 +1120,6 @@
             startingLineNumber = "8282"
             endingLineNumber = "8282"
             landmarkName = "-updateMom:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Communicator/Database/Database.m"
-            timestampString = "511866552.269313"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "8234"
-            endingLineNumber = "8234"
-            landmarkName = "-getAdminUserId"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1373,22 +1277,6 @@
             timestampString = "511866552.269313"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7045"
-            endingLineNumber = "7045"
-            landmarkName = "-getFeedbackIdFromFeedbackType:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Communicator/Database/Database.m"
-            timestampString = "511866552.269313"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
             startingLineNumber = "6994"
             endingLineNumber = "6994"
             landmarkName = "-getDocumentIds:userTo:"
@@ -1424,38 +1312,6 @@
             startingLineNumber = "6882"
             endingLineNumber = "6882"
             landmarkName = "-getMOMIds:userTo:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Communicator/Database/Database.m"
-            timestampString = "511866552.269313"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6826"
-            endingLineNumber = "6826"
-            landmarkName = "-getFeedbackIDs:userFrom:userTo:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Communicator/Database/Database.m"
-            timestampString = "511866552.269313"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6771"
-            endingLineNumber = "6771"
-            landmarkName = "-updateReadStatus:feedbackType:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1600,22 +1456,6 @@
             startingLineNumber = "6144"
             endingLineNumber = "6144"
             landmarkName = "-insertNewFeedback::"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Communicator/Database/Database.m"
-            timestampString = "511866552.269313"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6028"
-            endingLineNumber = "6028"
-            landmarkName = "-insertUpdatedRecordsForFeedcom:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1981,40 +1821,8 @@
             timestampString = "511866552.269313"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3240"
-            endingLineNumber = "3240"
-            landmarkName = "-insertLatestRecordsForFeedcom:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Communicator/Database/Database.m"
-            timestampString = "511866552.269313"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
             startingLineNumber = "3194"
             endingLineNumber = "3194"
-            landmarkName = "-insertLatestRecordsForFeedcom:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Communicator/Database/Database.m"
-            timestampString = "511866552.269313"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3130"
-            endingLineNumber = "3130"
             landmarkName = "-insertLatestRecordsForFeedcom:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2490,43 +2298,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Communicator/API Manager/DownloadMetaDataJob.m"
-            timestampString = "511872339.050876"
+            timestampString = "519320688.382722"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "544"
-            endingLineNumber = "544"
-            landmarkName = "-connectionDidFinishLoading:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Communicator/Controllers/FeedcomQuerycomViewController.m"
-            timestampString = "511874239.866934"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "119"
-            endingLineNumber = "119"
-            landmarkName = "-refreshTable"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Communicator/API Manager/DownloadMetaDataJob.m"
-            timestampString = "511874290.05885"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "676"
-            endingLineNumber = "676"
+            startingLineNumber = "543"
+            endingLineNumber = "543"
             landmarkName = "-connectionDidFinishLoading:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2538,11 +2314,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Communicator/API Manager/DownloadMetaDataJob.m"
-            timestampString = "511874295.781203"
+            timestampString = "519320688.382722"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "673"
-            endingLineNumber = "673"
+            startingLineNumber = "675"
+            endingLineNumber = "675"
+            landmarkName = "-connectionDidFinishLoading:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Communicator/API Manager/DownloadMetaDataJob.m"
+            timestampString = "519320688.382722"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "672"
+            endingLineNumber = "672"
             landmarkName = "-connectionDidFinishLoading:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2561,38 +2353,6 @@
             endingLineNumber = "7126"
             landmarkName = "-getLoadMoreData:"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[Database getLoadMoreData:]"
-                  moduleName = "MondCommunicator"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/admin/Documents/MondCommunicator/Communicator/Database/Database.m"
-                  timestampString = "512034197.872493"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "7126"
-                  endingLineNumber = "7126"
-                  offsetFromSymbolStart = "1092">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[Database getLoadMoreData:]"
-                  moduleName = "MondCommunicator"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/admin/Documents/MondCommunicator/Communicator/Database/Database.m"
-                  timestampString = "512034197.873722"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "7126"
-                  endingLineNumber = "7126"
-                  offsetFromSymbolStart = "1108">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2633,28 +2393,12 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Communicator/Controllers/FeedcomQuerycomViewController.m"
-            timestampString = "511876389.758471"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "231"
-            endingLineNumber = "231"
-            landmarkName = "-addNewFeedbackView"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Communicator/Controllers/DetailChatingViewController.m"
-            timestampString = "512033891.936666"
+            timestampString = "512896247.555332"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "770"
-            endingLineNumber = "770"
+            startingLineNumber = "771"
+            endingLineNumber = "771"
             landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2666,11 +2410,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Communicator/Controllers/FeedcomQuerycomViewController.m"
-            timestampString = "512027526.314739"
+            timestampString = "512482696.50724"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "594"
-            endingLineNumber = "594"
+            startingLineNumber = "606"
+            endingLineNumber = "606"
+            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Communicator/Controllers/DetailChatingViewController.m"
+            timestampString = "512896247.555332"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "441"
+            endingLineNumber = "441"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2681,13 +2441,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Communicator/Controllers/FeedcomQuerycomViewController.m"
-            timestampString = "512030211.0988"
+            filePath = "Communicator/LoginViewController.m"
+            timestampString = "514104688.71191"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "746"
-            endingLineNumber = "746"
-            landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            startingLineNumber = "261"
+            endingLineNumber = "261"
+            landmarkName = "-getLatestRecords:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2697,13 +2457,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Communicator/Controllers/DetailChatingViewController.m"
-            timestampString = "512030271.538743"
+            filePath = "Communicator/LoginViewController.m"
+            timestampString = "514104688.71191"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "104"
-            endingLineNumber = "104"
-            landmarkName = "-viewWillAppear:"
+            startingLineNumber = "259"
+            endingLineNumber = "259"
+            landmarkName = "-getLatestRecords:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Communicator/Database/Database.m"
+            timestampString = "512460354.114261"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1307"
+            endingLineNumber = "1307"
+            landmarkName = "-findPermittedCompaniesForUsername:Password:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2713,13 +2489,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Communicator/Controllers/DetailChatingViewController.m"
-            timestampString = "512030319.618599"
+            filePath = "Communicator/Database/Database.m"
+            timestampString = "512486748.386647"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "241"
-            endingLineNumber = "241"
-            landmarkName = "-reloadData"
+            startingLineNumber = "3099"
+            endingLineNumber = "3099"
+            landmarkName = "-insertLatestRecordsForFeedcom:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2729,29 +2505,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Communicator/Controllers/DetailChatingViewController.m"
-            timestampString = "512030347.850714"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "265"
-            endingLineNumber = "265"
-            landmarkName = "-reloadData"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Communicator/Controllers/DetailChatingViewController.m"
-            timestampString = "512030361.962622"
+            filePath = "Communicator/API Manager/DownloadMetaDataJob.m"
+            timestampString = "519320688.382722"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "408"
             endingLineNumber = "408"
-            landmarkName = "-tableView:numberOfRowsInSection:"
+            landmarkName = "-connectionDidFinishLoading:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2761,29 +2521,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Communicator/Controllers/DetailChatingViewController.m"
-            timestampString = "512030367.058539"
+            filePath = "Communicator/API Manager/DownloadMetaDataJob.m"
+            timestampString = "519320688.382722"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "401"
-            endingLineNumber = "401"
-            landmarkName = "-tableView:numberOfRowsInSection:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Communicator/Controllers/DetailChatingViewController.m"
-            timestampString = "512033891.936666"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "440"
-            endingLineNumber = "440"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            startingLineNumber = "135"
+            endingLineNumber = "135"
+            landmarkName = "-sendNewRequestWithResourcePath:withRequestParameter:withJobName:withMethodType:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2793,13 +2537,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Communicator/Controllers/DetailChatingViewController.m"
-            timestampString = "512033891.936666"
+            filePath = "Communicator/API Manager/DownloadMetaDataJob.m"
+            timestampString = "519320688.382722"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "572"
-            endingLineNumber = "572"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            startingLineNumber = "133"
+            endingLineNumber = "133"
+            landmarkName = "-sendNewRequestWithResourcePath:withRequestParameter:withJobName:withMethodType:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Communicator/API Manager/DownloadMetaDataJob.m"
+            timestampString = "519320688.382722"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "282"
+            endingLineNumber = "282"
+            landmarkName = "-connection:didFailWithError:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

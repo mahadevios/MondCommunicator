@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "MBProgressHUD.h"
 @interface CreateNewMOMViewController : UIViewController<UITextFieldDelegate,UITextViewDelegate,UITableViewDataSource,UITableViewDelegate>
 {
     BOOL gotResponse;
@@ -20,6 +20,8 @@
     NSMutableArray* userIdsEmailArray;
     NSMutableArray* userEmailNamesArray;
     NSMutableArray* userNamesArray;
+    MBProgressHUD* hud;
+
 }
 - (IBAction)sendNewMom:(id)sender;
 

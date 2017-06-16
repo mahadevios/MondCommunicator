@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "MBProgressHUD.h"
 @interface CreateNewFeedbackViewController : UIViewController<UITextFieldDelegate,UITextViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource>
 
 {
@@ -25,6 +25,7 @@
     NSMutableArray* userIdsEmailArray;
     NSMutableArray* userEmailNamesArray;
     NSMutableArray* userNamesArray;
+    MBProgressHUD* hud;
 }
 @property (weak, nonatomic) IBOutlet UITextField *SONumberTextField;
 @property (weak, nonatomic) IBOutlet UITextField *AvayaIdTextField;

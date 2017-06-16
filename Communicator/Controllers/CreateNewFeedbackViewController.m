@@ -293,6 +293,19 @@
 //
 //    }
 }
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    if (textField == SONumberTextField)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // make some UI changes
+            [SONumberTextField becomeFirstResponder];
+            
+        });
+    }
+    return YES;
+}
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
 //    if (textField==SONumberTextField)
@@ -596,6 +609,8 @@
                     //    [db insertNewQuery:dic];
                     //}
                     
+                    [hud removeFromSuperview];
+
                     gotResponse=FALSE;
                     HomeViewController * vc1 = [self.storyboard instantiateViewControllerWithIdentifier:@"HomeViewController"];
                     NSString* alertMessage=@"Feedback generated successfully";
@@ -637,8 +652,13 @@
                     
                 }
                 else
+                {
+                    
+                    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                    hud.label.text = NSLocalizedString(@"Please wait...", @"");
+                    hud.minSize = CGSizeMake(150.f, 100.f);
                 [[APIManager sharedManager] sendNewFeedback:[[NSUserDefaults standardUserDefaults] valueForKey:@"flag"] Dict:dic username:[[NSUserDefaults standardUserDefaults] valueForKey:@"currentUser"] password:[[NSUserDefaults standardUserDefaults] valueForKey:@"currentPassword"]];
-               
+                }
                 
                 
            // }

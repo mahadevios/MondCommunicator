@@ -175,6 +175,7 @@
     
     checkBoxSelectedArray=[[NSMutableArray alloc] init];
 
+    
 }
 
 - (void) viewWillDisappear:(BOOL)animated
@@ -191,7 +192,7 @@
     [[[UIApplication sharedApplication].keyWindow viewWithTag:901] removeFromSuperview];
 //    if (([[UIApplication sharedApplication].keyWindow viewWithTag:901] == NULL))
 //    {
-        UIButton* addFeedbackButton=[[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.origin.x+self.view.frame.size.width-50, self.view.frame.origin.y+self.view.frame.size.height-110, 40, 40)];
+        UIButton* addFeedbackButton=[[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.origin.x+self.view.frame.size.width-50, self.view.frame.origin.y+self.view.frame.size.height-70, 40, 40)];
         [addFeedbackButton setBackgroundImage:[UIImage imageNamed:@"NewFeedbackOrQuery"] forState:UIControlStateNormal];
         addFeedbackButton.tag=901;
         
@@ -211,7 +212,7 @@
 //    {
     [[[UIApplication sharedApplication].keyWindow viewWithTag:902] removeFromSuperview];
 
-        UIButton* changeStatusButton=[[UIButton alloc]initWithFrame:CGRectMake(10, self.view.frame.origin.y+self.view.frame.size.height-110, 42, 42)];
+        UIButton* changeStatusButton=[[UIButton alloc]initWithFrame:CGRectMake(10, self.view.frame.origin.y+self.view.frame.size.height-70, 42, 42)];
         [changeStatusButton setBackgroundImage:[UIImage imageNamed:@"StatusChange"] forState:UIControlStateNormal];
         changeStatusButton.tag=902;
         [changeStatusButton addTarget:self action:@selector(changeStatus) forControlEvents:UIControlEventTouchUpInside];
@@ -289,6 +290,8 @@
 //        [cerateNewFeedbackOrQueryButton setHidden:NO];
 //    }
 
+    [self.tabBarController.tabBar setHidden:YES];
+//[[self.tabBarController.view.subviews objectAtIndex:0] setFrame:FULLSCREEN_FRAME];
 }
 
 -(void)prepareForSearchBar
@@ -474,12 +477,21 @@
 
 
 //        soNoLabel.text=[NSString stringWithFormat:@"SO No.%@ \nAvaya Id:%@ \nDocument Id:%@",[separatedSO objectAtIndex:0],[separatedSO objectAtIndex:1],[separatedSO objectAtIndex:2]];
-        
-        soNoLabel.text=[NSString stringWithFormat:@"SO No: %@ ",[separatedSO objectAtIndex:0]];
+        if (separatedSO.count>0)
+        {
+            soNoLabel.text=[NSString stringWithFormat:@"Error Code: %@ ",[separatedSO objectAtIndex:0]];
 
-        avayaIdLabel.text=[NSString stringWithFormat:@"Avaya Id: %@ ",[separatedSO objectAtIndex:1]];
-        
-        docIdLabel.text=[NSString stringWithFormat:@"Doc. Id: %@ ",[separatedSO objectAtIndex:2]];
+        }
+        if (separatedSO.count>1)
+        {
+            avayaIdLabel.text=[NSString stringWithFormat:@"MSG. Type: %@ ",[separatedSO objectAtIndex:1]];
+            
+        }
+        if (separatedSO.count>2)
+        {
+            docIdLabel.text=[NSString stringWithFormat:@"Doc. No.: %@ ",[separatedSO objectAtIndex:2]];
+            
+        }
        
         assigneeLabel.text=@"";
         closedByLabel.text=@"";

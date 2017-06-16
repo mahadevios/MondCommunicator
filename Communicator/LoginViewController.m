@@ -30,32 +30,35 @@
 
 @implementation LoginViewController
 
-@synthesize rememberMeButton;
-@synthesize remeberMeLabel;
-@synthesize usenameTextField;
-@synthesize passwordTextField;
-//@synthesize buttonColor;
-@synthesize hud;
-@synthesize navigationView,separatorLineView,loginButton;
+
+@synthesize rememberMeButton,remeberMeLabel,usenameTextField,passwordTextField,hud,navigationView,loginButton,separatorLineView;
+
 BOOL check;
+
 UIAlertController *alertController1;
 NSMutableArray* webFeedCountArray;
 NSMutableArray* webFeedTypeArray;
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     [rememberMeButton setSelected:NO];
     
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(rememberMeButtonClicked)];
+    
     tapGestureRecognizer.numberOfTapsRequired = 1;
+    
     [remeberMeLabel addGestureRecognizer:tapGestureRecognizer];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(validateUserResponse:) name:NOTIFICATION_VALIDATE_USER
                                                object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(validateCounter:) name:NOTIFICATION_VALIDATE_COUNTER
                                                object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(getLatestRecords:) name:NOTIFICATION_GETLATEST_FEEDCOM
                                                object:nil];
@@ -63,6 +66,7 @@ NSMutableArray* webFeedTypeArray;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(getLatestMOM:) name:NOTIFICATION_GETLATEST_MOM
                                                object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(get50Reports:) name:NOTIFICATION_GET_50REPORTS
                                                object:nil];
@@ -72,6 +76,7 @@ NSMutableArray* webFeedTypeArray;
                                                object:nil];
     
     usenameTextField.delegate=self;
+    
     passwordTextField.delegate=self;
     
     
@@ -81,7 +86,9 @@ NSMutableArray* webFeedTypeArray;
 - (void)viewWillAppear:(BOOL)animated
 {
     NSLog(@"%@",NSHomeDirectory());
+    
     [self setView];
+    
     [self setNeedsStatusBarAppearanceUpdate];
     
     
@@ -92,12 +99,11 @@ NSMutableArray* webFeedTypeArray;
     if ([[notificationData.object objectForKey:@"code"] isEqualToString:SUCCESS])
     {
         Database *db=[Database shareddatabase];
+        
         [db insertLatestRecordsForMOM:notificationData.object];
+        
         [db setMOMView];
-        
-        
-        //hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        //[hud hideAnimated:YES];
+    
     }
 }
 
@@ -107,8 +113,8 @@ NSMutableArray* webFeedTypeArray;
     {
         
         Database *db=[Database shareddatabase];
+        
         [db insertReportData:notificationData.object];
-        // AppPreferences *app=[AppPreferences sharedAppPreferences];
         
     }
 }

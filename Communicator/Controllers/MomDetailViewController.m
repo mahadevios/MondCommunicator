@@ -89,6 +89,9 @@
     momObj.keyPoints= [momObj.keyPoints stringByDecodingHTMLEntities];
 
     [keyPointsWebView loadHTMLString:[NSString stringWithFormat:@"KeyPoints:%@",momObj.keyPoints] baseURL:nil];
+    
+    [self.tabBarController.tabBar setHidden:YES];
+
 }
 
 - (IBAction)popViewController

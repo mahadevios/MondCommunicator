@@ -83,6 +83,7 @@ self.cellSelected=[NSMutableArray new];
 
 - (void)validateUserResponseForNewMOM:(NSNotification *)notification
 {
+    [self hideHud];
     
     if ([[notification.object objectForKey:@"code"] isEqualToString:SUCCESS])
     {
@@ -109,6 +110,21 @@ self.cellSelected=[NSMutableArray new];
 }
 
 
+-(void)hideHud
+{
+    // [self.tableview reloadData];//1
+    [hud hideAnimated:YES];
+}
+-(void)showHud
+{
+    hud.minSize = CGSizeMake(150.f, 100.f);
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.mode = MBProgressHUDModeIndeterminate;
+    //hud.label.text = [NSString stringWithFormat:@"Downloading(%f%%)",progress*100];
+    hud.label.text = [NSString stringWithFormat:@"Please wait"];
+    
+    //hud.detailsLabel.text = @"Please wait";
+}
 
 - (IBAction)sendNewMom:(id)sender
 {
@@ -272,9 +288,11 @@ self.cellSelected=[NSMutableArray new];
                         
                     }
                     else
+                    {
+                        [self showHud];
                     [[APIManager sharedManager] sendNewMOM:myString username:[[NSUserDefaults standardUserDefaults] valueForKey:@"currentUser"] password:[[NSUserDefaults standardUserDefaults] valueForKey:@"currentPassword"]];
                     
-                    
+                    }
                     
                 }
                 else
